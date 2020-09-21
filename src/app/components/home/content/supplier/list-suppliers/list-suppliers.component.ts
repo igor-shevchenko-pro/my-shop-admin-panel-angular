@@ -106,38 +106,6 @@ export class ListSuppliersComponent implements OnInit, OnDestroy {
       );
   }
 
-  public add(): void {
-    this.blockedDocument = true;
-    this._supplierService.add(this.addSupplierFormModel).subscribe(
-      (res: SuccessResponseApiModel) => {
-        // console.log(res);
-        if (res.response == "success") {
-          this.blockedDocument = false;
-          this.supplierAddDialogOpen = false;
-          this.addSupplierFormModel.reset();
-          this._toastService.showSuccess("Success", "Поставщик успешно создан", false, 'supplier-component', 7000);
-          this.getAll();
-        }
-      },
-      errors => {
-        // console.log(errors);
-        this.blockedDocument = false;
-        errors.error.errors.forEach(element => {
-          switch (element) {
-            case 'Duplicate name':
-              this._toastService.showError("Error", "Поставщик с таким названием уже существует", false, 'supplier-component', 7000);
-              break;
-
-            default:
-              this._toastService.showError("Error", "Ошибка добавления поставщика", false, 'supplier-component', 7000);
-              break;
-          }
-        });
-      }
-    );
-
-  }
-
   public update(): void {
     this.blockedDocument = true;
     this._supplierService.update(this.updateSupplierFormModel).subscribe(

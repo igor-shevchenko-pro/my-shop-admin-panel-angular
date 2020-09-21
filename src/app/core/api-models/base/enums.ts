@@ -31,6 +31,13 @@ export enum TypeModelResponseEnum
     GetMinApiModel = 1,
 }
 
+export enum UserLanguageEnum
+{
+    Russian = 1,
+    Ukrainian = 2,
+    English = 3,
+}
+
 // Sortings start
 export enum EntitySortingEnum {
     ByCreateAsc = 0,
