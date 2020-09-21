@@ -1,0 +1,36 @@
+.widget-user-2 .widget-user-header {
+    padding: 0 1rem !important;
+}
+
+.list-group-unbordered>.list-group-item{
+    padding-top: .65em !important;
+    padding-bottom: .65em !important;
+}
+
+.inactive {
+    background-color: rgb(255, 217, 223);
+    opacity: .5;
+}
+
+#active-lable {
+    margin-top: .6em !important;
+    font-weight: 500 !important;
+    font-size: .95em !important;
+}
+
+.item-center{
+    position: absolute !important;
+    bottom: .5em !important;
+}
+
+#item-right-delete {
+    position: absolute !important;
+    bottom: 1em !important;
+    right: 1em !important;
+}
+
+#item-right-edit {
+    position: absolute !important;
+    bottom: 1em !important;
+    right: 3.2em !important;
+}

@@ -1,0 +1,359 @@
+.user-panel .image {
+  display: inline-block;
+  padding-left: 0 !important;
+  position: inherit;
+  left: -.2em;
+}
+
+.layout-navbar-fixed .wrapper .main-header {
+  z-index: 1000 !important;
+}
+
+.info {
+  overflow: initial !important;
+  padding-left: 5px !important;
+}
+
+#arrow-user-panel {
+  top: 1.1rem !important;
+}
+
+#img-circle-width {
+  width: 2.5em;
+  position: relative;
+  top: -.5em;
+}
+
+.min-width-0 {
+  min-width: 0 !important;
+}
+
+.hover {
+  cursor: pointer;
+}
+
+.color-fff {
+  color: #fff !important;
+}
+
+div.content-wrapper {
+  padding-bottom: 1rem !important;
+}
+
+
+/* custom upload file icon */
+label.custom-file-label::after {
+  content: '' !important;
+  background-image: url('assets/icons/cloud-upload-alt-solid.svg');
+  background-repeat: no-repeat;
+  background-size: 60%;
+  opacity: .7;
+  width: 2.55em;
+  background-position: center;
+}
+
+.card {
+  margin-bottom: 0 !important;
+}
+
+.col-form-label {
+  display: inherit !important;
+  font-weight: 500 !important;
+  font-size: .95em;
+}
+
+a.nav-link.bg-purple:hover {
+  background-color: #8a7dbe !important;
+  border-color: #8a7dbe !important;
+}
+
+.btn-add:hover {
+  background-color: rgb(42, 219, 166) !important;
+  border-color: rgb(42, 219, 166) !important;
+}
+
+.bg-footer {
+  background-color: #f4f6f9;
+}
+
+.text-danger {
+  font-size: smaller !important;
+  font-weight: 550 !important;
+  margin-bottom: 0 !important;
+}
+
+.red-hover:hover {
+  color: #f82828 !important;
+}
+
+.text-purple:hover {
+  color: #6f42c1 !important;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.font-weight-500 {
+  font-weight: 500 !important;
+}
+
+.font-weight-300 {
+  font-weight: 300 !important;
+}
+
+.color-red {
+  color: red !important;
+}
+
+.opacity-quarter {
+  opacity: .25 !important;
+}
+
+.btn-delete-sm:hover {
+  background-color: #e83e8c !important;
+  border-color: #e83e8c !important;
+}
+
+.inline {
+  display: inline !important;
+}
+
+
+
+
+/* NEW VERSION WITH PRIMENG - start*/
+
+.content-header {
+  padding: .4rem .5rem 0 0 !important;
+}
+
+.p-float-label label {
+  font-weight: 400 !important;
+}
+
+/* Toast custom start */
+.p-toast {
+  position: fixed;
+  width: 22rem !important;
+  z-index: 1038 !important;
+}
+
+.p-toast .p-toast-message .p-toast-message-content {
+  padding: 1.1rem !important;
+}
+
+.p-toast .p-toast-message .p-toast-message-content .p-toast-message-icon {
+  font-size: 1.75rem !important;
+  padding: .22rem 0 0 .25rem !important;
+}
+
+.p-toast .p-toast-message .p-toast-message-content .p-toast-message-text {
+  margin: 0 0 0 .9rem !important;
+}
+
+.p-toast .p-toast-message .p-toast-message-content .p-toast-summary {
+  font-weight: 700 !important;
+  font-size: .9rem !important;
+}
+
+.p-toast .p-toast-message .p-toast-message-content .p-toast-detail {
+  margin: 0.2rem 0 0 0 !important;
+  font-size: .88rem !important;
+}
+
+.p-toast .p-toast-message .p-toast-icon-close {
+  width: 1.8rem !important;
+}
+
+/* Toast custom finish */
+
+/* OverlayPanel of navBar userInfo start */
+.profile-user-img {
+  border: unset !important;
+  padding: 0 !important;
+}
+
+/* div.ng-trigger.ng-trigger-animation.ng-tns-c121-0.p-overlaypanel.p-component.ng-star-inserted.p-overlaypanel-shifted {
+  top: .45rem !important;
+} */
+
+div.ng-trigger.ng-trigger-animation.ng-tns-c121-0.p-overlaypanel.p-component.ng-star-inserted.p-overlaypanel-shifted:after {
+  left: unset !important;
+  right: 1.7rem !important;
+}
+
+div.ng-trigger.ng-trigger-animation.ng-tns-c121-0.p-overlaypanel.p-component.ng-star-inserted.p-overlaypanel-shifted:before {
+  left: unset !important;
+  right: 1.7rem !important;
+}
+
+.p-overlaypanel .p-overlaypanel-content {
+  padding: 1rem 0 1rem 0 !important;
+}
+
+.overlay-item-hover:hover {
+  cursor: pointer !important;
+  color: #3F51B5 !important;
+  background-color: rgba(0, 0, 0, 0.04) !important;
+}
+
+.p-overlaypanel {
+  top: .45rem !important;
+}
+
+.p-overlaypanel:after,
+.p-overlaypanel:before {
+  left: unset !important;
+  right: 1.7rem !important;
+}
+
+/* OverlayPanel of navBar userInfo finish */
+/* Modal Dialog start */
+.p-dialog .p-dialog-header {
+  padding: 1rem 1.5rem 1.2rem 1.5rem !important;
+}
+.p-dialog .p-dialog-content {
+  background: #ffffff;
+  color: #000001;
+  padding: 0 1.5rem .5rem 1.5rem !important;
+}
+/* Modal Dialog finish */
+/* Breadcrumbs start */
+.p-breadcrumb {
+  background: unset !important;
+  border: unset !important;
+  border-radius: unset !important;
+  padding: .5rem 0 0 .5rem;
+  font-size: .95rem !important;
+}
+.p-breadcrumb ul li .p-menuitem-link .p-menuitem-text {
+  color: #495057 !important;
+}
+.p-breadcrumb ul li .p-menuitem-link .p-menuitem-text:hover {
+  color: #3F51B5 !important;
+}
+.p-breadcrumb ul li:last-child .p-menuitem-text:hover {
+  color: #495057 !important;
+}
+.p-breadcrumb ul li .p-menuitem-link .p-menuitem-icon:hover {
+  color: #3F51B5 !important;
+}
+/* Breadcrumbs finish */
+/* Table start */
+div.content-section.implementation div.card {
+  background: var(--surface-e) !important;
+  padding: 1.5rem !important;
+  box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12) !important;
+  border-radius: 4px !important;
+  margin-bottom: 0 !important;
+}
+.p-toolbar, .p-toolbar-group-left, .p-toolbar-group-righ {
+  align-items: inherit !important;
+}
+.p-paginator {
+  justify-content: flex-end !important;
+  padding: 0 1rem !important;
+}
+div.p-toolbar-group-left.ng-star-inserted {
+  height: 2.3rem !important;
+}
+.p-input-icon-left > .p-inputtext {
+  height: 2.5rem !important;
+}
+.p-datatable .p-datatable-header {
+  padding: .4rem 1rem !important;
+}
+.p-button.p-button-icon-only {
+  max-width: 2.4rem !important;
+  max-height: 2.4rem !important;
+}
+.p-checkbox .p-checkbox-box.p-highlight .p-checkbox-icon:before {
+  top: 8px !important;
+  left: 2px !important;
+}
+.p-datatable .p-datatable-thead > tr > th {
+  padding: .5rem 1rem !important;
+}
+.p-paginator .p-paginator-pages .p-paginator-page {
+  min-width: 2.5rem !important;
+  height: 2.5rem !important;
+}
+.p-paginator .p-paginator-first, .p-paginator .p-paginator-prev, .p-paginator .p-paginator-next, .p-paginator .p-paginator-last {
+  min-width: 2.5rem !important;
+  margin: 0px !important;
+}
+.p-datatable .p-datatable-tbody > tr > td {
+  padding: .5rem 1rem !important;
+}
+.p-datatable .p-datatable-footer {
+  padding: .3rem 1rem !important;
+}
+.p-datatable .p-datatable-thead > tr > th {
+  position: -webkit-sticky!important;
+  position: sticky!important;
+  top: 64px !important;
+  font-size: .95rem !important;
+  z-index: 20 !important;
+}
+.p-datatable .p-sortable-column:not(.p-highlight):hover {
+  background: #f8f9fa !important;
+}
+.p-datatable .p-sortable-column.p-highlight:hover {
+  background: #f8f9fa !important;
+}
+.p-datatable .p-sortable-column:not(.p-highlight):focus {
+  background: #f8f9fa !important;
+}
+.p-datatable .p-sortable-column.p-highlight:focus {
+  background: #f8f9fa !important;
+}
+.p-datatable .p-sortable-column .p-sortable-column-icon {
+  margin-left: .1rem!important;
+}
+#activity-col {
+  padding-left: 0!important;
+  padding-right: 0!important;
+}
+.p-datatable .p-datatable-loading-overlay {
+  z-index: 21 !important;
+}
+.p-component-overlay {
+  background-color: rgba(0, 0, 0, 0.2)!important;
+}
+.p-toolbar {
+  padding: .5rem 1rem .5rem 1rem !important;
+}
+.p-paginator .p-paginator-current {
+  margin: 0 !important;
+}
+.p-paginator .p-dropdown {
+  height: 2.5rem !important;
+}
+span.p-inputtext {
+  padding: .5rem 1rem !important;
+}
+.clear-search-btn {
+    position: absolute !important;
+    right: .4rem !important;
+}
+/* Table finish */
+
+.primeng-form-label {
+  font-weight: 400!important;
+  font-size: .9rem!important;
+  margin-bottom: 0.2rem!important;
+}
+
+.p-datatable .p-datatable-tbody > tr > td#option-btns-supplier {
+  padding-left: 0 !important;
+}
+
+
+/* NEW VERSION WITH PRIMENG - start*/

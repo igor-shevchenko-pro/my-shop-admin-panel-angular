@@ -1,0 +1,264 @@
+<!-- Content Header (Page header) start -->
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Добавить бренд</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a routerLink="/home">Главная</a></li>
+          <li class="breadcrumb-item"><a routerLink="/home/brands">Бренды</a></li>
+          <li class="breadcrumb-item active">Добавить бренд</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Content Header (Page header) finish -->
+
+<section class="content">
+  <div class="card card-solid">
+
+    <div class="card-header bg-primary">
+      <h3 class="card-title">Основная информация</h3>
+    </div>
+
+    <form class="col-12" [formGroup]="brandFormModel" autocomplete="off" (submit)="add()">
+      <div class="card-body pb-0">
+        <div class="row d-flex align-items-stretch">
+
+          <!-- Title-URL start -->
+          <div class="card col-12 bg-light elevation-1">
+            <div class="row">
+              <div class="col-12 col-md-9 d-flex align-items-stretch">
+                <div class="card-body pb-0 pr-0">
+                  <!-- Title start -->
+                  <div class="input-group form-group row">
+                    <label for="inputName" class="col-sm-2 col-form-label font-weight-500 pl-0">
+                      Название<span class="ml-1 font-weight-300 color-red">*</span>
+                      <span class="ml-1 opacity-quarter" tooltipClass="tooltip-brand"
+                        ngbTooltip="Название бренда. Например: Apple">
+                        <i class="fas fa-question-circle"></i>
+                      </span>
+                    </label>
+                    <div class="col-sm-10">
+                      <div class="input-group">
+                        <input class="form-control" id="inputName" formControlName="Title">
+                        <div class="input-group-append">
+                          <span class="input-group-text"><i class="fas fa-signature"></i></span>
+                        </div>
+                      </div>
+                      <small class="form-text text-muted">Укажите название бренда</small>
+                    </div>
+                    <label class="text-danger offset-sm-2 col-sm-10" *ngIf="brandFormModel.get('Title').touched
+                      && brandFormModel.get('Title').errors?.required">
+                      * Обязательное поле
+                    </label>
+                  </div>
+                  <!-- Title finish -->
+                  <!-- Url start -->
+                  <div class="input-group form-group row">
+                    <label for="inputUrl" class="col-sm-2 col-form-label font-weight-500 pl-0">
+                      URL<span class="ml-1 font-weight-300 color-red">*</span>
+                      <span class="ml-1 opacity-quarter" ngbTooltip="URL бренда (alias). Пример: esp-ltd">
+                        <i class="fas fa-question-circle"></i>
+                      </span>
+                    </label>
+                    <div class="col-sm-10">
+                      <div class="input-group">
+                        <input class="form-control" id="inputUrl" formControlName="Alias">
+                        <div class="input-group-append">
+                          <span class="input-group-text"><i class="fas fa-search-location"></i></span>
+                        </div>
+                      </div>
+                      <small class="form-text text-muted">Укажите URL бренда</small>
+                    </div>
+                    <label class="text-danger offset-sm-2 col-sm-10" *ngIf="brandFormModel.get('Alias').touched
+                      && brandFormModel.get('Alias').errors?.required">
+                      * Обязательное поле
+                    </label>
+                  </div>
+                  <!-- Url finish -->
+                </div>
+              </div>
+              <div class="col-12 col-md-3 d-flex align-items-stretch">
+                <!-- Activity start -->
+                <div class="card-body pr-0 row">
+                  <div class="input-group row form-group w-100">
+                    <label class="font-weight-500 col-md-7 pt-2">
+                      Активность
+                      <span class="ml-1 opacity-quarter" tooltipClass="tooltip-brand"
+                        ngbTooltip="вкл/выкл бнерда на сайте. Бренд скрывается из меню каталога">
+                        <i class="fas fa-question-circle"></i>
+                      </span>
+                    </label>
+                    <ui-switch [checked]="true" (change)="onActiveStatusChange($event)" size="large" color="#007bff"
+                      defaultBgColor="red" formControlName="Status">
+                    </ui-switch>
+                  </div>
+                  <!-- Activity finish -->
+                  <!-- Button start-->
+                  <div class="form-group row w-100">
+                    <div class="col-sm-12">
+                      <button type="submit" class="btn btn-primary w-100 elevation-3" [disabled]="!brandFormModel.valid">
+                        <i class="fas fa-save pr-1"></i>
+                        Сохранить
+                      </button>
+                    </div>
+                  </div>
+                  <!-- Button finish -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Title-URL finish -->
+
+          <!-- Avatar and description block start -->
+          <div class="card bg-light elevation-1 pt-3 col-12 col-md-5">
+            <!-- Avatar start -->
+            <form [formGroup]="avatarFormModel">
+              <div class="input-group form-group row">
+                <label *ngIf="uploadedFileAvatarUrl == null" class="col-sm-3 col-form-label font-weight-500 ml-2 mr-4">
+                  Аватар
+                </label>
+                <label *ngIf="uploadedFileAvatarUrl != null" class="col-sm-3 col-form-label font-weight-500 ml-2 mr-4">
+                  Аватар<img src="{{uploadedFileAvatarUrl}}" class="uploaded-icon" ngbTooltip="Опции"
+                    (click)="openModal(photoModalAvatar)">
+                </label>
+                <div class="col-sm-8">
+                  <div class="input-group">
+                    <div class="custom-file">
+                      <input *ngIf="!uploadedFileAvatarUrl" type="file" class="custom-file-input form-control"
+                        id="customFileAvatar" formControlName="FileAvatar" (change)="uploadAvatarHandler($event)">
+                      <label *ngIf="!uploadedFileAvatarUrl" class="custom-file-label" for="customFileAvatar">
+                        {{uploadFileAvatarName}}
+                      </label>
+                      <!-- disable version of input when file uploaded -->
+                      <input *ngIf="uploadedFileAvatarUrl" type="text" placeholder="{{uploadFileAvatarName}}"
+                        class="custom-file-input form-control" disabled>
+                    </div>
+                  </div>
+                  <!-- Progress bar start -->
+                  <div class="progress w-100" *ngIf="progressAvatar">
+                    <div class="progress-bar" [style.width]="progressAvatar + '%'">{{progressAvatar}}%</div>
+                  </div>
+                  <!-- Progress bar finish -->
+                  <small class="form-text text-muted">Размер файла до 5МБ (jpg, jpeg, png)</small>
+                </div>
+                <label class="text-danger offset-sm-4 col-sm-8" *ngIf="avatarFormModel.controls['FileAvatar'].dirty 
+                     && avatarFormModel.controls['FileAvatar'].touched
+                     && isFileAvatarUpload && !isFileAvatarExtensionAppropriate">
+                  * Недопустимый формат файла
+                </label>
+                <label class="text-danger offset-sm-4 col-sm-8" *ngIf="avatarFormModel.controls['FileAvatar'].dirty 
+                     && avatarFormModel.controls['FileAvatar'].touched
+                     && isFileAvatarUpload && !isFileAvatarSizeAppropriate">
+                  * Превышен максимальный размер файла
+                </label>
+              </div>
+            </form>
+            <!-- Avatar finish -->
+          </div>
+          <div class="col-md-1" id="devider"></div>
+          <div class="card bg-light elevation-1 pt-3 col-12 col-md-6" id="card-parent-block">
+            <!-- Description start -->
+            <div class="input-group form-group row">
+              <label for="inputDescription" class="col-sm-3 col-form-label font-weight-500 ml-3">
+                Описание
+                <span class="ml-1 opacity-quarter" ngbTooltip="Описание бренда">
+                  <i class="fas fa-question-circle"></i>
+                </span>
+              </label>
+              <div class="col-sm-8 ml-4">
+                <div class="input-group">
+                  <textarea class="form-control bg-white" rows="4" id="inputDescription"
+                  formControlName="Description"></textarea>
+                </div>
+                <small class="form-text text-muted">Укажите описание для бренда</small>
+              </div>
+            </div>
+            <!-- Description finish -->
+          </div>
+          <!-- Avatar and description block finish -->
+
+          <!-- SEO start -->
+          <div class="card col-12 bg-light elevation-1 pt-3">
+            <div class="row ">
+              <div class="col-md-6">
+                <!-- SeoTitle start -->
+                <div class="input-group form-group pb-2">
+                  <label for="metaTitle" class="font-weight-500 pl-2">
+                    Meta-title ({{metaTitleSymbolsQuantity}})
+                    <span class="ml-1 opacity-quarter" tooltipClass="tooltip-brand"
+                      ngbTooltip="Заголовок страницы в браузере, который отображается в выдаче поисковых систем">
+                      <i class="fas fa-question-circle"></i>
+                    </span>
+                  </label>
+                  <div class="input-group row pl-3">
+                    <div class="input-group-prepend input-height">
+                      <span class="input-group-text"><i class="fas fa-info-circle"></i></span>
+                    </div>
+                    <input type="text" class="form-control bg-white" id="metaTitle" formControlName="SeoTitle"
+                      (ngModelChange)="countSymbolsMetaTitle()">
+                  </div>
+                </div>
+                <!-- Seotitle finish -->
+                <!-- SeoKeywords start -->
+                <div class="input-group form-group">
+                  <label class="font-weight-500 pl-2" for="metaKeywords">
+                    Meta-keywords
+                    <span class="ml-1 opacity-quarter"
+                      ngbTooltip="Список ключевых слов. Нужно указывать через знак - ; (точка с запятой) без пробела. Также, используются в поиске по сайту">
+                      <i class="fas fa-question-circle"></i>
+                    </span>
+                  </label>
+                  <div class="input-group row pl-3">
+                    <textarea class="form-control bg-white" rows="4" id="metaKeywords"
+                      formControlName="SeoKeywords"></textarea>
+                  </div>
+                </div>
+                <!-- SeoKeywords finish -->
+              </div>
+              <!-- SeoDescription start -->
+              <div class="col-md-6" id="seo-desc">
+                <div class="input-group form-group">
+                  <label class="font-weight-500 pl-2" for="metaDesc">
+                    Meta-description ({{metaDescriptionSymbolsQuantity}})
+                    <span class="ml-1 opacity-quarter" tooltipClass="tooltip-category-seo-desc"
+                      ngbTooltip="Правильный description должен содержать ключевые слова, под которые вы намерены продвигать страницу. Самые частотные запросы должны быть расположены в начале описания. Не используйте в мета-теге более 3-4 ключевых фраз. Одно и то же слово не стоит повторять более 5-7 раз.">
+                      <i class="fas fa-question-circle"></i>
+                    </span>
+                  </label>
+                  <div class="input-group row pl-3">
+                    <textarea class="form-control bg-white" rows="8" id="metaDesc" formControlName="SeoDescription"
+                      (ngModelChange)="countSymbolsMetaDescription()"></textarea>
+                  </div>
+                </div>
+              </div>
+              <!-- SeoDescription finish -->
+            </div>
+          </div>
+          <!-- SEO finish -->
+
+        </div>
+      </div>
+    </form>
+
+  </div>
+</section>
+
+
+<!-- Modal photoAvatar start -->
+<ng-template #photoModalAvatar let-modal>
+  <div class="modal-body mx-auto">
+    <img src="{{uploadedFileAvatarUrl}}" class="elevation-2" class="photo-icon-modal">
+  </div>
+  <div class="modal-footer mx-auto">
+    <div class="form-group">
+      <button type="button" class="btn btn-danger" (click)="deleteFileAvatar()">Удалить</button>
+    </div>
+    <button type="button" class="btn btn-secondary" (click)="modal.close()">Закрыть</button>
+  </div>
+</ng-template>
+<!-- Modal photoAvatar finish -->

@@ -1,0 +1,237 @@
+<!-- Content Header (Page header) start -->
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Профиль поставщика
+          <!-- Extra buttons start -->
+          <span>
+            <a [routerLink]="['/home/update_supplier', supplierId]" class="btn btn-sm btn-outline-success ml-2 mr-2"
+              placement="top" ngbTooltip="Редактировать поставщика">
+              <i class="fas fa-pencil-alt"></i>
+            </a>
+            <button class="btn btn-sm btn-outline-danger" placement="top" (click)="openModal(supplierDeleteModal)"
+              ngbTooltip="Удалить"><i class="fas fa-trash"></i>
+            </button>
+          </span>
+          <!-- Extra buttons finish -->
+        </h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a routerLink="/home">Главная</a></li>
+          <li class="breadcrumb-item"><a routerLink="/home/suppliers">Поставщики</a></li>
+          <li class="breadcrumb-item active">Профиль поставщика</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Content Header (Page header) finish -->
+
+<section class="content">
+  <div class="card card-solid">
+
+    <div class="card-header bg-primary">
+      <h3 class="card-title">Основная информация</h3>
+    </div>
+
+    <div class="card-body pb-0">
+      <div class="row d-flex align-items-stretch">
+        <div class="card bg-light elevation-2 col-12">
+          <div class="row">
+            <!-- Form column 1 start -->
+            <div class="col-12 col-md-6 d-flex align-items-stretch">
+              <div class="card-body">
+                <!-- Title start -->
+                <div class="input-group form-group row">
+                  <label for="inputTitle" class="col-sm-3 col-form-label">Название</label>
+                  <div class="col-sm-9">
+                    <div class="input-group">
+                      <input class="form-control bg-white" id="inputTitle" value="{{title}}" disabled>
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Title finish -->
+                <!-- Email start -->
+                <div class="input-group form-group row">
+                  <label for="inputEmail" class="col-sm-3 col-form-label">Email</label>
+                  <div class="col-sm-9">
+                    <div class="input-group">
+                      <input type="text" class="form-control bg-white" id="inputEmail" value="{{email}}" disabled>
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Email finish -->
+                <!-- Phone start-->
+                <div class="input-group form-group row">
+                  <label for="inputPhone" class="col-sm-3 col-form-label">Phone</label>
+                  <div class="col-sm-9">
+                    <div class="input-group">
+                      <input type="text" class="form-control bg-white" id="inputPhone" value="{{phone}}" disabled>
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Phone finish -->
+                <!-- Manager start -->
+                <div class="input-group form-group row">
+                  <label for="inputManager" class="col-sm-3 col-form-label">Manager</label>
+                  <div class="col-sm-9">
+                    <div class="input-group">
+                      <input class="form-control bg-white" id="inputManager" value="{{manager}}" disabled>
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Manager finish -->
+                <!-- Address start -->
+                <div class="input-group form-group row">
+                  <label for="inputAddress" class="col-sm-3 col-form-label">Address</label>
+                  <div class="col-sm-9">
+                    <div class="input-group">
+                      <input class="form-control bg-white" id="inputAddress" value="{{address}}" disabled>
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Address finish -->
+                <!-- Status start -->
+                <div class="input-group form-group row">
+                  <label for="inputStatus" class="col-sm-3 col-form-label">Статус активности</label>
+                  <div class="col-sm-9">
+                    <div class="input-group">
+                      <ui-switch class="d-flex align-items-center" [checked]="supplierStatus" size="large"
+                        color="#007bff" defaultBgColor="red" disabled>
+                      </ui-switch>
+                    </div>
+                  </div>
+                </div>
+                <!-- Status finish -->
+              </div>
+            </div>
+            <!-- Form column 1 finish -->
+
+            <!--  Form column 2 start -->
+            <div class="col-12 col-md-6 d-flex align-items-stretch">
+              <div class="card-body">
+                <!-- Description start -->
+                <div class="input-group form-group row">
+                  <label for="inputDescription" class="col-sm-3 col-form-label">Описание</label>
+                  <div class="col-sm-9">
+                    <div class="input-group">
+                      <input class="form-control bg-white" id="inputDescription" value="{{description}}" disabled>
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Description finish -->
+                <!-- ExtraEmail start -->
+                <div class="input-group form-group row">
+                  <label for="inputExtraEmail" class="col-sm-3 col-form-label">Extra Email</label>
+                  <div class="col-sm-9">
+                    <div class="input-group">
+                      <input type="text" class="form-control bg-white" id="inputExtraEmail" value="{{extraEmail}}"
+                        disabled>
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- ExtraEmail finish -->
+                <!-- ExtraPhone start-->
+                <div class="input-group form-group row">
+                  <label for="inputExtraPhone" class="col-sm-3 col-form-label">Extra Phone</label>
+                  <div class="col-sm-9">
+                    <div class="input-group">
+                      <input type="text" class="form-control bg-white" id="inputExtraPhone" value="{{extraPhone}}"
+                        disabled>
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- ExtraPhone finish -->
+                <!-- ExtraManager start -->
+                <div class="input-group form-group row">
+                  <label for="inputExtraManager" class="col-sm-3 col-form-label">Extra Manager</label>
+                  <div class="col-sm-9">
+                    <div class="input-group">
+                      <input class="form-control bg-white" id="inputExtraManager" value="{{extraManager}}" disabled>
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- ExtraManager finish -->
+                <!-- ExtraAddress start -->
+                <div class="input-group form-group row">
+                  <label for="inputExtraAddress" class="col-sm-3 col-form-label">Extra Address</label>
+                  <div class="col-sm-9">
+                    <div class="input-group">
+                      <input class="form-control bg-white" id="inputExtraAddress" value="{{extraAddress}}" disabled>
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- ExtraAddress finish -->
+                <!-- SomeInfo start -->
+                <div class="input-group form-group row">
+                  <label for="inputSomeInfo" class="col-sm-3 col-form-label">Инфо</label>
+                  <div class="col-sm-9">
+                    <div class="input-group">
+                      <textarea class="form-control bg-white" rows="2" id="inputSomeInfo" value="{{someInfo}}"
+                        disabled></textarea>
+                    </div>
+                  </div>
+                </div>
+                <!-- SomeInfo finish -->
+              </div>
+            </div>
+            <!--  Form column 2 finish -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Modal Delete start -->
+<ng-template #supplierDeleteModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Удаление поставщика</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p class="mb-0">Вы действительно хотите удалить поставщика?</p>
+  </div>
+  <div class="modal-footer">
+    <div class="form-group">
+      <button type="button" class="btn btn-danger" (click)="deleteSupplier()">Удалить</button>
+    </div>
+    <button type="button" class="btn btn-secondary" (click)="modal.close()">Закрыть</button>
+  </div>
+</ng-template>
+<!-- Modal Delete finish -->

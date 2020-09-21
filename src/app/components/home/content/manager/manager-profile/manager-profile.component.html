@@ -1,0 +1,122 @@
+<!-- Content Header (Page header) start -->
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Профиль менеджера</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a routerLink="/home">Главная</a></li>
+          <li class="breadcrumb-item"><a routerLink="/home/managers">Менеджеры</a></li>
+          <li class="breadcrumb-item active">Профиль менеджера</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Content Header (Page header) finish -->
+
+<!-- Main Content start -->
+<section class="content">
+  <div class="card card-solid">
+
+    <div class="card-body pb-0">
+      <div class="row">
+        <!-- Manager's profile start -->
+        <div class="card bg-light col-md-8 pr-0 pl-0">
+
+          <div class="card-header bg-info">
+            <h3 class="card-title">Основная информация</h3>
+          </div>
+
+          <div *ngIf="userStatus == 1" class="ribbon-wrapper ribbon-xl">
+            <div class="ribbon bg-warning text-lg">Заблокирован</div>
+          </div>
+          <div class="card-header text-muted border-bottom-0" [ngClass]="{inactive: userStatus == 1}"></div>
+          <div class="card-body pt-0" [ngClass]="{inactive: userStatus == 1}">
+            <div class="row">
+              <div class="col-5">
+                <img src="{{userPhotoUrl}}" width="256px" alt="avatar" class="img-fluid elevation-3">
+              </div>
+              <div class="col-7">
+                <div class="card widget-user-2 mb-0">
+                  <div class="widget-user-header bg-warning text-center">
+                    <h3 class="widget-user-username ml-0">{{fullName}}</h3>
+                    <h5 class="widget-user-desc ml-0">{{userRoles}}</h5>
+                  </div>
+                </div>
+                <ul class="list-group list-group-unbordered elevation-1">
+                  <li class="list-group-item">
+                    <span class="text-muted text-sm ml-3"><b>
+                        <i class="fas fa-lg fa-phone mr-2"></i></b> +{{phone}}
+                    </span>
+                  </li>
+                  <li class="list-group-item">
+                    <span class="text-muted text-sm ml-3"><b>
+                        <i class="fa-lg fas fa-envelope mr-2"></i></b> {{email}}
+                    </span>
+                  </li>
+                  <li class="list-group-item">
+                    <span class="text-muted text-sm ml-3">
+                      <b class="mr-1">Работает с:</b> {{created | date: 'dd-MM-yyyy'}}
+                    </span>
+                  </li>
+                  <li class="list-group-item">
+                    <span class="text-muted text-sm ml-3">
+                      <b class="mr-1">Дата рождения:</b> {{dateOfBirth}}
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+          <!-- Status start-->
+          <label id="active-lable">Статус</label>
+          <ui-switch class="ml-2 item-center" [checked]="activeStatus" color="#007bff" defaultBgColor="red" disabled></ui-switch>
+          <!-- Status finish -->
+          <!-- Buttons start -->
+          <span>
+              <a [routerLink]="['/home/update_manager', userId]" class="btn btn-sm btn-outline-success mr-1"
+                placement="top" ngbTooltip="Редактировать" id="item-right-edit">
+                <i class="fas fa-pencil-alt"></i>
+              </a>
+              <button class="btn btn-sm btn-outline-danger" id="item-right-delete" placement="top" ngbTooltip="Удалить"
+                (click)="openModal(managerDeleteModal)">
+                <i class="fas fa-trash"></i>
+              </button>
+            </span>
+          <!-- Buttons finish -->
+          </div>
+        </div>
+        <!-- Manager's profile end -->
+
+        <!-- Permitions start -->
+        <!-- Permitions end -->
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Main Content end -->
+
+
+<!-- Modal Delete start -->
+<ng-template #managerDeleteModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Удалить менеджера</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p class="mb-0">Вы действительно хотите удалить менеджера?</p>
+  </div>
+  <div class="modal-footer">
+    <div class="form-group">
+      <button type="button" class="btn btn-danger" (click)="deleteManager()">Удалить</button>
+    </div>
+    <button type="button" class="btn btn-secondary" (click)="modal.close()">Закрыть</button>
+  </div>
+</ng-template>
+<!-- Modal Delete finish -->

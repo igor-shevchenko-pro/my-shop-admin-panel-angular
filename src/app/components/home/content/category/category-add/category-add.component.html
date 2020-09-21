@@ -1,0 +1,391 @@
+<!-- Content Header (Page header) start -->
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Добавить категорию</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a routerLink="/home">Главная</a></li>
+          <li class="breadcrumb-item"><a routerLink="/home/categories">Категории</a></li>
+          <li class="breadcrumb-item active">Добавить категорию</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Content Header (Page header) finish -->
+
+<section class="content">
+  <div class="card card-solid">
+
+    <div class="card-header bg-primary">
+      <h3 class="card-title">Основная информация</h3>
+    </div>
+
+    <form class="col-12" [formGroup]="categoryFormModel" autocomplete="off" (submit)="addCategory()">
+      <div class="card-body pb-0">
+        <div class="row d-flex align-items-stretch">
+
+          <!-- Title-URL start -->
+          <div class="card col-12 bg-light elevation-1">
+            <div class="row">
+              <div class="col-12 col-md-9 d-flex align-items-stretch">
+                <div class="card-body pb-0 pr-0">
+                  <!-- Title start -->
+                  <div class="input-group form-group row">
+                    <label for="inputName" class="col-sm-2 col-form-label font-weight-500 pl-0">
+                      Название<span class="ml-1 font-weight-300 color-red">*</span>
+                      <span class="ml-1 opacity-quarter" tooltipClass="tooltip-category"
+                        ngbTooltip="Название категории. Например: Аудиоинтерфейсы">
+                        <i class="fas fa-question-circle"></i>
+                      </span>
+                    </label>
+                    <div class="col-sm-10">
+                      <div class="input-group">
+                        <input class="form-control" id="inputName" formControlName="Title">
+                        <div class="input-group-append">
+                          <span class="input-group-text"><i class="fas fa-signature"></i></span>
+                        </div>
+                      </div>
+                      <small class="form-text text-muted">Укажите название категории</small>
+                    </div>
+                    <label class="text-danger offset-sm-2 col-sm-10" *ngIf="categoryFormModel.get('Title').touched
+                    && categoryFormModel.get('Title').errors?.required">
+                      * Обязательное поле
+                    </label>
+                  </div>
+                  <!-- Title finish -->
+                  <!-- Url start -->
+                  <div class="input-group form-group row">
+                    <label for="inputUrl" class="col-sm-2 col-form-label font-weight-500 pl-0">
+                      URL<span class="ml-1 font-weight-300 color-red">*</span>
+                      <span class="ml-1 opacity-quarter"
+                        ngbTooltip="URL категории (alias). Пример: zvukovoe-oborudovanie">
+                        <i class="fas fa-question-circle"></i>
+                      </span>
+                    </label>
+                    <div class="col-sm-10">
+                      <div class="input-group">
+                        <input class="form-control" id="inputUrl" formControlName="Alias">
+                        <div class="input-group-append">
+                          <span class="input-group-text"><i class="fas fa-search-location"></i></span>
+                        </div>
+                      </div>
+                      <small class="form-text text-muted">Укажите URL категории</small>
+                    </div>
+                    <label class="text-danger offset-sm-2 col-sm-10" *ngIf="categoryFormModel.get('Alias').touched
+                    && categoryFormModel.get('Alias').errors?.required">
+                      * Обязательное поле
+                    </label>
+                  </div>
+                  <!-- Url finish -->
+                </div>
+              </div>
+              <div class="col-12 col-md-3 d-flex align-items-stretch">
+                <!-- Activity start -->
+                <div class="card-body pr-0 row">
+                  <div class="input-group row form-group w-100">
+                    <label class="font-weight-500 col-md-7 pt-2">
+                      Активность
+                      <span class="ml-1 opacity-quarter" tooltipClass="tooltip-category"
+                        ngbTooltip="вкл/выкл категорию на сайте. Категория скрывается из меню каталога">
+                        <i class="fas fa-question-circle"></i>
+                      </span>
+                    </label>
+                    <ui-switch [checked]="true" (change)="onActiveStatusChange($event)" size="large" color="#007bff"
+                      defaultBgColor="red" formControlName="Status">
+                    </ui-switch>
+                  </div>
+                  <!-- Activity finish -->
+                  <!-- Button start-->
+                  <div class="form-group row w-100">
+                    <div class="col-sm-12">
+                      <button type="submit" class="btn btn-primary w-100 elevation-3"
+                        [disabled]="!categoryFormModel.valid">
+                        <i class="fas fa-save pr-1"></i>
+                        Сохранить
+                      </button>
+                    </div>
+                  </div>
+                  <!-- Button finish -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Title-URL finish -->
+
+          <!-- Photo, parent category block start -->
+            <div class="card bg-light elevation-1 pt-3 col-12 col-md-5">
+              <!-- Icon start -->
+              <form [formGroup]="iconFormModel">
+                <div class="input-group form-group row">
+                  <label *ngIf="uploadedFileIconUrl == null" class="col-sm-3 col-form-label font-weight-500 ml-2 mr-4">
+                    Иконка
+                  </label>
+                  <label *ngIf="uploadedFileIconUrl != null" class="col-sm-3 col-form-label font-weight-500 ml-2 mr-4">
+                    Иконка<img src="{{uploadedFileIconUrl}}" class="uploaded-icon" ngbTooltip="Опции" 
+                    (click)="openModal(photoModalIcon)">
+                  </label>
+                  <div class="col-sm-8">
+                    <div class="input-group">
+                      <div class="custom-file">
+                        <input *ngIf="!uploadedFileIconUrl" type="file" class="custom-file-input form-control"
+                          id="customFileIcon" formControlName="FileIcon" (change)="uploadIconHandler($event)">
+                        <label *ngIf="!uploadedFileIconUrl" class="custom-file-label" for="customFileIcon">
+                          {{uploadFileIconName}}
+                        </label>
+                        <!-- disable version of input when file uploaded -->
+                        <input *ngIf="uploadedFileIconUrl" type="text" placeholder="{{uploadFileIconName}}"
+                          class="custom-file-input form-control" disabled>
+                      </div>
+                    </div>
+                    <!-- Progress bar start -->
+                    <div class="progress w-100" *ngIf="progressIcon">
+                      <div class="progress-bar" [style.width]="progressIcon + '%'">{{progressIcon}}%</div>
+                    </div>
+                    <!-- Progress bar finish -->
+                    <small class="form-text text-muted">Размер файла до 5МБ (jpg, jpeg, png)</small>
+                  </div>
+                  <label class="text-danger offset-sm-4 col-sm-8" *ngIf="iconFormModel.controls['FileIcon'].dirty 
+                   && iconFormModel.controls['FileIcon'].touched
+                   && isFileIconUpload && !isFileIconExtensionAppropriate">
+                    * Недопустимый формат файла
+                  </label>
+                  <label class="text-danger offset-sm-4 col-sm-8" *ngIf="iconFormModel.controls['FileIcon'].dirty 
+                   && iconFormModel.controls['FileIcon'].touched
+                   && isFileIconUpload && !isFileIconSizeAppropriate">
+                    * Превышен максимальный размер файла
+                  </label>
+                </div>
+              </form>
+              <!-- Icon finish -->
+              <!-- Avatar start -->
+              <form [formGroup]="avatarFormModel">
+                <div class="input-group form-group row">
+                  <label *ngIf="uploadedFileAvatarUrl == null" class="col-sm-3 col-form-label font-weight-500 ml-2 mr-4">
+                    Аватар
+                  </label>
+                  <label *ngIf="uploadedFileAvatarUrl != null" class="col-sm-3 col-form-label font-weight-500 ml-2 mr-4">
+                    Аватар<img src="{{uploadedFileAvatarUrl}}" class="uploaded-icon" ngbTooltip="Опции" 
+                    (click)="openModal(photoModalAvatar)">
+                  </label>
+                  <div class="col-sm-8">
+                    <div class="input-group">
+                      <div class="custom-file">
+                        <input *ngIf="!uploadedFileAvatarUrl" type="file" class="custom-file-input form-control"
+                          id="customFileAvatar" formControlName="FileAvatar" (change)="uploadAvatarHandler($event)">
+                        <label *ngIf="!uploadedFileAvatarUrl" class="custom-file-label" for="customFileAvatar">
+                          {{uploadFileAvatarName}}
+                        </label>
+                        <!-- disable version of input when file uploaded -->
+                        <input *ngIf="uploadedFileAvatarUrl" type="text" placeholder="{{uploadFileAvatarName}}"
+                          class="custom-file-input form-control" disabled>
+                      </div>
+                    </div>
+                    <!-- Progress bar start -->
+                    <div class="progress w-100" *ngIf="progressAvatar">
+                      <div class="progress-bar" [style.width]="progressAvatar + '%'">{{progressAvatar}}%</div>
+                    </div>
+                    <!-- Progress bar finish -->
+                    <small class="form-text text-muted">Размер файла до 5МБ (jpg, jpeg, png)</small>
+                  </div>
+                  <label class="text-danger offset-sm-4 col-sm-8" *ngIf="avatarFormModel.controls['FileAvatar'].dirty 
+                   && avatarFormModel.controls['FileAvatar'].touched
+                   && isFileAvatarUpload && !isFileAvatarExtensionAppropriate">
+                    * Недопустимый формат файла
+                  </label>
+                  <label class="text-danger offset-sm-4 col-sm-8" *ngIf="avatarFormModel.controls['FileAvatar'].dirty 
+                   && avatarFormModel.controls['FileAvatar'].touched
+                   && isFileAvatarUpload && !isFileAvatarSizeAppropriate">
+                    * Превышен максимальный размер файла
+                  </label>
+                </div>
+              </form>
+              <!-- Avatar finish -->
+            </div>
+            <div class="col-md-1" id="devider"></div>
+            <div class="card bg-light elevation-1 pt-3 col-12 col-md-6" id="card-parent-block">
+              <!-- ExtraTitle start -->
+              <div class="input-group form-group row">
+                <label for="inputExtraName" class="col-sm-3 col-form-label font-weight-500 ml-3">
+                  Заголовок
+                  <span class="ml-1 opacity-quarter" ngbTooltip="Заголовок Н1 отличающийся от названия категории">
+                    <i class="fas fa-question-circle"></i>
+                  </span>
+                </label>
+                <div class="col-sm-8 ml-4">
+                  <div class="input-group">
+                    <input class="form-control" id="inputExtraName" formControlName="ExtraTitle">
+                    <div class="input-group-append">
+                      <span class="input-group-text"><i class="fas fa-check-circle"></i></span>
+                    </div>
+                  </div>
+                  <small class="form-text text-muted">Укажите заголовок для категории</small>
+                </div>
+              </div>
+              <!-- ExtraTitle finish -->
+              <!-- ParentCategoty start -->
+              <div class="input-group form-group row">
+                <label for="inputCategories" class="col-sm-3 col-form-label font-weight-500 ml-3">
+                  <span>
+                    Родительская категория
+                    <i class="fas fa-question-circle opacity-quarter" tooltipClass="tooltip-category"
+                      ngbTooltip="Родительская категория, внутри которой будет находиться данная категория"></i>
+                  </span>
+                </label>
+                <div class="col-sm-8 ml-4">
+                  <div class="input-group select2-purple">
+                    <ng-multiselect-dropdown id="inputCategories" formControlName="ParentCategoryId"
+                      [placeholder]="'Категории'" [data]="categories" [settings]="dropdownSettingsCategories"
+                      style="width: 100%;">
+                    </ng-multiselect-dropdown>
+                  </div>
+                  <small class="form-text text-muted">Выберите родительскую категорию</small>
+                </div>
+              </div>
+              <!-- ParentCategoty finish -->
+            </div>
+          <!-- Photo, parent category block finish -->
+
+          <!-- SEO start -->
+          <div class="card col-12 bg-light elevation-1 pt-3">
+            <div class="row ">
+              <div class="col-md-6">
+                <!-- SeoTitle start -->
+                <div class="input-group form-group pb-2">
+                  <label for="metaTitle" class="font-weight-500 pl-2">
+                    Meta-title ({{metaTitleSymbolsQuantity}})
+                    <span class="ml-1 opacity-quarter" tooltipClass="tooltip-category"
+                      ngbTooltip="Заголовок страницы в браузере, который отображается в выдаче поисковых систем">
+                      <i class="fas fa-question-circle"></i>
+                    </span>
+                  </label>
+                  <div class="input-group row pl-3">
+                    <div class="input-group-prepend input-height">
+                      <span class="input-group-text"><i class="fas fa-info-circle"></i></span>
+                    </div>
+                    <input type="text" class="form-control bg-white" id="metaTitle" formControlName="SeoTitle"
+                      (ngModelChange)="countSymbolsMetaTitle()">
+                  </div>
+                </div>
+                <!-- Seotitle finish -->
+                <!-- SeoKeywords start -->
+                <div class="input-group form-group">
+                  <label class="font-weight-500 pl-2" for="metaKeywords">
+                    Meta-keywords
+                    <span class="ml-1 opacity-quarter"
+                      ngbTooltip="Список ключевых слов. Нужно указывать через знак - ; (точка с запятой) без пробела. Также, используются в поиске по сайту">
+                      <i class="fas fa-question-circle"></i>
+                    </span>
+                  </label>
+                  <div class="input-group row pl-3">
+                    <textarea class="form-control bg-white" rows="4" id="metaKeywords"
+                      formControlName="SeoKeywords"></textarea>
+                  </div>
+                </div>
+                <!-- SeoKeywords finish -->
+              </div>
+              <!-- SeoDescription start -->
+              <div class="col-md-6" id="seo-desc">
+                <div class="input-group form-group">
+                  <label class="font-weight-500 pl-2" for="metaDesc">
+                    Meta-description ({{metaDescriptionSymbolsQuantity}})
+                    <span class="ml-1 opacity-quarter" tooltipClass="tooltip-category-seo-desc"
+                      ngbTooltip="Правильный description должен содержать ключевые слова, под которые вы намерены продвигать страницу. Самые частотные запросы должны быть расположены в начале описания. Не используйте в мета-теге более 3-4 ключевых фраз. Одно и то же слово не стоит повторять более 5-7 раз.">
+                      <i class="fas fa-question-circle"></i>
+                    </span>
+                  </label>
+                  <div class="input-group row pl-3">
+                    <textarea class="form-control bg-white" rows="8" id="metaDesc" formControlName="SeoDescription"
+                      (ngModelChange)="countSymbolsMetaDescription()"></textarea>
+                  </div>
+                </div>
+              </div>
+              <!-- SeoDescription finish -->
+            </div>
+          </div>
+          <!-- SEO finish -->
+
+          <!-- ShortDescription start -->
+          <div class="card col-12 bg-light elevation-1 pt-3">
+            <div class="row ">
+              <div class="col-md-12">
+                <div class="input-group form-group">
+                  <label class="font-weight-500 pl-2" for="editor1">
+                    Краткое описание
+                    <span class="ml-1 opacity-quarter"
+                      ngbTooltip="Краткое описание категории необходимое для предпоказа. Имеет фиксированное количество символов">
+                      <i class="fas fa-question-circle"></i>
+                    </span>
+                  </label>
+                  <div class="input-group row pl-3">
+                    <angular-editor id="editor1" [(ngModel)]="editorSmallDescriptionHtmlContent"
+                      formControlName="SmallDescription" [config]="editorConfig">
+                    </angular-editor>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ShortDescription finish -->
+
+          <!-- LongDescription start -->
+          <div class="card col-12 bg-light elevation-1 pt-3">
+            <div class="row ">
+              <div class="col-md-12">
+                <div class="input-group form-group">
+                  <label class="font-weight-500 pl-2" for="editor2">
+                    Полное описание
+                    <span class="ml-1 opacity-quarter" ngbTooltip="Полное описание категории">
+                      <i class="fas fa-question-circle"></i>
+                    </span>
+                  </label>
+                  <div class="input-group row pl-3">
+                    <angular-editor id="editor2" [(ngModel)]="editorLongDescriptionHtmlContent"
+                      formControlName="LongDescription" [config]="editorConfig">
+                    </angular-editor>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- LongDescription finish -->
+
+        </div>
+      </div>
+    </form>
+
+  </div>
+</section>
+
+
+<!-- Modal photoIcon start -->
+<ng-template #photoModalIcon let-modal>
+  <div class="modal-body mx-auto">
+    <img src="{{uploadedFileIconUrl}}" class="elevation-2" class="photo-icon-modal">
+  </div>
+  <div class="modal-footer mx-auto">
+    <div class="form-group">
+      <button type="button" class="btn btn-danger" (click)="deleteFileIcon()">Удалить</button>
+    </div>
+    <button type="button" class="btn btn-secondary" (click)="modal.close()">Закрыть</button>
+  </div>
+</ng-template>
+<!-- Modal photoIcon finish -->
+
+
+<!-- Modal photoAvatar start -->
+<ng-template #photoModalAvatar let-modal>
+  <div class="modal-body mx-auto">
+    <img src="{{uploadedFileAvatarUrl}}" class="elevation-2" class="photo-icon-modal">
+  </div>
+  <div class="modal-footer mx-auto">
+    <div class="form-group">
+      <button type="button" class="btn btn-danger" (click)="deleteFileAvatar()">Удалить</button>
+    </div>
+    <button type="button" class="btn btn-secondary" (click)="modal.close()">Закрыть</button>
+  </div>
+</ng-template>
+<!-- Modal photoAvatar finish -->

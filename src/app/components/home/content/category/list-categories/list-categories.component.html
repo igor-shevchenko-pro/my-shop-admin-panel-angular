@@ -1,0 +1,135 @@
+<!-- Content Header (Page header) start -->
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Всего категорий - {{categoriesTotal}}
+          <button routerLink="/home/add_category" class="btn btn-outline-primary ml-3 elevation-1">
+            Добавить категорию
+          </button>
+        </h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a routerLink="/home">Главная</a></li>
+          <li class="breadcrumb-item active">Категории</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Content Header (Page header) finish -->
+
+<!-- Main Content start -->
+<section class="content">
+  <div class="card card-solid">
+
+    <!-- Table start -->
+    <div class="card-body pb-0">
+      <div class="mb-4">
+        <p-treeTable #tt [value]="files" [columns]="cols" selectionMode="multiple" [(selection)]="selectedNodes"
+          dataKey="name" [metaKeySelection]="true" styleClass="p-datatable-striped">
+          <!-- Search bar start -->
+          <ng-template pTemplate="caption">
+            <div class="form-inline">
+              <span class="text-narrow">Поиск категории:</span>
+              <form [formGroup]="formSearchFilter">
+                <input class="form-control ml-3" type="text" pInputText size="30" formControlName="first"
+                  (input)="tt.filterGlobal($event.target.value, 'contains')" placeholder="Search" style="width:auto">
+                <img src="../../../../../../assets/img/times-circle-regular.svg" id="clear-cross"
+                  (click)="tt.filterGlobal(null, '')" (click)="searchInputClear()" alt="clear">
+              </form>
+            </div>
+          </ng-template>
+          <!-- Search bar finish -->
+
+          <!-- Extra helper for column width start -->
+          <ng-template pTemplate="colgroup" let-columns>
+            <colgroup>
+              <col *ngFor="let col of columns" [style.width]="col.width">
+            </colgroup>
+          </ng-template>
+          <!-- Extra helper for column width end -->
+
+          <!-- Header start -->
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th *ngFor="let col of cols" ttResizableColumn>
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+          <!-- Header finish -->
+
+          <!-- Body start -->
+          <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
+            <tr
+              [ngClass]="{'nested-category': rowData.level == 1, 'nested-category-second': rowData.level == 2, 'ui-state-highlight': true}">
+              <td *ngFor="let col of cols; let i = index" class="item-hidden">
+                <p-treeTableToggler [rowNode]="rowNode" *ngIf="i == 0"></p-treeTableToggler>
+                <b *ngIf="col.field != 'image' && col.field != 'status' && col.field != 'options'"
+                  [ngClass]="{'nested-category-margin': rowData.level == 1, 'nested-category-second-margin': rowData.level == 2}">
+                  {{rowData[col.field]}}
+                </b>
+                <!-- Status start -->
+                <ui-switch *ngIf="col.field == 'status'"
+                  [ngClass]="{'nested-category-margin': rowData.level == 1, 'nested-category-second-margin': rowData.level == 2}"
+                  [checked]="getCategoryStatus(rowData[col.field])" (change)="onChangeStatus(rowData.id, $event)"
+                  color="#007bff" defaultBgColor="red">
+                </ui-switch>
+                <!-- Status finish -->
+                <!-- Buttons start -->
+                <span class="align-middle" *ngIf="col.field == 'options'"
+                  [ngClass]="{'nested-category-margin': rowData.level == 1, 'nested-category-second-margin': rowData.level == 2}">
+                  <a [routerLink]="['/home/category', rowData.id]" class="btn btn-sm btn-outline-info mr-1"
+                    placement="top" ngbTooltip="Профайл категории"><i class="fas fa-info" id="category-info-btn"></i>
+                  </a>
+                  <a [routerLink]="['/home/update_category', rowData.id]" class="btn btn-sm btn-outline-success mr-1"
+                    placement="top" ngbTooltip="Редактировать">
+                    <i class="fas fa-pencil-alt"></i>
+                  </a>
+                  <a class="btn btn-sm btn-open-site-sm" placement="top" ngbTooltip="Открыть на сайте"></a>
+                </span>
+                <!-- Buttons finish -->
+                <!-- Image start -->
+                <img *ngIf="col.field == 'image'" src="{{rowData[col.field]}}"
+                  (click)="redirectToCategoryInfo(rowData.id)"
+                  [ngClass]="{'nested-category-margin': rowData.level == 1, 'nested-category-second-margin': rowData.level == 2}">
+                <!-- Image finish -->
+              </td>
+            </tr>
+          </ng-template>
+          <!-- Body start -->
+
+          <!-- Empty message start -->
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td [attr.colspan]="cols.length">Ничего не найдено.</td>
+            </tr>
+          </ng-template>
+          <!-- Empty message finish -->
+
+          <!-- <ng-template pTemplate="summary">
+            <div style="text-align: left">
+                Selected Nodes: <span *ngIf="!selectedNodes || selectedNodes.length === 0" style="font-weight: normal">none</span>
+                <ul *ngIf="selectedNodes && selectedNodes.length">
+                    <li *ngFor="let node of selectedNodes">
+                        <span style="font-weight: normal">{{node.data.name + ' - ' + node.data.id + ' - ' + node.data.level}}</span>
+                    </li>
+                </ul>
+            </div>
+        </ng-template> -->
+
+        </p-treeTable>
+      </div>
+    </div>
+    <!-- Table finish -->
+
+    <!-- Footer start -->
+    <div class="card-footer">
+    </div>
+    <!-- Footer finish -->
+
+  </div>
+</section>
+<!-- Main Content end -->

@@ -1,0 +1,247 @@
+<!-- Content Header (Breadcrumb) start -->
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-12">
+        <p-breadcrumb [model]="breadcrumbItems" [home]="breadcrumbHome"></p-breadcrumb>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Content Header (Breadcrumb) finish -->
+
+
+<!-- Content Body start -->
+<div class="content-section implementation">
+  <div class="card">
+    <!-- Buttons, Searchbar start -->
+    <p-toolbar>
+      <ng-template pTemplate="left">
+        <button pButton pRipple icon="pi pi-refresh" class="p-button-raised mr-2" placement="top"
+          ngbTooltip="Сброс сортировок" (click)="dtSupplier.clear()" (click)="searchInputClear()">
+        </button>
+        <a type="button" pButton pRipple label="New" icon="pi pi-plus" class="p-button-success p-button-raised mr-2"
+          routerLink="/home/add_supplier" placement="top" ngbTooltip="Создать поставщика">
+        </a>
+        <button pButton pRipple [label]="deleteLabel" icon="pi pi-trash" class="p-button-danger p-button-raised mr-2"
+          (click)="deleteSelected()" placement="top" ngbTooltip="Удалить выбранные"
+          [disabled]="!selectedSuppliers || !selectedSuppliers.length">
+        </button>
+      </ng-template>
+      <ng-template pTemplate="right">
+        <div class="p-d-flex p-ai-center p-jc-between">
+          <form [formGroup]="searchFilterFormModel">
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dtSupplier.filterGlobal($event.target.value, 'contains')"
+                placeholder="Search..." formControlName="query" />
+              <button pButton pRipple type="text" icon="pi pi-times" alt="clear"
+                class="p-button-rounded p-button-sm p-button-danger p-button-text clear-search-btn"
+                (click)="dtSupplier.filterGlobal(null, '')" (click)="searchInputClear()" [disabled]="!query">
+              </button>
+            </span>
+          </form>
+        </div>
+      </ng-template>
+    </p-toolbar>
+    <!-- Buttons, Searchbar finish -->
+    <!-- Table start -->
+    <p-table #dtSupplier [value]="suppliers" [rows]="5" [paginator]="true" [globalFilterFields]="['title']"
+      [(selection)]="selectedSuppliers" [rowHover]="true" dataKey="id" [lazy]="true" [totalRecords]="totalRecords"
+      [loading]="lazyLoading" currentPageReportTemplate="Показаны с {first} по {last} из {totalRecords} записей"
+      [showCurrentPageReport]="true" [rowsPerPageOptions]="[5,10,15]" [(first)]="start" styleClass="p-datatable-striped"
+      (onLazyLoad)="getAll($event)">
+      <!-- Main title start -->
+      <ng-template pTemplate="caption">
+        <div class="p-d-flex p-ai-center p-jc-between">
+          <h5 class="p-m-0">Управление поставщиками</h5>
+        </div>
+      </ng-template>
+      <!-- Main title finish -->
+      <!-- Header start -->
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 4%">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
+          <th style="width: 27%" pSortableColumn="title">
+            Название <p-sortIcon field="title"></p-sortIcon>
+          </th>
+          <th style="width: 27%" pSortableColumn="address">
+            Адрес <p-sortIcon field="address"></p-sortIcon>
+          </th>
+          <th style="width: 13%" pSortableColumn="phone">
+            Телефон <p-sortIcon field="phone"></p-sortIcon>
+          </th>
+          <th style="width: 13%" pSortableColumn="activity_status">
+            Активность <p-sortIcon field="activity_status"></p-sortIcon>
+          </th>
+          <th style="width: 10%"></th>
+        </tr>
+      </ng-template>
+      <!-- Header finish -->
+      <!-- Body start -->
+      <ng-template pTemplate="body" let-supplier>
+        <tr>
+          <td>
+            <p-tableCheckbox [value]="supplier"></p-tableCheckbox>
+          </td>
+          <td>
+            {{supplier.title}}<br>
+            <small>Создано: {{supplier.created | date: 'dd-MM-yyyy hh:mm:ss'}}</small>
+          </td>
+          <td>{{supplier.address}}</td>
+          <td>{{supplier.phone}}</td>
+          <td>
+            <p-inputSwitch [ngModel]="getActivityStatus(supplier.activity_status)"
+              (onChange)="changeActivityStatus(supplier.id, $event)" placement="top"
+              ngbTooltip="Изменить статус активности">
+            </p-inputSwitch>
+          </td>
+          <td id="option-btns-supplier">
+            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-raised p-button-info mr-2"
+              (click)="openSupplierModalDialog('supplierUpdateDialog', supplier)" placement="top"
+              ngbTooltip="Редактировать">
+            </button>
+            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-raised p-button-danger"
+              (click)="delete(supplier)" placement="top" ngbTooltip="Удалить">
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+      <!-- Body finish -->
+      <!-- Empty message start -->
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="6">По вашему запросу ничего не найдено.</td>
+        </tr>
+      </ng-template>
+      <!-- Empty message finish -->
+      <!-- Total section start -->
+      <ng-template pTemplate="summary">
+        <div class="p-d-flex p-ai-center p-jc-between">
+          Всего поставщиков {{totalRecords}}
+        </div>
+      </ng-template>
+      <!-- Total section finish -->
+    </p-table>
+    <!-- Table finish -->
+  </div>
+</div>
+<!-- Content Body finish -->
+
+
+
+<!-- Add supplier Modal-dialog start -->
+<p-dialog [(visible)]="supplierAddDialogOpen" [style]="{width: '450px'}" header="Создание поставщика" [modal]="true"
+  styleClass="p-fluid">
+  <ng-template pTemplate="content">
+    <form [formGroup]="addSupplierFormModel" autocomplete="off" class="mb-3">
+      <div class="p-fluid">
+        <!-- Activity status start -->
+        <div class="p-field mt-1">
+          <label for="activity-supplier-add" class="primeng-form-label mr-3">Статус активности</label>
+          <p-inputSwitch [ngModel]="true" id="activity-supplier-add" formControlName="Activity"></p-inputSwitch>
+        </div>
+        <!-- Activity status finish -->
+        <!-- Title start -->
+        <div class="p-field mt-3 p-col-12 p-md-12">
+          <span class="p-float-label">
+            <input type="text" class="p-inputtext-sm" id="title-supplier-add" aria-describedby="supplier-add-title-help"
+              pInputText formControlName="Title">
+            <label for="title-supplier-add">Название *</label>
+          </span>
+          <small *ngIf="addSupplierFormModel.get('Title').touched && addSupplierFormModel.get('Title').errors?.required"
+            id="supplier-add-title-help" class="p-invalid">Обязательное поле</small>
+        </div>
+        <!-- Title finish -->
+        <!-- Description start -->
+        <div class="p-field mt-2 p-col-12 p-md-12">
+          <span class="p-float-label">
+            <textarea type="text" class="p-inputtext-sm" id="description-supplier-add" rows="3" cols="30"
+              aria-describedby="supplier-add-description-help" pInputText formControlName="Description"></textarea>
+            <label for="description-supplier-add">Описание *</label>
+          </span>
+          <small
+            *ngIf="addSupplierFormModel.get('Description').touched && addSupplierFormModel.get('Description').errors?.required"
+            id="supplier-add-description-help" class="p-invalid">Обязательное поле</small>
+        </div>
+        <!-- Description finish -->
+        <!-- Email start -->
+        <div class="p-field mt-2 p-col-12 p-md-12">
+          <span class="p-float-label">
+            <input type="text" class="p-inputtext-sm" id="email-supplier-add" aria-describedby="supplier-add-email-help"
+              pInputText formControlName="Email">
+            <label for="email-supplier-add">Основной email *</label>
+          </span>
+          <small *ngIf="addSupplierFormModel.get('Email').touched && addSupplierFormModel.get('Email').errors?.required"
+            id="supplier-add-email-help" class="p-invalid">Обязательное поле</small>
+        </div>
+        <!-- Email finish -->
+
+
+      </div>
+    </form>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Сохранить" icon="pi pi-check" class="p-button-text p-button mr-1" (click)="add()"
+      [disabled]="!addSupplierFormModel.valid"></button>
+    <button pButton pRipple label="Отмена" icon="pi pi-times" class="p-button-text p-button mr-0"
+      (click)="closeSupplierModalDialog('supplierAddDialog')"></button>
+  </ng-template>
+</p-dialog>
+<!-- Add supplier Modal-dialog finish -->
+
+<!-- Update supplier Modal-dialog start -->
+<p-dialog [(visible)]="supplierUpdateDialogOpen" [style]="{width: '450px'}" header="Редактирование поставщика"
+  [modal]="true" styleClass="p-fluid">
+  <ng-template pTemplate="content">
+    <form [formGroup]="updateSupplierFormModel" autocomplete="off" class="mb-3">
+      <div class="p-field mt-1">
+        <label for="title-supplier-update" class="primeng-form-label">Название</label>
+        <div class="p-inputgroup">
+          <input type="text" class="p-inputtext-sm" id="title-supplier-update"
+            aria-describedby="supplier-update-title-help" pInputText formControlName="Title" />
+          <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+        </div>
+      </div>
+      <small
+        *ngIf="updateSupplierFormModel.get('Title').touched && updateSupplierFormModel.get('Title').errors?.required"
+        id="supplier-update-title-help" class="p-invalid">Обязательное поле</small>
+      <div class="p-field mt-4">
+        <label for="activity-supplier-update" class="primeng-form-label mr-3">Статус активности</label>
+        <p-inputSwitch id="activity-supplier-update" formControlName="Activity"></p-inputSwitch>
+      </div>
+    </form>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Сохранить" icon="pi pi-check" class="p-button-text p-button mr-1" (click)="update()"
+      [disabled]="!updateSupplierFormModel.valid"></button>
+    <button pButton pRipple label="Отмена" icon="pi pi-times" class="p-button-text p-button mr-0"
+      (click)="closeSupplierModalDialog('supplierUpdateDialog')"></button>
+  </ng-template>
+</p-dialog>
+<!-- Update supplier Modal-dialog finish -->
+
+
+
+<!-- Delete supplier confirmation dialog start -->
+<p-confirmDialog #delSupplier [style]="{width: '450px'}">
+  <p-footer>
+    <button type="button" pButton icon="pi pi-check" label="Да" class="p-button-sm mr-1"
+      (click)="delSupplier.accept()"></button>
+    <button type="button" pButton icon="pi pi-times" label="Нет" class="p-button-sm mr-0"
+      (click)="delSupplier.reject()"></button>
+  </p-footer>
+</p-confirmDialog>
+<!-- Delete supplier confirmation dialog finish -->
+
+<!-- ToastMessage start -->
+<p-toast position="top-right" preventOpenDuplicates="true" key="supplier-component"></p-toast>
+<!-- ToasMessage finish -->
+
+<!-- Block document start -->
+<p-blockUI [blocked]="blockedDocument">
+  <p-progressSpinner></p-progressSpinner>
+</p-blockUI>
+<!-- Block document finish -->

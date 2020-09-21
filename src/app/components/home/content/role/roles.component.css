@@ -1,0 +1,53 @@
+img.table-avatar {
+  border-radius: 50%;
+  display: inline-block;
+  width: 2.5rem;
+  margin: .2em;
+}
+
+.m-half {
+  margin: .2em;
+}
+
+.table-roles {
+  box-shadow: 0 0 1px rgba(0, 0, 0, .125), 0 1px 3px rgba(0, 0, 0, .2);
+}
+
+#table-role-row td {
+  padding-top: .3em !important;
+  padding-bottom: .3em !important;
+}
+
+.inactive {
+  border: 1px solid red;
+  opacity: .2;
+}
+
+.role-font-size {
+  font-size: .95em !important;
+}
+
+#img-user-overflow {
+  overflow: hidden;
+  width: 3.4rem;
+  height: 3.4rem;
+  margin-left: 2px;
+}
+
+#img-user-overflow:hover {
+  cursor: pointer;
+}
+
+#img-user-overflow:hover:focus {
+    border: none !important;
+    outline: none !important;
+}
+
+#status-switch-multi {
+  margin-top: .65rem !important;
+}
+
+#activity-role-add {
+  position: relative;
+  bottom: -4px;
+}

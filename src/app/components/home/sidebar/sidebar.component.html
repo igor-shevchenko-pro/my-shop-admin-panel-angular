@@ -1,0 +1,248 @@
+  <!-- Main content start -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand-logo start -->
+    <a routerLink="/home" class="brand-link">
+      <img src="assets/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+        style="opacity: .8">
+      <span class="brand-text font-weight-light">Shop Title</span>
+    </a>
+    <!-- Brand-logo finish -->
+
+    <div class="sidebar">
+      <!-- Sidebar Menu start -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column user-panel mb-3" data-widget="treeview" role="menu"
+          data-accordion="true">
+          <!-- User panel start -->
+          <li *ngIf="userFullName" class="nav-item has-treeview mt-1">
+            <a class="nav-link hover d-flex">
+              <div class="image">
+                <img src="{{userPhotoUrl}}" id="icon-sidebar-min" class="img-circle elevation-2" alt="User Image">
+              </div>
+              <p class="d-block info">
+                {{userFullName}}
+                <i id="arrow-user-panel" class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a [routerLink]="['/home/manager', userId]" class="nav-link hover">
+                  <i class="pi pi-id-card nav-icon align-text-bottom"></i>
+                  <p class="align-middle">Профиль</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a [routerLink]="['/home/update_manager', userId]" class="nav-link hover">
+                  <i class="pi pi-cog nav-icon align-text-bottom"></i>
+                  <p class="align-middle">Настройки</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link hover" type="button" (click)="showModalDialogChangePassword()">
+                  <i class="pi pi-lock nav-icon align-text-bottom"></i>
+                  <p class="align-middle">Сменить пароль</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active hover red-hover" (click)="accountService.onLogout()">
+                  <i class="pi pi-sign-out nav-icon align-text-bottom"></i>
+                  <p class="align-middle">Выход</p>
+                </a>
+              </li>
+            </ul>
+            <div id="bottom-line"></div>
+          </li>
+          <!-- User panel start -->
+          <!-- Catalog start -->
+          <li class="nav-item has-treeview">
+            <a href="" class="nav-link">
+              <i class="nav-icon fas fa-book-open"></i>
+              <p>
+                Каталог<i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="" class="nav-link">
+                  <i class="far fa-circle nav-icon text-info"></i>
+                  <p>Товары</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a [routerLink]="['/home/categories']" class="nav-link">
+                  <i class="far fa-circle nav-icon text-info"></i>
+                  <p>Категории</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a [routerLink]="['/home/brands']" class="nav-link">
+                  <i class="far fa-circle nav-icon text-info"></i>
+                  <p>Бренды</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a [routerLink]="['/home/suppliers']" class="nav-link">
+                  <i class="far fa-circle nav-icon text-info"></i>
+                  <p>Поставщики</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <!-- Catalog finish -->
+          <!-- Orders start -->
+          <li class="nav-item has-treeview">
+            <a href="" class="nav-link active">
+              <i class="nav-icon fas fa-folder-open"></i>
+              <p>
+                Заказы<i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="" class="nav-link">
+                  <i class="far fa-circle nav-icon text-primary"></i>
+                  <p>Список заказов</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="" class="nav-link">
+                  <i class="far fa-circle nav-icon text-primary"></i>
+                  <p>Настройки заказа</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <!-- Orders finish -->
+          <!-- Buyers start -->
+          <li class="nav-item has-treeview">
+            <a href="" class="nav-link">
+              <i class="nav-icon fas fa-tshirt"></i>
+              <p>
+                Покупатели<i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="" class="nav-link">
+                  <i class="far fa-circle nav-icon text-success"></i>
+                  <p>Список покупателей</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="" class="nav-link">
+                  <i class="far fa-circle nav-icon text-success"></i>
+                  <p>Группы покупателей</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="" class="nav-link">
+                  <i class="far fa-circle nav-icon text-success"></i>
+                  <p>Купоны</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <!-- Buyers finish -->
+          <!-- WebSite settings start -->
+          <li class="nav-item has-treeview">
+            <a href="" class="nav-link">
+              <i class="nav-icon fas fa-cog"></i>
+              <p>
+                Настройки сайта<i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a routerLink="managers" class="nav-link">
+                  <i class="far fa-circle nav-icon text-warning"></i>
+                  <p>Менеджеры</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a routerLink="roles" class="nav-link">
+                  <i class="far fa-circle nav-icon text-warning"></i>
+                  <p>Роли</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <!-- WebSite settings finish -->
+        </ul>
+      </nav>
+      <!-- Sidebar Menu end -->
+    </div>
+  </aside>
+  <!-- Main content finish -->
+
+
+  <!-- Modal ChangePassword start -->
+  <p-dialog header="Изменение пароля" [(visible)]="displayModalChangePassword" [modal]="true" [style]="{width: '30vw'}"
+    [draggable]="false" [resizable]="false">
+    <div class="mt-2">
+      <!-- Form start -->
+      <form [formGroup]="formModel" autocomplete="off">
+        <div class="p-fluid">
+          <!-- Password start -->
+          <div class="p-field mb-3">
+            <span class="p-float-label p-input-icon-right">
+              <i class="fas fa-lock"></i>
+              <input id="old-password" type="password" aria-describedby="old-password-help" class="p-inputtext-sm"
+                formControlName="OldPassword" pInputText>
+              <label for="old-password">Старый пароль</label>
+            </span>
+            <small
+              *ngIf="formModel.get('OldPassword').touched && formModel.get('OldPassword').errors?.required"
+              id="old-password-help" class="p-invalid">Обязательное поле</small>
+            <small
+              *ngIf="formModel.get('OldPassword').touched && formModel.get('OldPassword').errors?.minlength"
+              id="old-password-help" class="p-invalid">Минимальная длинна пароля 4 символа</small>
+            <small
+              *ngIf="formModel.get('OldPassword').touched && formModel.get('OldPassword').errors?.maxlength"
+              id="old-password-help" class="p-invalid">Максимальная длинна пароля 20 символа</small>
+          </div>
+          <!-- Password finish -->
+          <!-- NewPassword start -->
+          <div class="p-field mb-3">
+            <span class="p-float-label p-input-icon-right">
+              <i class="fas fa-lock"></i>
+              <input pPassword type="password" id="new-password" aria-describedby="new-password-help"
+                class="p-inputtext-sm" formControlName="NewPassword">
+              <label for="new-password">Новый пароль</label>
+            </span>
+            <small
+              *ngIf="formModel.get('NewPassword').touched && formModel.get('NewPassword').errors?.required"
+              id="new-password-help" class="p-invalid">Обязательное поле</small>
+            <small
+              *ngIf="formModel.get('NewPassword').touched && formModel.get('NewPassword').errors?.minlength"
+              id="new-password-help" class="p-invalid">Минимальная длинна пароля 4 символа</small>
+            <small
+              *ngIf="formModel.get('NewPassword').touched && formModel.get('NewPassword').errors?.maxlength"
+              id="new-password-help" class="p-invalid">Максимальная длинна пароля 20 символа</small>
+          </div>
+          <!-- NewPassword finish -->
+        </div>
+      </form>
+      <!-- Form finish -->
+    </div>
+    <!-- Footer, Submit button start -->
+    <ng-template pTemplate="footer">
+      <button pButton pRipple type="button" icon="pi pi-save" label="Сохранить" class="p-button-sm mr-1"
+        (click)="submitForm()" [disabled]="!formModel.valid"></button>
+      <button pButton pRipple type="button" icon="pi pi-times" label="Закрыть"
+        (click)="displayModalChangePassword=false" class="p-button-sm mr-0"></button>
+    </ng-template>
+    <!-- Footer, Submit button finish -->
+  </p-dialog>
+  <!-- Modal ChangePassword finish -->
+
+
+  <!-- SUPPORT SECTION start -->
+    <!-- Block document start -->
+    <p-blockUI [blocked]="blockedDocument">
+      <p-progressSpinner></p-progressSpinner>
+    </p-blockUI>
+    <!-- Block document finish -->
+    <!-- ToastMessage start -->
+    <p-toast position="top-right" preventOpenDuplicates="true" key="password-reset-sidebar"></p-toast>
+    <!-- ToasMessage finish -->
+  <!-- SUPPORT SECTION finish -->

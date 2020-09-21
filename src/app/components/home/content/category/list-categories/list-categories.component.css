@@ -1,0 +1,84 @@
+.text-narrow {
+  font-size: 1.2rem !important;
+  font-weight: normal !important;
+}
+
+th.bg-navy:first-child {
+    content: url("../../../../../../assets/img/plus-btn-header.png") !important;
+    background-color: #001f3f !important;
+    padding: 1.25em 1.6em 1.25em .9em !important;
+}
+
+td.item-hidden {
+  background-color: #fffbfe;
+}
+
+td.item-hidden:nth-child(2) img {
+  cursor: pointer;
+}
+
+td.item-hidden:nth-child(3) {
+  font-size: 1.05em;
+}
+
+td.item-hidden:nth-child(4) {
+  font-weight: 300;
+  font-size: 1.05em;
+}
+
+td.item-hidden:nth-child(7) {
+  display: none !important;
+}
+
+td.item-hidden:last-child {
+  display: none !important;
+}
+
+.nested-category {
+  background-color: #ececec !important;
+}
+
+.nested-category-second {
+  background-color: #dce3e9 !important;
+}
+
+.nested-category-margin {
+  margin-left: 1em !important;
+}
+
+.nested-category-second-margin {
+  margin-left: 2em !important;
+}
+
+#clear-cross {
+  position: relative;
+  left: -2em;
+  width: 1.2em;
+  height: 1.2em;
+  opacity: .1;
+  cursor: pointer;
+}
+
+#clear-cross:hover {
+  width: 1.2em;
+  height: 1.2em;
+  opacity: .2;
+}
+
+.btn-open-site-sm {
+  border-color: #6F42C1 !important;
+  width: 2.2em;
+  height: 2.2em;
+  background-image: url(../../../../../../assets/img/desktop-purple.png) !important;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.btn-open-site-sm:hover {
+  background-color: #6F42C1 !important;
+  background-image: url(../../../../../../assets/img/desktop-white.png) !important;
+}
+
+#category-info-btn {
+  margin: 0 .4em 0 .4em;
+}

@@ -1,0 +1,12 @@
+li.list-group-item#settings-user-info-overlay {
+    border-top: unset !important;
+    border-bottom: unset !important;
+}
+#settings-user-info-overlay {
+    border-top: 0.5px solid rgba(0,0,0,.125) !important;
+    border-bottom: 0.5px solid rgba(0,0,0,.125) !important;
+}
+#btn-exit-overlay {
+    width: 80%;
+    margin: 2% 10% 0 10%;
+}

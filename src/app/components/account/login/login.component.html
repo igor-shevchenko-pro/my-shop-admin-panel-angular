@@ -1,0 +1,81 @@
+<!-- MAIN SECTION start -->
+<div class="login-box">
+
+  <!-- Logo strt -->
+  <div class="login-logo">
+    <a routerLink="/"><b>Admin</b>LTE</a>
+  </div>
+  <!-- Logo finish -->
+
+  <div class="card">
+    <div class="card-body login-card-body">
+
+      <p class="login-box-msg">Аутентификация пользователя</p>
+
+      <!-- Form start -->
+      <form [formGroup]="formModel" autocomplete="off" (submit)="submitForm()">
+        <div class="p-fluid">
+          <!-- Login start-->
+          <div class="p-field mb-3">
+            <span class="p-float-label p-input-icon-right">
+              <i class="fas fa-envelope"></i>
+              <input id="login" type="text" aria-describedby="login-help" class="p-inputtext-sm" formControlName="Login"
+                pInputText>
+              <label for="login">Login</label>
+            </span>
+            <small *ngIf="formModel.get('Login').touched && formModel.get('Login').errors?.required"
+              id="login-help" class="p-invalid">Обязательное поле</small>
+            <small *ngIf="formModel.get('Login').touched && formModel.get('Login').errors?.email"
+              id="login-help" class="p-invalid">Некорректный формат email</small>
+          </div>
+          <!-- Login finish -->
+          <!-- Password start -->
+          <div class="p-field mb-3">
+            <span class="p-float-label p-input-icon-right">
+              <i class="fas fa-lock"></i>
+              <input id="password" type="password" aria-describedby="password-help" class="p-inputtext-sm"
+                formControlName="Password" pInputText>
+              <label for="password">Password</label>
+            </span>
+            <small *ngIf="formModel.get('Password').touched && formModel.get('Password').errors?.required"
+              id="password-help" class="p-invalid">Обязательное поле</small>
+            <small *ngIf="formModel.get('Password').touched && formModel.get('Password').errors?.minlength"
+              id="password-help" class="p-invalid">Минимальная длинна пароля 4 символа</small>
+            <small *ngIf="formModel.get('Password').touched && formModel.get('Password').errors?.maxlength"
+              id="password-help" class="p-invalid">Максимальная длинна пароля 20 символа</small>
+          </div>
+          <!-- Password finish -->
+          <!-- Button start -->
+          <div class="p-field mt-3">
+            <button pButton pRipple label="Вход" type="submit" class="p-button-raised"
+              [disabled]="!formModel.valid"></button>
+          </div>
+          <!-- Button finish -->
+        </div>
+      </form>
+      <!-- Form finish -->
+
+      <!-- NavLink start -->
+      <p class="mt-3 mb-0">
+        <a routerLink="/account/recovery_password_request" placement="right" ngbTooltip="Ссылка на страничку сброса пароля">
+          Забыли пароль
+        </a>
+      </p>
+      <!-- NavLink finish -->
+
+    </div>
+  </div>
+</div>
+<!-- MAIN SECTION finish -->
+
+
+<!-- SUPPORT SECTION start -->
+  <!-- Block document start -->
+  <p-blockUI [blocked]="blockedDocument">
+    <p-progressSpinner></p-progressSpinner>
+  </p-blockUI>
+  <!-- Block document finish -->
+  <!-- ToastMessage start -->
+  <p-toast position="top-right" preventOpenDuplicates="true" key="login"></p-toast>
+  <!-- ToasMessage finish -->
+<!-- SUPPORT SECTION finish -->

@@ -1,0 +1,28 @@
+.uploaded-user-photo {
+  border-radius: 100%;
+  width: 3.7em;
+  margin-left: 1em;
+  position: inherit;
+  top: -.8em;
+  cursor: pointer;
+  -webkit-box-shadow: 9px 13px 18px -12px rgba(0, 0, 0, 0.69);
+  -moz-box-shadow: 9px 13px 18px -12px rgba(0, 0, 0, 0.69);
+  box-shadow: 9px 13px 18px -12px rgba(0, 0, 0, 0.69);
+}
+
+.photo-user-modal {
+  width: 15em;
+  margin: 0 auto;
+}
+
+#customFile{
+  cursor: pointer;
+}
+
+.progress {
+  background-color: #e9ecef;
+  border-radius: 0.25rem;
+  font-size: .6rem;
+  height: .8rem;
+  overflow: hidden;
+}

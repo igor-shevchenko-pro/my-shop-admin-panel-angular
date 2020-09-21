@@ -1,0 +1,276 @@
+<!-- Content Header (Page header) start -->
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Добавить менеджера</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a routerLink="/home">Главная</a></li>
+          <li class="breadcrumb-item"><a routerLink="/home/managers">Менеджеры</a></li>
+          <li class="breadcrumb-item active">Добавить менеджера</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Content Header (Page header) finish -->
+
+<section class="content">
+  <div class="card card-solid">
+
+    <div class="card-header bg-primary">
+      <h3 class="card-title">Основная информация</h3>
+    </div>
+
+    <div class="card-body pb-0">
+      <div class="row d-flex align-items-stretch">
+        <form class="col-12" [formGroup]="userFormModel" autocomplete="off" (submit)="addUser()">
+          <div class="card bg-light elevation-2">
+            <div class="row">
+              <!-- Form column 1 start -->
+              <div class="col-12 col-md-6 d-flex align-items-stretch">
+                <div class="card-body">
+                  <!-- FirstName -->
+                  <div class="input-group form-group row">
+                    <label for="inputName" class="col-sm-3 col-form-label">Имя<span
+                        class="ml-1 font-weight-300 color-red">*</span></label>
+                    <div class="col-sm-9">
+                      <div class="input-group">
+                        <input class="form-control" id="inputName" formControlName="FirstName" placeholder="Имя">
+                        <div class="input-group-append">
+                          <span class="input-group-text"><i class="fas fa-id-card-alt"></i></span>
+                        </div>
+                      </div>
+                      <small class="form-text text-muted">Укажите имя пользователя</small>
+                    </div>
+                    <label class="text-danger offset-sm-3 col-sm-9" *ngIf="userFormModel.get('FirstName').touched
+                    && userFormModel.get('FirstName').errors?.required">
+                      * Обязательное поле
+                    </label>
+                  </div>
+                  <!-- Email -->
+                  <div class="input-group form-group row">
+                    <label for="inputEmail" class="col-sm-3 col-form-label">Email<span
+                        class="ml-1 font-weight-300 color-red">*</span></label>
+                    <div class="col-sm-9">
+                      <div class="input-group">
+                        <input type="text" class="form-control" id="inputEmail" formControlName="Email"
+                          placeholder="email@gmail.com">
+                        <div class="input-group-append">
+                          <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                        </div>
+                      </div>
+                      <small class="form-text text-muted">Укажите электронную почту пользователя</small>
+                    </div>
+                    <label class="text-danger offset-sm-3 col-sm-9" *ngIf="userFormModel.get('Email').touched
+                    && userFormModel.get('Email').errors?.required">
+                      * Обязательное поле
+                    </label>
+                    <label class="text-danger offset-sm-3 col-sm-9" *ngIf="userFormModel.get('Email').touched &&
+                    userFormModel.get('Email').errors?.email">
+                      * Некорректный формат email
+                    </label>
+                  </div>
+                  <!-- Photo -->
+                  <form [formGroup]="avatarFormModel">
+                    <div class="input-group form-group row">
+                      <label *ngIf="uploadedFileUrl == null" class="col-sm-3 col-form-label">
+                        Фото
+                      </label>
+                      <label *ngIf="uploadedFileUrl != null" class="col-sm-3 col-form-label">
+                        Фото<img src="{{uploadedFileUrl}}" class="uploaded-user-photo" ngbTooltip="Опции"
+                          (click)="openModal(photoModal)">
+                      </label>
+                      <div class="col-sm-9">
+                        <div class="input-group">
+                          <div class="custom-file">
+                            <input *ngIf="!uploadedFileUrl" type="file" class="custom-file-input form-control"
+                              id="customFile" formControlName="File" (change)="uploadPhotoHandler($event)">
+                            <label *ngIf="!uploadedFileUrl" class="custom-file-label" for="customFile">
+                              {{uploadFileName}}
+                            </label>
+                            <!-- disable version of input when file uploaded -->
+                            <input *ngIf="uploadedFileUrl" type="text" placeholder="{{uploadFileName}}"
+                              class="custom-file-input form-control" disabled>
+                          </div>
+                        </div>
+                        <!-- Progress bar start -->
+                        <div class="progress w-100" *ngIf="progress">
+                          <div class="progress-bar" [style.width]="progress + '%'">{{progress}}%</div>
+                        </div>
+                        <!-- Progress bar finish -->
+                        <small class="form-text text-muted">Форматы jpg, jpeg, png. Размер файла до 5МБ</small>
+                      </div>
+                      <label class="text-danger offset-sm-3 col-sm-9" *ngIf="avatarFormModel.controls['File'].dirty 
+                       && avatarFormModel.controls['File'].touched
+                       && isFileUpload && !isFileExtensionAppropriate">
+                        * Недопустимый формат файла
+                      </label>
+                      <label class="text-danger offset-sm-3 col-sm-9" *ngIf="avatarFormModel.controls['File'].dirty 
+                       && avatarFormModel.controls['File'].touched
+                       && isFileUpload && !isFileSizeAppropriate">
+                        * Превышен максимальный размер файла
+                      </label>
+                    </div>
+                  </form>
+                  <!-- Date of birth -->
+                  <div class="input-group form-group row">
+                    <label for="datepicker" class="col-sm-3 col-form-label text-muted">Дата рождения</label>
+                    <div class="col-sm-9">
+                      <div class="input-group">
+                        <input class="form-control" placeholder="dd-mm-yyyy" id="datepicker" autocomplete="off"
+                          [minDate]="{year: 1900, month: 1, day: 1}" [maxDate]="{year: 2050, month: 12, day: 31}"
+                          name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" formControlName="DateOfBirth">
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+                            <i class="far fa-calendar-alt"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <small class="form-text text-muted">Укажите дату рождения пользователя</small>
+                    </div>
+                  </div>
+                  <!-- Status -->
+                  <div class="input-group form-group row">
+                    <label for="inputStatus" class="col-sm-3 col-form-label">Статус активности</label>
+                    <div class="col-sm-9">
+                      <div class="input-group">
+                        <ui-switch [checked]="true" size="large" color="#007bff" defaultBgColor="red"
+                          formControlName="Status">
+                        </ui-switch>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Form column 1 finish -->
+
+              <!--  Form column 2 start -->
+              <div class="col-12 col-md-6 d-flex align-items-stretch">
+                <div class="card-body">
+                  <!-- SecondName -->
+                  <div class="input-group form-group row">
+                    <label for="inputSecondName" class="col-sm-3 col-form-label">Фамилия<span
+                        class="ml-1 font-weight-300 color-red">*</span></label>
+                    <div class="col-sm-9">
+                      <div class="input-group">
+                        <input class="form-control" id="inputSecondName" formControlName="SecondName"
+                          placeholder="Фамилия">
+                        <div class="input-group-append">
+                          <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                        </div>
+                      </div>
+                      <small class="form-text text-muted">Укажите фамилию пользователя</small>
+                    </div>
+                    <label class="text-danger offset-sm-3 col-sm-9" *ngIf="userFormModel.get('SecondName').touched
+                      && userFormModel.get('SecondName').errors?.required">
+                      * Обязательное поле
+                    </label>
+                  </div>
+                  <!-- Phone -->
+                  <div class="input-group form-group row">
+                    <label for="inputPhone" class="col-sm-3 col-form-label">Телефон<span
+                        class="ml-1 font-weight-300 color-red">*</span></label>
+                    <div class="col-sm-9">
+                      <div class="input-group">
+                        <input type="text" class="form-control" id="inputPhone" formControlName="Phone"
+                          placeholder="38(099) 999 99 99">
+                        <div class="input-group-append">
+                          <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                        </div>
+                      </div>
+                      <small class="form-text text-muted">Разрешены только цифры</small>
+                    </div>
+                    <label class="text-danger offset-sm-3 col-sm-9" *ngIf="userFormModel.get('Phone').touched
+                    && userFormModel.get('Phone').errors?.required">
+                      * Обязательное поле
+                    </label>
+                    <label class="text-danger offset-sm-3 col-sm-9" *ngIf="userFormModel.get('Phone').touched 
+                    && userFormModel.get('Phone').errors?.pattern!">
+                      * Разрешены только цифры
+                    </label>
+                  </div>
+                  <!-- Roles -->
+                  <div class="input-group form-group row">
+                    <label for="inputRole" class="col-sm-3 col-form-label">Роли<span
+                        class="ml-1 font-weight-300 color-red">*</span></label>
+                    <div class="col-sm-9">
+                      <div class="input-group select2-purple">
+                        <ng-multiselect-dropdown id="inputRole" formControlName="Roles"
+                          [placeholder]="'Роли пользователя'" [data]="roles" [settings]="dropdownSettingsRoles"
+                          style="width: 100%;">
+                        </ng-multiselect-dropdown>
+                      </div>
+                      <small class="form-text text-muted">Выберите необходимые роли</small>
+                    </div>
+                    <label class="text-danger offset-sm-3 col-sm-9"
+                      *ngIf="userFormModel.get('Roles').touched && userFormModel.get('Roles').errors?.required">
+                      * Обязательное поле
+                    </label>
+                  </div>
+                  <!-- Password -->
+                  <div class="input-group form-group row">
+                    <label for="inputPassword" class="col-sm-3 col-form-label">Пароль<span
+                        class="ml-1 font-weight-300 color-red">*</span></label>
+                    <div class="col-sm-9">
+                      <div class="input-group">
+                        <input type="password" class="form-control" id="inputPassword" formControlName="Password"
+                          placeholder="Придумайте пароль">
+                        <div class="input-group-append">
+                          <span class="input-group-text"><i class="fas fa-unlock-alt"></i></span>
+                        </div>
+                      </div>
+                      <small class="form-text text-muted">Длинна пароля от 4 до 20 символов</small>
+                    </div>
+                    <label class="text-danger offset-sm-3 col-sm-9" *ngIf="userFormModel.get('Password').touched &&
+                    userFormModel.get('Password').errors?.required">
+                      * Обязательное поле
+                    </label>
+                    <label class="text-danger offset-sm-3 col-sm-9" *ngIf="userFormModel.get('Password').touched &&
+                    userFormModel.get('Password').errors?.minlength">
+                      * Минимальная длинна пароля 4 символа
+                    </label>
+                    <label class="text-danger offset-sm-3 col-sm-9" *ngIf="userFormModel.get('Password').touched &&
+                    userFormModel.get('Password').errors?.maxlength">
+                      * Максимальная длинна пароля 20 символа
+                    </label>
+                  </div>
+
+                  <!-- Button start-->
+                  <div class="form-group row">
+                    <div class="col-sm-12">
+                      <button type="submit" class="btn btn-primary w-100 elevation-3" [disabled]="!userFormModel.valid">
+                        <i class="fas fa-save pr-1"></i>
+                        Сохранить
+                      </button>
+                    </div>
+                  </div>
+                  <!-- Button finish -->
+
+                </div>
+              </div>
+              <!--  Form column 2 finish -->
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Modal photo start -->
+<ng-template #photoModal let-modal>
+  <div class="modal-body mx-auto">
+    <img src="{{uploadedFileUrl}}" class="elevation-2" class="photo-user-modal">
+  </div>
+  <div class="modal-footer mx-auto">
+    <div class="form-group">
+      <button type="button" class="btn btn-danger" (click)="deleteFile()">Удалить</button>
+    </div>
+    <button type="button" class="btn btn-secondary" (click)="modal.close()">Закрыть</button>
+  </div>
+</ng-template>
+<!-- Modal photo finish -->

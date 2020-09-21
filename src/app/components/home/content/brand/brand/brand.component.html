@@ -1,0 +1,254 @@
+<!-- Content Header (Page header) start -->
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-7">
+        <h1><span class="text-muted">Бренд:</span> {{title}}</h1>
+      </div>
+      <div class="col-sm-5">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a routerLink="/home">Главная</a></li>
+          <li class="breadcrumb-item"><a routerLink="/home/brands">Бренды</a></li>
+          <li class="breadcrumb-item active">Бренд</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Content Header (Page header) finish -->
+
+<!-- Content Body start -->
+<section class="content">
+  <div class="card card-solid">
+
+    <div class="card-header bg-info">
+      <h3 class="card-title">Основная информация</h3>
+    </div>
+
+    <div class="card-body pb-0">
+
+      <!-- Title-URL-Buttons start -->
+      <div class="card bg-light elevation-1 pt-3">
+        <div class="row">
+          <div class="col-md-9">
+
+            <!-- Title start -->
+            <div class="form-group">
+              <div class="input-group row">
+                <label class="font-weight-500 col-md-2 pl-4 pt-2">
+                  Название
+                  <span class="ml-1 opacity-quarter" tooltipClass="tooltip-brand"
+                    ngbTooltip="Название бренда. Например: Apple">
+                    <i class="fas fa-question-circle"></i>
+                  </span>
+                </label>
+                <div class="input-group-prepend input-height">
+                  <span class="input-group-text"><i class="fas fa-signature"></i></span>
+                </div>
+                <input type="text" class="form-control bg-white" value="{{title}}" disabled>
+                <div class="input-group-append input-height">
+                  <div class="input-group-text"><i class="fas fa-lock"></i></div>
+                </div>
+              </div>
+            </div>
+            <!-- Title finish -->
+
+            <!-- Alias start -->
+            <div class="form-group">
+              <div class="input-group row">
+                <label class="font-weight-500 col-md-2 pl-4 pt-2">
+                  URL
+                  <span class="ml-1 opacity-quarter" ngbTooltip="URL бренда (alias). Пример apple">
+                    <i class="fas fa-question-circle"></i>
+                  </span>
+                </label>
+                <div class="input-group-prepend input-height">
+                  <span class="input-group-text"><i class="fas fa-search-location"></i></span>
+                </div>
+                <input type="text" class="form-control bg-white" value="{{alias}}" disabled>
+                <div class="input-group-append input-height">
+                  <div class="input-group-text"><i class="fas fa-lock"></i></div>
+                </div>
+              </div>
+            </div>
+            <!-- Alias finish -->
+          </div>
+
+          <!-- Buttons start -->
+          <div class="col-md-3">
+            <div class="row">
+              <!-- Activity start -->
+              <div class="input-group row w-100">
+                <label class="font-weight-500 col-md-6 pl-2 ml-4 pt-2">
+                  Активность
+                  <span class="ml-1 opacity-quarter" tooltipClass="tooltip-brand"
+                    ngbTooltip="вкл/выкл бренда на сайте. Бренд скрывается из меню каталога">
+                    <i class="fas fa-question-circle"></i>
+                  </span>
+                </label>
+                <ui-switch [checked]="brandStatus" size="large" color="#007bff" defaultBgColor="red" disabled>
+                </ui-switch>
+              </div>
+              <!-- Activity finish -->
+            </div>
+            <!-- Extra buttons start -->
+            <div class="row">
+              <div id="brand-btns">
+                <a [routerLink]="['/home/update_brand', brandId]" class="btn btn-sm btn-outline-success mr-2"
+                  placement="top" ngbTooltip="Редактировать бренд">
+                  <i class="fas fa-pencil-alt"></i>
+                </a>
+                <a [routerLink]="['/home/duplicate_brand', brandId]" class="btn btn-sm mr-2 btn-duplicate-sm"
+                  placement="top" ngbTooltip="Дублировать бренд">
+                </a>
+                <button class="btn btn-sm mr-2 btn-open-site-sm" placement="top" ngbTooltip="Открыть на сайте">
+                </button>
+                <button class="btn btn-sm btn-outline-danger" placement="top" (click)="openModal(brandDeleteModal)"
+                  ngbTooltip="Удалить"><i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+            <!-- Extra buttons finish -->
+          </div>
+          <!-- Buttons finish -->
+
+        </div>
+      </div>
+      <!-- Title-URL-Buttons finish -->
+
+      <!-- Avatar and description block start -->
+      <div class="row">
+        <div class="card bg-light elevation-1 pt-3 ml-2 col-md-4 col-sm-12">
+          <!-- Avatar start -->
+          <label class="font-weight-500 ml-2">
+            Аватар
+            <span class="ml-1 opacity-quarter" ngbTooltip="Аватар бренда. Используется как основной аватар">
+              <i class="fas fa-question-circle"></i>
+            </span>
+            <div id="photo-brand">
+              <img *ngIf="fileAvatarUrl" src="{{fileAvatarUrl}}" alt="Avatar of brand" class="uploaded-avatar elevation-2"
+                (click)="openModal(photoModalAvatar)">
+            </div>
+          </label>
+          <!-- Avatar finish -->
+        </div>
+        <div class="card bg-light elevation-1 pt-3 ml-3 col-md-7 col-sm-12" id="card-parent-block">
+          <!-- Description start -->
+          <div class="input-group form-group row">
+            <label for="inputDescription" class="col-sm-3 col-form-label font-weight-500 ml-3">
+              Описание
+              <span class="ml-1 opacity-quarter" ngbTooltip="Описание бренда">
+                <i class="fas fa-question-circle"></i>
+              </span>
+            </label>
+            <div class="col-sm-8 ml-4">
+              <div class="input-group">
+                <textarea class="form-control bg-white" value="{{description}}" disabled rows="4" id="inputDescription"></textarea>
+              </div>
+            </div>
+          </div>
+          <!-- Description finish -->
+        </div>
+      </div>
+      <!-- Avatar and description block finish -->
+
+      <!-- Seo start -->
+      <div class="card bg-light elevation-1 pt-3">
+        <div class="row ">
+
+          <div class="col-md-6 ml-2">
+
+            <!-- SeoTitle start -->
+            <div class="form-group pb-2">
+              <label class="font-weight-500 pl-2">
+                Meta-title ({{seoTitle?.length || 0}})
+                <span class="ml-1 opacity-quarter" tooltipClass="tooltip-brand"
+                  ngbTooltip="Заголовок страницы в браузере, который отображается в выдаче поисковых систем">
+                  <i class="fas fa-question-circle"></i>
+                </span>
+              </label>
+              <div class="input-group row pl-3">
+                <div class="input-group-prepend input-height">
+                  <span class="input-group-text"><i class="fas fa-info-circle"></i></span>
+                </div>
+                <input type="text" class="form-control bg-white" value="{{seoTitle}}" disabled>
+                <div class="input-group-append input-height">
+                  <div class="input-group-text"><i class="fas fa-lock"></i></div>
+                </div>
+              </div>
+            </div>
+            <!-- Seotitle finish -->
+
+            <!-- SeoKeywords start -->
+            <div class="form-group">
+              <label class="font-weight-500 pl-2">
+                Meta-keywords
+                <span class="ml-1 opacity-quarter"
+                  ngbTooltip="Список ключевых слов. Также, используются в поиске по сайту">
+                  <i class="fas fa-question-circle"></i>
+                </span>
+              </label>
+              <div class="input-group row pl-3">
+                <textarea class="form-control bg-white" rows="4" value="{{seoKeywords}}" disabled></textarea>
+              </div>
+            </div>
+            <!-- SeoKeywords finish -->
+
+          </div>
+
+          <!-- SeoDescription start -->
+          <div class="col-md-6" id="seo-desc">
+            <div class="form-group">
+              <label class="font-weight-500 pl-2">
+                Meta-description ({{seoDescription?.length || 0}})
+                <span class="ml-1 opacity-quarter" tooltipClass="tooltip-brand-seo-desc"
+                  ngbTooltip="Правильный description должен содержать ключевые слова, под которые вы намерены продвигать страницу. Самые частотные запросы должны быть расположены в начале описания. Не используйте в мета-теге более 3-4 ключевых фраз. Одно и то же слово не стоит повторять более 5-7 раз.">
+                  <i class="fas fa-question-circle"></i>
+                </span>
+              </label>
+              <div class="input-group row pl-3">
+                <textarea class="form-control bg-white" rows="8" value="{{seoDescription}}" disabled></textarea>
+              </div>
+            </div>
+          </div>
+          <!-- SeoDescription finish -->
+
+        </div>
+      </div>
+      <!-- Seo finish -->
+
+    </div>
+  </div>
+</section>
+<!-- Content Body finish -->
+
+<!-- Modal photoAvatar start -->
+<ng-template #photoModalAvatar let-modal>
+  <div class="modal-body mx-auto">
+    <img src="{{fileAvatarUrl}}" class="elevation-2" class="photo-avatar-modal">
+  </div>
+  <div class="modal-footer mx-auto">
+    <button type="button" class="btn btn-secondary" (click)="modal.close()">Закрыть</button>
+  </div>
+</ng-template>
+<!-- Modal photoAvatar finish -->
+
+<!-- Modal Delete start -->
+<ng-template #brandDeleteModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Удалить бренд</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p class="mb-0">Вы действительно хотите удалить бренд?</p>
+  </div>
+  <div class="modal-footer">
+    <div class="form-group">
+      <button type="button" class="btn btn-danger" (click)="delete()">Удалить</button>
+    </div>
+    <button type="button" class="btn btn-secondary" (click)="modal.close()">Закрыть</button>
+  </div>
+</ng-template>
+<!-- Modal Delete finish -->

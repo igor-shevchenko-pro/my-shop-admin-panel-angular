@@ -1,0 +1,76 @@
+<!-- Content Header (Page header) start -->
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Всего брендов - {{brandsTotal}}
+          <button routerLink="/home/add_brand" class="btn btn-outline-primary ml-3 elevation-1">
+            Добавить бренд
+          </button>
+        </h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a routerLink="/home">Главная</a></li>
+          <li class="breadcrumb-item active">Бренды</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Content Header (Page header) finish -->
+
+<!-- Content Body start -->
+<section class="content">
+  <div class="card card-solid">
+    <div class="card-body pb-o">
+      <!-- Table start -->
+      <table class="table table-hover table-striped table-roles elevation-3">
+        <thead class="bg-info">
+          <tr>
+            <!-- <th style="width: 5%"></th> -->
+            <th style="width: 20%">Логотип</th>
+            <th>Название</th>
+            <th style="width: 22%">Дата создания</th>
+            <th style="width: 12%">Статус</th>
+            <th style="width: 15%">Опции</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let brand of brands" id="table-role-row">
+            <!-- <td class="align-middle">{{brand.index}}.</td> -->
+            <td>
+              <a [routerLink]="['/home/brand', brand.id]" *ngIf="brand?.file?.url">
+                <img alt="Brand avatar" *ngIf="brand?.file?.url" class="table-avatar hover bootstrap-tooltip"
+                src="{{brand.file.url}}">
+              </a>
+            </td>
+            <td class="align-middle">
+              <b class="brand-font-size">{{brand.title}}</b>
+            </td>
+            <td class="align-middle brand-font-size">{{brand.created | date: 'dd-MM-yyyy hh:mm:ss'}}</td>
+            <td class="align-middle">
+              <ui-switch [checked]="getBrandStatus(brand.activity_status)" (change)="onChangeStatus(brand.id, $event)"
+                color="#007bff" defaultBgColor="red">
+              </ui-switch>
+            </td>
+            <!-- Buttons start -->
+            <td class="align-middle">
+              <a [routerLink]="['/home/brand', brand.id]" class="btn btn-sm btn-outline-info mr-1" placement="top"
+                ngbTooltip="Профайл бренда"><i class="fas fa-info" id="brand-info-btn"></i>
+              </a>
+              <a [routerLink]="['/home/update_brand', brand.id]" class="btn btn-sm btn-outline-success mr-1"
+                placement="top" ngbTooltip="Редактировать">
+                <i class="fas fa-pencil-alt"></i>
+              </a>
+              <a class="btn btn-sm btn-open-site-sm" placement="top" ngbTooltip="Открыть на сайте"></a>
+            </td>
+            <!-- Buttons finish -->
+          </tr>
+        </tbody>
+      </table>
+      <!-- Table finish -->
+    </div>
+  </div>
+</section>
+<!-- Content Body finish -->

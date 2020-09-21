@@ -1,0 +1,18 @@
+<div class="wrapper">
+    <app-navbar 
+        [userFullName]="userFullName" 
+        [userPhotoUrl]="userPhotoUrl" 
+        [userRoles]="userRoles"
+        [userId]="userId">
+    </app-navbar>
+    <app-sidebar 
+        [userFullName]="userFullName" 
+        [userPhotoUrl]="userPhotoUrl"
+        [userId]="userId">
+    </app-sidebar>
+
+    <router-outlet></router-outlet>
+    
+    <app-footer></app-footer>
+    <app-control-sidebar></app-control-sidebar>
+</div>

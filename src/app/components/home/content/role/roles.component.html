@@ -1,0 +1,213 @@
+<!-- Content Header (Breadcrumb) start -->
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-12">
+        <p-breadcrumb [model]="breadcrumbItems" [home]="breadcrumbHome"></p-breadcrumb>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Content Header (Breadcrumb) finish -->
+
+
+<!-- Content Body start -->
+<div class="content-section implementation">
+  <div class="card">
+    <!-- Buttons, Searchbar start -->
+    <p-toolbar>
+      <ng-template pTemplate="left">
+        <button pButton pRipple icon="pi pi-refresh" class="p-button-raised mr-2" placement="top"
+          ngbTooltip="Сброс сортировок" (click)="dtRoles.clear()" (click)="searchInputClear()">
+        </button>
+        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success p-button-raised mr-2"
+          (click)="openRoleModalDialog('roleAddDialog')" placement="top" ngbTooltip="Создать роль">
+        </button>
+        <button pButton pRipple [label]="deleteLabel" icon="pi pi-trash" class="p-button-danger p-button-raised mr-2"
+          (click)="deleteSelected()" placement="top" ngbTooltip="Удалить выбранные"
+          [disabled]="!selectedRoles || !selectedRoles.length">
+        </button>
+      </ng-template>
+      <ng-template pTemplate="right">
+        <div class="p-d-flex p-ai-center p-jc-between">
+          <form [formGroup]="searchFilterFormModel">
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dtRoles.filterGlobal($event.target.value, 'contains')"
+                placeholder="Search..." formControlName="query" />
+              <button pButton pRipple type="text" icon="pi pi-times" alt="clear"
+                class="p-button-rounded p-button-sm p-button-danger p-button-text clear-search-btn"
+                (click)="dtRoles.filterGlobal(null, '')" (click)="searchInputClear()" [disabled]="!query">
+              </button>
+            </span>
+          </form>
+        </div>
+      </ng-template>
+    </p-toolbar>
+    <!-- Buttons, Searchbar finish -->
+    <!-- Table start -->
+    <p-table #dtRoles [value]="roles" [rows]="5" [paginator]="true" [globalFilterFields]="['title']"
+      [(selection)]="selectedRoles" [rowHover]="true" dataKey="id" [lazy]="true" [totalRecords]="totalRecords"
+      [loading]="lazyLoading" currentPageReportTemplate="Показаны с {first} по {last} из {totalRecords} записей"
+      [showCurrentPageReport]="true" [rowsPerPageOptions]="[5,10,15]" [(first)]="start" styleClass="p-datatable-striped"
+      (onLazyLoad)="getAllWithNestedManagers($event)">
+      <!-- Main title start -->
+      <ng-template pTemplate="caption">
+        <div class="p-d-flex p-ai-center p-jc-between">
+          <h5 class="p-m-0">Управление ролями</h5>
+        </div>
+      </ng-template>
+      <!-- Main title finish -->
+      <!-- Header start -->
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 3rem">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
+          <th style="width: 25%" pSortableColumn="title">Название <p-sortIcon field="title"></p-sortIcon>
+          </th>
+          <th>Менеджеры</th>
+          <th style="width: 14%" pSortableColumn="activity_status">Активность <p-sortIcon field="activity_status">
+            </p-sortIcon>
+          </th>
+          <th style="width: 12%"></th>
+        </tr>
+      </ng-template>
+      <!-- Header finish -->
+      <!-- Body start -->
+      <ng-template pTemplate="body" let-role>
+        <tr>
+          <td>
+            <p-tableCheckbox [value]="role"></p-tableCheckbox>
+          </td>
+          <td>
+            {{role.title}}<br>
+            <small>Создано: {{role.created | date: 'dd-MM-yyyy hh:mm:ss'}}</small>
+          </td>
+          <td>
+            <img *ngFor="let user of role.users" alt="User image" placement="top"
+              ngbTooltip="{{user.user_profile.first_name}} {{user.user_profile.second_name}}"
+              [routerLink]="['/home/manager', user.id]" src="{{user.user_profile.file.url}}"
+              [ngClass]="{inactive: user.activity_status == 1}" class="elevation-2" id="img-user-overflow">
+          </td>
+          <td>
+            <p-inputSwitch [ngModel]="getActivityStatus(role.activity_status)"
+              (onChange)="changeActivityStatus(role.id, $event)" placement="top"
+              ngbTooltip="Изменить статус активности">
+            </p-inputSwitch>
+          </td>
+          <td>
+            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-raised p-button-info mr-2"
+              (click)="openRoleModalDialog('roleUpdateDialog', role)" placement="top" ngbTooltip="Редактировать">
+            </button>
+            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-raised p-button-danger"
+              (click)="delete(role)" placement="top" ngbTooltip="Удалить">
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+      <!-- Body finish -->
+      <!-- Empty message start -->
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="6">По вашему запросу ничего не найдено.</td>
+        </tr>
+      </ng-template>
+      <!-- Empty message finish -->
+      <!-- Total section start -->
+      <ng-template pTemplate="summary">
+        <div class="p-d-flex p-ai-center p-jc-between">
+          Всего ролей {{totalRecords}}
+        </div>
+      </ng-template>
+      <!-- Total section finish -->
+    </p-table>
+    <!-- Table finish -->
+  </div>
+</div>
+<!-- Content Body finish -->
+
+
+
+<!-- Add role Modal-dialog start -->
+<p-dialog [(visible)]="roleAddDialogOpen" [style]="{width: '450px'}" header="Создание роли" [modal]="true"
+  styleClass="p-fluid">
+  <ng-template pTemplate="content">
+    <form [formGroup]="addRoleFormModel" autocomplete="off" class="mb-3">
+      <div class="p-field mt-1">
+        <label for="title" class="primeng-form-label">Название</label>
+        <div class="p-inputgroup">
+          <input type="text" class="p-inputtext-sm" id="title" aria-describedby="role-add-title-help" pInputText
+            formControlName="Title" />
+          <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+        </div>
+      </div>
+      <small *ngIf="addRoleFormModel.get('Title').touched && addRoleFormModel.get('Title').errors?.required"
+        id="role-add-title-help" class="p-invalid">Обязательное поле</small>
+        <div class="p-field mt-4">
+          <label for="activity-role-add" class="primeng-form-label mr-3">Статус активности</label>
+          <p-inputSwitch [ngModel]="true" id="activity-role-add" formControlName="Activity"></p-inputSwitch>
+        </div>
+    </form>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Сохранить" icon="pi pi-check" class="p-button-text p-button mr-1" (click)="add()"
+      [disabled]="!addRoleFormModel.valid"></button>
+    <button pButton pRipple label="Отмена" icon="pi pi-times" class="p-button-text p-button mr-0"
+      (click)="closeRoleModalDialog('roleAddDialog')"></button>
+  </ng-template>
+</p-dialog>
+<!-- Add role Modal-dialog finish -->
+
+<!-- Update role Modal-dialog start -->
+<p-dialog [(visible)]="roleUpdateDialogOpen" [style]="{width: '450px'}" header="Редактирование роли" [modal]="true"
+  styleClass="p-fluid">
+  <ng-template pTemplate="content">
+    <form [formGroup]="updateRoleFormModel" autocomplete="off" class="mb-3">
+      <div class="p-field mt-1">
+        <label for="title-role-update" class="primeng-form-label">Название</label>
+        <div class="p-inputgroup">
+          <input type="text" class="p-inputtext-sm" id="title-role-update" aria-describedby="role-update-title-help" 
+          pInputText formControlName="Title" />
+          <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+        </div>
+      </div>
+      <small *ngIf="updateRoleFormModel.get('Title').touched && updateRoleFormModel.get('Title').errors?.required"
+        id="role-update-title-help" class="p-invalid">Обязательное поле</small>
+        <div class="p-field mt-4">
+          <label for="activity-role-update" class="primeng-form-label mr-3">Статус активности</label>
+          <p-inputSwitch id="activity-role-update" formControlName="Activity"></p-inputSwitch>
+        </div>
+    </form>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Сохранить" icon="pi pi-check" class="p-button-text p-button mr-1" (click)="update()"
+      [disabled]="!updateRoleFormModel.valid"></button>
+    <button pButton pRipple label="Отмена" icon="pi pi-times" class="p-button-text p-button mr-0"
+      (click)="closeRoleModalDialog('roleUpdateDialog')"></button>
+  </ng-template>
+</p-dialog>
+<!-- Update role Modal-dialog finish -->
+
+
+<!-- Delete role confirmation dialog start -->
+<p-confirmDialog #delRole [style]="{width: '450px'}">
+  <p-footer>
+    <button type="button" pButton icon="pi pi-check" label="Да" class="p-button-sm mr-1"
+      (click)="delRole.accept()"></button>
+    <button type="button" pButton icon="pi pi-times" label="Нет" class="p-button-sm mr-0"
+      (click)="delRole.reject()"></button>
+  </p-footer>
+</p-confirmDialog>
+<!-- Delete role confirmation dialog finish -->
+
+<!-- ToastMessage start -->
+<p-toast position="top-right" preventOpenDuplicates="true" key="role-component"></p-toast>
+<!-- ToasMessage finish -->
+
+<!-- Block document start -->
+<p-blockUI [blocked]="blockedDocument">
+  <p-progressSpinner></p-progressSpinner>
+</p-blockUI>
+<!-- Block document finish -->
+

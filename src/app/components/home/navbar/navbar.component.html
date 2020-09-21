@@ -1,0 +1,258 @@
+<!-- Main content start -->
+<nav class="main-header navbar navbar-expand navbar-white navbar-light">
+  <!-- Burger, Home start -->
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a class="nav-link hover" data-widget="pushmenu" role="button"><i class="fas fa-bars"></i></a>
+    </li>
+    <li class="nav-item d-none d-sm-inline-block">
+      <a routerLink="/home" class="nav-link">Главная</a>
+    </li>
+  </ul>
+  <!-- Burger, Home finish -->
+  <!-- Search form start -->
+  <form class="form-inline ml-3">
+    <div class="input-group input-group-sm">
+      <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+      <div class="input-group-append">
+        <button class="btn btn-navbar" type="submit">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </div>
+  </form>
+  <!-- Search form finish -->
+  <!-- GoWebsite, Overlay start -->
+  <ul class="navbar-nav ml-auto">
+    <!-- Button GO to WebSite start-->
+    <li class="nav-item">
+      <a href={{routerLinkToMainSite}} target="_blank" rel="noopener noreferrer" pButton pRipple icon="pi pi-desktop"
+        iconPos="left" label="Перейти на сайт" class="p-button-raised p-button-help">
+      </a>
+    </li>
+    <!-- Button GO to WebSite finish-->
+    <!-- Messages Dropdown Menu start -->
+    <li class="nav-item dropdown">
+      <a class="nav-link" data-toggle="dropdown" href="#">
+        <i class="far fa-comments"></i>
+        <span class="badge badge-danger navbar-badge">3</span>
+      </a>
+      <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+        <a href="#" class="dropdown-item">
+          <!-- Message Start -->
+          <div class="media">
+            <img src="assets/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+            <div class="media-body">
+              <h3 class="dropdown-item-title">
+                Brad Diesel
+                <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
+              </h3>
+              <p class="text-sm">Call me whenever you can...</p>
+              <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+            </div>
+          </div>
+          <!-- Message End -->
+        </a>
+        <div class="dropdown-divider"></div>
+        <a href="#" class="dropdown-item">
+          <!-- Message Start -->
+          <div class="media">
+            <img src="assets/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+            <div class="media-body">
+              <h3 class="dropdown-item-title">
+                John Pierce
+                <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
+              </h3>
+              <p class="text-sm">I got your message bro</p>
+              <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+            </div>
+          </div>
+          <!-- Message End -->
+        </a>
+        <div class="dropdown-divider"></div>
+        <a href="#" class="dropdown-item">
+          <!-- Message Start -->
+          <div class="media">
+            <img src="assets/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+            <div class="media-body">
+              <h3 class="dropdown-item-title">
+                Nora Silvester
+                <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
+              </h3>
+              <p class="text-sm">The subject goes here</p>
+              <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+            </div>
+          </div>
+          <!-- Message End -->
+        </a>
+        <div class="dropdown-divider"></div>
+        <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+      </div>
+    </li>
+    <!-- Messages Dropdown Menu finish -->
+    <!-- Notifications Dropdown Menu start -->
+    <li class="nav-item dropdown">
+      <a class="nav-link" data-toggle="dropdown" href="#">
+        <i class="far fa-bell"></i>
+        <span class="badge badge-warning navbar-badge">15</span>
+      </a>
+      <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+        <span class="dropdown-header">15 Notifications</span>
+        <div class="dropdown-divider"></div>
+        <a href="#" class="dropdown-item">
+          <i class="fas fa-envelope mr-2"></i> 4 new messages
+          <span class="float-right text-muted text-sm">3 mins</span>
+        </a>
+        <div class="dropdown-divider"></div>
+        <a href="#" class="dropdown-item">
+          <i class="fas fa-users mr-2"></i> 8 friend requests
+          <span class="float-right text-muted text-sm">12 hours</span>
+        </a>
+        <div class="dropdown-divider"></div>
+        <a href="#" class="dropdown-item">
+          <i class="fas fa-file mr-2"></i> 3 new reports
+          <span class="float-right text-muted text-sm">2 days</span>
+        </a>
+        <div class="dropdown-divider"></div>
+        <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+      </div>
+    </li>
+    <!-- Notifications Dropdown Menu finisg -->
+    <!-- Button control-sidebar start -->
+    <li class="nav-item" placement="bottom" ngbTooltip="Панель управления визуальным интерфейсом сайта">
+      <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+        <i class="fas fa-th-large"></i>
+      </a>
+    </li>
+    <!-- Button control-sidebar finish -->
+    <!-- UserProfile overlay start -->
+    <li *ngIf="userFullName && userRoles" class="nav-item dropdown">
+      <a class="nav-link" (click)="overlayUserInfoSection.toggle($event)">
+        <div class="image d-flex hover">
+          <img src="{{userPhotoUrl}}" id="img-circle-width" class="img-circle elevation-2" alt="User Image">
+        </div>
+      </a>
+    </li>
+    <!-- UserProfile overlay finish -->
+  </ul>
+  <!-- GoWebsite, Overlay finish -->
+</nav>
+<!-- Main content finish -->
+
+
+<!-- OverlayPanel UserInfo start -->
+<p-overlayPanel id="overlayUserInfoSection" #overlayUserInfoSection [showTransitionOptions]="'100ms'"
+  [hideTransitionOptions]="'200ms'" [dismissable]="true" [showCloseIcon]="false" [style]="{width: '250px'}">
+  <ng-template pTemplate>
+    <!-- Logo, Title, Roles section start -->
+    <div class="text-center">
+      <img class="profile-user-img img-circle elevation-1" src="{{userPhotoUrl}}" alt="User image">
+    </div>
+    <h3 class="profile-username text-center mb-0">
+      {{userFullName}}
+    </h3>
+    <p class="text-sm text-center mb-2">{{userRoles}}</p>
+    <!-- Logo, Title, Roles section finish -->
+    <!-- List elements start -->
+    <ul class="list-group list-group-unbordered mb-2 bg-light">
+      <a [routerLink]="['/home/manager', userId]">
+        <li class="list-group-item pl-4 overlay-item-hover" pRipple>
+          <i class="pi pi-id-card nav-icon align-text-bottom mr-2"></i>
+          <span class="align-middle text-sm">Профиль</span>
+        </li>
+      </a>
+      <a [routerLink]="['/home/update_manager', userId]">
+        <li class="list-group-item pl-4 overlay-item-hover" pRipple id="settings-user-info-overlay">
+          <i class="pi pi-cog nav-icon align-text-bottom mr-2"></i>
+          <span class="align-middle text-sm">Настройки</span>
+        </li>
+      </a>
+      <a type="button" (click)="showModalDialogChangePassword()">
+        <li class="list-group-item pl-4 overlay-item-hover" pRipple>
+          <i class="pi pi-lock nav-icon align-text-bottom mr-2"></i>
+          <span class="align-middle text-sm">Сменить пароль</span>
+        </li>
+      </a>
+    </ul>
+    <!-- List elements finish -->
+    <!-- Exit button start -->
+    <button pButton pRipple class="color-fff bg-purple p-button-raised" label="Выход"
+      (click)="accountService.onLogout()" id="btn-exit-overlay">
+    </button>
+    <!-- Exit button finish -->
+  </ng-template>
+</p-overlayPanel>
+<!-- OverlayPanel UserInfo finish -->
+
+
+<!-- Modal ChangePassword start -->
+<p-dialog header="Изменение пароля" [(visible)]="displayModalChangePassword" [modal]="true" [style]="{width: '30vw'}"
+  [draggable]="false" [resizable]="false">
+  <div class="mt-2">
+    <!-- Form start -->
+    <form [formGroup]="formModel" autocomplete="off">
+      <div class="p-fluid">
+        <!-- Password start -->
+        <div class="p-field mb-3">
+          <span class="p-float-label p-input-icon-right">
+            <i class="fas fa-lock"></i>
+            <input id="old-password" type="password" aria-describedby="old-password-help" class="p-inputtext-sm"
+              formControlName="OldPassword" pInputText>
+            <label for="old-password">Старый пароль</label>
+          </span>
+          <small
+            *ngIf="formModel.get('OldPassword').touched && formModel.get('OldPassword').errors?.required"
+            id="old-password-help" class="p-invalid">Обязательное поле</small>
+          <small
+            *ngIf="formModel.get('OldPassword').touched && formModel.get('OldPassword').errors?.minlength"
+            id="old-password-help" class="p-invalid">Минимальная длинна пароля 4 символа</small>
+          <small
+            *ngIf="formModel.get('OldPassword').touched && formModel.get('OldPassword').errors?.maxlength"
+            id="old-password-help" class="p-invalid">Максимальная длинна пароля 20 символа</small>
+        </div>
+        <!-- Password finish -->
+        <!-- NewPassword start -->
+        <div class="p-field mb-3">
+          <span class="p-float-label p-input-icon-right">
+            <i class="fas fa-lock"></i>
+            <input pPassword type="password" id="new-password" aria-describedby="new-password-help"
+              class="p-inputtext-sm" formControlName="NewPassword">
+            <label for="new-password">Новый пароль</label>
+          </span>
+          <small
+            *ngIf="formModel.get('NewPassword').touched && formModel.get('NewPassword').errors?.required"
+            id="new-password-help" class="p-invalid">Обязательное поле</small>
+          <small
+            *ngIf="formModel.get('NewPassword').touched && formModel.get('NewPassword').errors?.minlength"
+            id="new-password-help" class="p-invalid">Минимальная длинна пароля 4 символа</small>
+          <small
+            *ngIf="formModel.get('NewPassword').touched && formModel.get('NewPassword').errors?.maxlength"
+            id="new-password-help" class="p-invalid">Максимальная длинна пароля 20 символа</small>
+        </div>
+        <!-- NewPassword finish -->
+      </div>
+    </form>
+    <!-- Form finish -->
+  </div>
+  <!-- Footer, Submit button start -->
+  <ng-template pTemplate="footer">
+    <button pButton pRipple type="button" icon="pi pi-save" label="Сохранить" class="p-button-sm mr-1"
+      (click)="submitForm()" [disabled]="!formModel.valid"></button>
+    <button pButton pRipple type="button" icon="pi pi-times" label="Закрыть" (click)="displayModalChangePassword=false"
+      class="p-button-sm mr-0"></button>
+  </ng-template>
+  <!-- Footer, Submit button finish -->
+</p-dialog>
+<!-- Modal ChangePassword finish -->
+
+
+<!-- SUPPORT SECTION start -->
+  <!-- Block document start -->
+  <p-blockUI [blocked]="blockedDocument">
+    <p-progressSpinner></p-progressSpinner>
+  </p-blockUI>
+  <!-- Block document finish -->
+  <!-- ToastMessage start -->
+  <p-toast position="top-right" preventOpenDuplicates="true" key="password-reset-navbar"></p-toast>
+  <!-- ToasMessage finish -->
+<!-- SUPPORT SECTION finish -->

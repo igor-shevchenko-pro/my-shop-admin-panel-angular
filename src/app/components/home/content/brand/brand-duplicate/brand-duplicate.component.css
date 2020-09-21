@@ -1,0 +1,34 @@
+.pt-custom {
+    padding-top: 1.7em !important;
+  }
+  
+  .pt-custom-select {
+    padding-top: 1.1em !important;
+  }
+  
+  #card-parent-block {
+    min-width: 56.2% !important;
+  }
+  
+  #devider{
+    max-width: 2%!important;
+  }
+  
+  .uploaded-icon {
+    /* border-radius: 100%; */
+    width: 3.5em;
+    height: 3.5em;
+    object-fit: cover;
+    margin-left: .5em;
+    position: inherit;
+    top: -.5em;
+    cursor: pointer;
+    -webkit-box-shadow: 9px 13px 18px -12px rgba(0, 0, 0, 0.69);
+    -moz-box-shadow: 9px 13px 18px -12px rgba(0, 0, 0, 0.69);
+    box-shadow: 9px 13px 18px -12px rgba(0, 0, 0, 0.69);
+  }
+  
+  .photo-icon-modal {
+    width: 15em;
+    margin: 0 auto;
+  }

@@ -1,0 +1,48 @@
+img.table-avatar {
+  /* border-radius: 50%; */
+  display: inline-block;
+  height: 3.5em;
+  max-width: 7em;
+  margin: .2em;
+  cursor: unset;
+}
+
+.m-half{
+  margin: .2em;
+}
+
+.table-roles{
+  box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
+}
+
+.brand-font-size {
+  font-size: .95em !important;
+}
+
+#table-role-row td{
+  padding-top: .3em !important;
+  padding-bottom: .3em !important;
+}
+
+.inactive {
+  border: 3px solid red;
+  opacity: .5;
+}
+
+#brand-info-btn{
+  margin: 0 .4em 0 .4em;
+}
+
+.btn-open-site-sm {
+  border-color: #6F42C1 !important;
+  width: 2.2em;
+  height: 2.2em;
+  background-image: url(../../../../../../assets/img/desktop-purple.png) !important;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.btn-open-site-sm:hover {
+  background-color: #6F42C1 !important;
+  background-image: url(../../../../../../assets/img/desktop-white.png) !important;
+}
