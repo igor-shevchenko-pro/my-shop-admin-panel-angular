@@ -8,6 +8,7 @@ import { ConfirmationService, LazyLoadEvent, MenuItem } from 'primeng/api';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastService } from 'src/app/services/base/toast.service';
 import { BreadcrumbService } from 'src/app/services/base/bradcrumb.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-suppliers',
@@ -66,6 +67,7 @@ export class ListSuppliersComponent implements OnInit, OnDestroy {
               private _toastService: ToastService,
               private _formBuilder: FormBuilder,
               private _confirmationService: ConfirmationService,
+              private _router: Router,
               private _breadcrumbService: BreadcrumbService) { }
 
   ngOnInit(): void {
@@ -236,6 +238,11 @@ export class ListSuppliersComponent implements OnInit, OnDestroy {
         );
       }
     });
+  }
+
+  public redirectToProfile(id: string): void {
+    const url = '/home/supplier/' + id;
+    this._router.navigateByUrl(url);
   }
 
 

@@ -65,9 +65,9 @@ export class SupplierAddComponent implements OnInit, OnDestroy {
         // console.log(res);
         if (res.response == "success") {
           this.blockedDocument = false;
-          this._toastService.showSuccess("Success", "Поставщик успешно создан", false, 'add-supplier-component', 7000);
-          // const url = '/home/supplier/' + res.id;
-          // this._router.navigateByUrl(url);
+          this._toastService.showSuccess("Success", 'Поставщик ' + this.formModel.get('Title').value + ' создан успешно', false, 'app-component', 7000);
+          const url = '/home/supplier/' + res.id;
+          this._router.navigateByUrl(url);
         }
       },
       errors => {
