@@ -1,269 +1,241 @@
-<!-- Content Header (Page header) start -->
+<!-- Content Header (Breadcrumb) start -->
 <section class="content-header">
   <div class="container-fluid">
     <div class="row mb-2">
-      <div class="col-sm-6">
-        <h1>Редактировать поставщика</h1>
-      </div>
-      <div class="col-sm-6">
-        <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a routerLink="/home">Главная</a></li>
-          <li class="breadcrumb-item"><a routerLink="/home/suppliers">Поставщики</a></li>
-          <li class="breadcrumb-item active">Редактировать поставщика</li>
-        </ol>
+      <div class="col-12">
+        <p-breadcrumb [model]="breadcrumbItems" [home]="breadcrumbHome"></p-breadcrumb>
       </div>
     </div>
   </div>
 </section>
-<!-- Content Header (Page header) finish -->
+<!-- Content Header (Breadcrumb) finish -->
 
 
-<section class="content">
-  <div class="card card-solid">
-
-    <div class="card-header bg-teal">
-      <h3 class="card-title">Основная информация</h3>
-    </div>
-
-    <div class="card-body pb-0">
-      <div class="row d-flex align-items-stretch">
-        <form class="col-12" [formGroup]="supplierFormModel" autocomplete="off" (submit)="updateSupplier()">
-          <div class="card bg-light elevation-2">
-            <div class="row">
-              <!-- Form column 1 start -->
-              <div class="col-12 col-md-6 d-flex align-items-stretch">
-                <div class="card-body">
-                  <!-- Title start -->
-                  <div class="input-group form-group row">
-                    <label for="inputTitle" class="col-sm-3 col-form-label">Название<span
-                        class="ml-1 font-weight-300 color-red">*</span></label>
-                    <div class="col-sm-9">
-                      <div class="input-group">
-                        <input class="form-control" id="inputTitle" formControlName="Title">
-                        <div class="input-group-append">
-                          <span class="input-group-text"><i class="fas fa-id-card-alt"></i></span>
-                        </div>
-                      </div>
-                      <small class="form-text text-muted">Укажите название поставщика</small>
-                    </div>
-                    <label class="text-danger offset-sm-3 col-sm-9" *ngIf="supplierFormModel.get('Title').touched
-                          && supplierFormModel.get('Title').errors?.required">
-                      * Обязательное поле
-                    </label>
-                  </div>
-                  <!-- Title finish -->
-                  <!-- Email start -->
-                  <div class="input-group form-group row">
-                    <label for="inputEmail" class="col-sm-3 col-form-label">Email<span
-                        class="ml-1 font-weight-300 color-red">*</span></label>
-                    <div class="col-sm-9">
-                      <div class="input-group">
-                        <input type="text" class="form-control" id="inputEmail" formControlName="Email">
-                        <div class="input-group-append">
-                          <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                        </div>
-                      </div>
-                      <small class="form-text text-muted">Основная почта поставщика</small>
-                    </div>
-                    <label class="text-danger offset-sm-3 col-sm-9" *ngIf="supplierFormModel.get('Email').touched
-                      && supplierFormModel.get('Email').errors?.required">
-                      * Обязательное поле
-                    </label>
-                    <label class="text-danger offset-sm-3 col-sm-9" *ngIf="supplierFormModel.get('Email').touched &&
-                    supplierFormModel.get('Email').errors?.email">
-                      * Некорректный формат email
-                    </label>
-                  </div>
-                  <!-- Email finish -->
-                  <!-- Phone start-->
-                  <div class="input-group form-group row">
-                    <label for="inputPhone" class="col-sm-3 col-form-label">Phone<span
-                        class="ml-1 font-weight-300 color-red">*</span></label>
-                    <div class="col-sm-9">
-                      <div class="input-group">
-                        <input type="text" class="form-control" id="inputPhone" formControlName="Phone">
-                        <div class="input-group-append">
-                          <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                        </div>
-                      </div>
-                      <small class="form-text text-muted">Разрешены только цифры</small>
-                    </div>
-                    <label class="text-danger offset-sm-3 col-sm-9" *ngIf="supplierFormModel.get('Phone').touched
-                      && supplierFormModel.get('Phone').errors?.required">
-                      * Обязательное поле
-                    </label>
-                    <label class="text-danger offset-sm-3 col-sm-9" *ngIf="supplierFormModel.get('Phone').touched 
-                      && supplierFormModel.get('Phone').errors?.pattern!">
-                      * Разрешены только цифры
-                    </label>
-                  </div>
-                  <!-- Phone finish -->
-                  <!-- Manager start -->
-                  <div class="input-group form-group row">
-                    <label for="inputManager" class="col-sm-3 col-form-label">Manager<span
-                        class="ml-1 font-weight-300 color-red">*</span></label>
-                    <div class="col-sm-9">
-                      <div class="input-group">
-                        <input class="form-control" id="inputManager" formControlName="Manager">
-                        <div class="input-group-append">
-                          <span class="input-group-text"><i class="fas fa-user-circle"></i></span>
-                        </div>
-                      </div>
-                      <small class="form-text text-muted">Основной менеджер поставщика</small>
-                    </div>
-                    <label class="text-danger offset-sm-3 col-sm-9" *ngIf="supplierFormModel.get('Manager').touched
-                      && supplierFormModel.get('Manager').errors?.required">
-                      * Обязательное поле
-                    </label>
-                  </div>
-                  <!-- Manager finish -->
-                  <!-- Address start -->
-                  <div class="input-group form-group row">
-                    <label for="inputAddress" class="col-sm-3 col-form-label">Address<span
-                        class="ml-1 font-weight-300 color-red">*</span></label>
-                    <div class="col-sm-9">
-                      <div class="input-group">
-                        <input class="form-control" id="inputAddress" formControlName="Address">
-                        <div class="input-group-append">
-                          <span class="input-group-text"><i class="fas fa-map-marked-alt"></i></span>
-                        </div>
-                      </div>
-                      <small class="form-text text-muted">Основной адрес поставщика</small>
-                    </div>
-                    <label class="text-danger offset-sm-3 col-sm-9" *ngIf="supplierFormModel.get('Address').touched
-                      && supplierFormModel.get('Address').errors?.required">
-                      * Обязательное поле
-                    </label>
-                  </div>
-                  <!-- Address finish -->
-                  <!-- Status start -->
-                  <div class="input-group form-group row">
-                    <label for="inputStatus" class="col-sm-3 col-form-label">Статус активности</label>
-                    <div class="col-sm-9">
-                      <div class="input-group">
-                        <ui-switch [checked]="true" size="large" color="#007bff" defaultBgColor="red"
-                          formControlName="Status">
-                        </ui-switch>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Status finish -->
-                </div>
-              </div>
-              <!-- Form column 1 finish -->
-
-              <!--  Form column 2 start -->
-              <div class="col-12 col-md-6 d-flex align-items-stretch">
-                <div class="card-body">
-                  <!-- Description start -->
-                  <div class="input-group form-group row">
-                    <label for="inputDescription" class="col-sm-3 col-form-label">Описание</label>
-                    <div class="col-sm-9">
-                      <div class="input-group">
-                        <input class="form-control" id="inputDescription" formControlName="Description">
-                        <div class="input-group-append">
-                          <span class="input-group-text"><i class="fas fa-comment-dots"></i></span>
-                        </div>
-                      </div>
-                      <small class="form-text text-muted">Краткое описание поставщика</small>
-                    </div>
-                  </div>
-                  <!-- Description finish -->
-                  <!-- ExtraEmail start -->
-                  <div class="input-group form-group row">
-                    <label for="inputExtraEmail" class="col-sm-3 col-form-label">Extra Email</label>
-                    <div class="col-sm-9">
-                      <div class="input-group">
-                        <input type="text" class="form-control" id="inputExtraEmail" formControlName="ExtraEmail">
-                        <div class="input-group-append">
-                          <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                        </div>
-                      </div>
-                      <small class="form-text text-muted">Дополнительная почта поставщика</small>
-                    </div>
-                    <label class="text-danger offset-sm-3 col-sm-9" *ngIf="supplierFormModel.get('ExtraEmail').touched &&
-                    supplierFormModel.get('ExtraEmail').errors?.email">
-                      * Некорректный формат email
-                    </label>
-                  </div>
-                  <!-- ExtraEmail finish -->
-                  <!-- ExtraPhone start-->
-                  <div class="input-group form-group row">
-                    <label for="inputExtraPhone" class="col-sm-3 col-form-label">Extra Phone</label>
-                    <div class="col-sm-9">
-                      <div class="input-group">
-                        <input type="text" class="form-control" id="inputExtraPhone" formControlName="ExtraPhone">
-                        <div class="input-group-append">
-                          <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                        </div>
-                      </div>
-                      <small class="form-text text-muted">Разрешены только цифры</small>
-                    </div>
-                    <label class="text-danger offset-sm-3 col-sm-9" *ngIf="supplierFormModel.get('ExtraPhone').touched 
-                      && supplierFormModel.get('ExtraPhone').errors?.pattern!">
-                      * Разрешены только цифры
-                    </label>
-                  </div>
-                  <!-- ExtraPhone finish -->
-                  <!-- ExtraManager start -->
-                  <div class="input-group form-group row">
-                    <label for="inputExtraManager" class="col-sm-3 col-form-label">Extra Manager</label>
-                    <div class="col-sm-9">
-                      <div class="input-group">
-                        <input class="form-control" id="inputExtraManager" formControlName="ExtraManager">
-                        <div class="input-group-append">
-                          <span class="input-group-text"><i class="fas fa-user-circle"></i></span>
-                        </div>
-                      </div>
-                      <small class="form-text text-muted">Дополнительный менеджер поставщика</small>
-                    </div>
-                  </div>
-                  <!-- ExtraManager finish -->
-                  <!-- ExtraAddress start -->
-                  <div class="input-group form-group row">
-                    <label for="inputExtraAddress" class="col-sm-3 col-form-label">Extra Address</label>
-                    <div class="col-sm-9">
-                      <div class="input-group">
-                        <input class="form-control" id="inputExtraAddress" formControlName="ExtraAddress">
-                        <div class="input-group-append">
-                          <span class="input-group-text"><i class="fas fa-map-marked-alt"></i></span>
-                        </div>
-                      </div>
-                      <small class="form-text text-muted">Дополнительный адрес поставщика</small>
-                    </div>
-                  </div>
-                  <!-- ExtraAddress finish -->
-                  <!-- SomeInfo start -->
-                  <div class="input-group form-group row">
-                    <label for="inputSomeInfo" class="col-sm-3 col-form-label">Инфо</label>
-                    <div class="col-sm-9">
-                      <div class="input-group">
-                        <textarea class="form-control" rows="2" id="inputSomeInfo" formControlName="SomeInfo"></textarea>
-                      </div>
-                      <small class="form-text text-muted">Дополнительная информация</small>
-                    </div>
-                  </div>
-                  <!-- SomeInfo finish -->
-
-                  <!-- Button start-->
-                  <div class="form-group row">
-                    <div class="col-sm-12">
-                      <button type="submit" class="btn btn-primary w-100 elevation-3"
-                        [disabled]="!supplierFormModel.valid">
-                        <i class="fas fa-save pr-1"></i>
-                        Сохранить
-                      </button>
-                    </div>
-                  </div>
-                  <!-- Button finish -->
-
-                </div>
-              </div>
-              <!--  Form column 2 finish -->
+<!-- Content Body start -->
+<div class="content-section implementation">
+  <div class="card">
+    <h5 class="mb-4 mt-1">Создание нового поставщика</h5>
+    <form [formGroup]="formModel" autocomplete="off" (submit)="submitForm()">
+      <div class="p-fluid p-formgrid p-grid row mt-2 mb-2">
+        <!-- Title start -->
+        <div class="p-field col-12 col-md-6 pr-4">
+          <div class="p-formgrid p-grid row">
+            <label for="title" class="col-4 col-md-4 primeng-form-label mt-3">Название *</label>
+            <div class="col-8 col-md-8 p-inputgroup">
+              <input id="title" type="text" class="p-inputtext-sm" formControlName="Title" aria-describedby="title-help"
+                pInputText>
+              <span class="p-inputgroup-addon"><i class="fas fa-id-card-alt" placement="left"
+                  ngbTooltip="Полное юридическое название поставщика"></i>
+              </span>
+            </div>
+            <small *ngIf="formModel.get('Title').touched && formModel.get('Title').errors?.required" id="title-help"
+              class="p-invalid offset-sm-4 col-sm-8">Обязательное поле
+            </small>
+          </div>
+        </div>
+        <!-- Title finish -->
+        <!-- Website start -->
+        <div class="p-field col-12 col-md-6 pl-4">
+          <div class="p-formgrid p-grid row">
+            <label for="webSite" class="col-4 col-md-4 primeng-form-label mt-3">Веб-сайт</label>
+            <div class="col-8 col-md-8 p-inputgroup">
+              <input id="webSite" type="text" class="p-inputtext-sm" formControlName="Website" pInputText>
+              <span class="p-inputgroup-addon"><i class="fas fa-comment-dots" placement="left"
+                  ngbTooltip="Веб-сайт поставщика"></i></span>
             </div>
           </div>
-        </form>
+        </div>
+        <!-- Website finish -->
       </div>
-    </div>
+      <div class="p-fluid p-formgrid p-grid row mt-3">
+        <!-- Address start -->
+        <div class="p-field col-12 col-md-6 pr-4">
+          <div class="p-formgrid p-grid row">
+            <label for="address" class="col-4 col-md-4 primeng-form-label mt-3">Юридический адрес *</label>
+            <div class="col-8 col-md-8 p-inputgroup">
+              <input id="address" type="text" class="p-inputtext-sm" formControlName="Address"
+                aria-describedby="address-help" pInputText>
+              <span class="p-inputgroup-addon"><i class="fas fa-map-marked-alt" placement="left"
+                  ngbTooltip="Главный или юридический адрес поставщика"></i></span>
+            </div>
+            <small *ngIf="formModel.get('Address').touched && formModel.get('Address').errors?.required"
+              id="address-help" class="p-invalid offset-sm-4 col-sm-8">Обязательное поле
+            </small>
+          </div>
+        </div>
+        <!-- Address finish -->
+        <!-- Extra address start -->
+        <div class="p-field col-12 col-md-6 pl-4">
+          <div class="p-formgrid p-grid row">
+            <label for="extra-address" class="col-4 col-md-4 primeng-form-label mt-2">Дополнительный адрес </label>
+            <div class="col-8 col-md-8 p-inputgroup">
+              <input id="extra-address" type="text" class="p-inputtext-sm" formControlName="ExtraAddress" pInputText>
+              <span class="p-inputgroup-addon"><i class="fas fa-map-marked-alt" placement="left"
+                  ngbTooltip="Второй адрес поставщика. Склад или дополнительный офис выдачи товара"></i></span>
+            </div>
+          </div>
+        </div>
+        <!-- Extra address finish -->
+      </div>
+      <div class="p-fluid p-formgrid p-grid row mt-3">
+        <!-- Phone start -->
+        <div class="p-field col-12 col-md-6 pr-4">
+          <div class="p-formgrid p-grid row">
+            <label for="phone" class="col-4 col-md-4 primeng-form-label mt-3">Телефон *</label>
+            <div class="col-8 col-md-8 p-inputgroup">
+              <input id="phone" type="text" class="p-inputtext-sm" formControlName="Phone" aria-describedby="phone-help"
+                pInputText>
+              <span class="p-inputgroup-addon"><i class="fas fa-phone" placement="left"
+                  ngbTooltip="Главный или юридический номер телефона поставщика"></i></span>
+            </div>
+            <small *ngIf="formModel.get('Phone').touched && formModel.get('Phone').errors?.required" id="phone-help"
+              class="p-invalid offset-sm-4 col-sm-8">Обязательное поле
+            </small>
+            <small *ngIf="formModel.get('Phone').touched && formModel.get('Phone').errors?.pattern!" id="phone-help"
+              class="p-invalid offset-sm-4 col-sm-8">Разрешены только цифры
+            </small>
+          </div>
+        </div>
+        <!-- Phone finish -->
+        <!-- Extra phone start -->
+        <div class="p-field col-12 col-md-6 pl-4">
+          <div class="p-formgrid p-grid row">
+            <label for="extra-phone" class="col-4 col-md-4 primeng-form-label mt-2">Дополнительный телефон</label>
+            <div class="col-8 col-md-8 p-inputgroup">
+              <input id="extra-phone" type="text" class="p-inputtext-sm" formControlName="ExtraPhone"
+                aria-describedby="extra-phone-help" pInputText>
+              <span class="p-inputgroup-addon"><i class="fas fa-phone" placement="left"
+                  ngbTooltip="Дополнительный контактный номер телефона поставщика"></i></span>
+            </div>
+            <small *ngIf="formModel.get('ExtraPhone').touched && formModel.get('ExtraPhone').errors?.pattern!"
+              id="extra-phone-help" class="p-invalid offset-sm-4 col-sm-8">Разрешены только цифры
+            </small>
+          </div>
+        </div>
+        <!-- Extra phone finish -->
+      </div>
+      <div class="p-fluid p-formgrid p-grid row mt-3">
+        <!-- Email start -->
+        <div class="p-field col-12 col-md-6 pr-4">
+          <div class="p-formgrid p-grid row">
+            <label for="email" class="col-4 col-md-4 primeng-form-label mt-3">Email *</label>
+            <div class="col-8 col-md-8 p-inputgroup">
+              <input id="email" type="text" class="p-inputtext-sm" formControlName="Email" aria-describedby="email-help"
+                pInputText>
+              <span class="p-inputgroup-addon"><i class="fas fa-envelope" placement="left"
+                  ngbTooltip="Главный или юридический адрес электронной почты поставщика"></i></span>
+            </div>
+            <small *ngIf="formModel.get('Email').touched && formModel.get('Email').errors?.required" id="email-help"
+              class="p-invalid offset-sm-4 col-sm-8">Обязательное поле
+            </small>
+            <small *ngIf="formModel.get('Email').touched && formModel.get('Email').errors?.email" id="email-help"
+              class="p-invalid offset-sm-4 col-sm-8">Некорректный формат email
+            </small>
+          </div>
+        </div>
+        <!-- Email finish -->
+        <!-- Extra email start -->
+        <div class="p-field col-12 col-md-6 pl-4">
+          <div class="p-formgrid p-grid row">
+            <label for="extra-email" class="col-4 col-md-4 primeng-form-label mt-2">Дополнительный email</label>
+            <div class="col-8 col-md-8 p-inputgroup">
+              <input id="extra-email" type="text" class="p-inputtext-sm" formControlName="ExtraEmail"
+                aria-describedby="extra-email-help" pInputText>
+              <span class="p-inputgroup-addon"><i class="fas fa-envelope" placement="left"
+                  ngbTooltip="Дополнительный адрес электронной почты поставщика"></i></span>
+            </div>
+            <small *ngIf="formModel.get('ExtraEmail').touched && formModel.get('ExtraEmail').errors?.email"
+              id="extra-email-help" class="p-invalid offset-sm-4 col-sm-8">Некорректный формат email
+            </small>
+          </div>
+        </div>
+        <!-- Extra email finish -->
+      </div>
+      <div class="p-fluid p-formgrid p-grid row mt-3">
+        <!-- Manager start -->
+        <div class="p-field col-12 col-md-6 pr-4">
+          <div class="p-formgrid p-grid row">
+            <label for="manager" class="col-4 col-md-4 primeng-form-label mt-3">Менеджер *</label>
+            <div class="col-8 col-md-8 p-inputgroup">
+              <input id="manager" type="text" class="p-inputtext-sm" formControlName="Manager"
+                aria-describedby="manager-help" pInputText>
+              <span class="p-inputgroup-addon"><i class="fas fa-user-circle" placement="left"
+                  ngbTooltip="Главный менеджер или представитель поставщика"></i></span>
+            </div>
+            <small *ngIf="formModel.get('Manager').touched && formModel.get('Manager').errors?.required"
+              id="manager-help" class="p-invalid offset-sm-4 col-sm-8">Обязательное поле
+            </small>
+          </div>
+        </div>
+        <!-- Manager finish -->
+        <!-- Extra manager start -->
+        <div class="p-field col-12 col-md-6 pl-4">
+          <div class="p-formgrid p-grid row">
+            <label for="extra-manager" class="col-4 col-md-4 primeng-form-label mt-2">Дополнительный менеджер</label>
+            <div class="col-8 col-md-8 p-inputgroup">
+              <input id="extra-manager" type="text" class="p-inputtext-sm" formControlName="ExtraManager" pInputText>
+              <span class="p-inputgroup-addon"><i class="fas fa-user-circle" placement="left"
+                  ngbTooltip="Дополнительный менеджер поставщика"></i></span>
+            </div>
+          </div>
+        </div>
+        <!-- Extra manager finish -->
+      </div>
+      <div class="p-fluid p-formgrid p-grid row mt-3">
+        <!-- Description start -->
+        <div class="p-field col-12 col-md-6 pr-4">
+          <div class="p-formgrid p-grid row">
+            <label for="description" class="col-4 col-md-4 primeng-form-label mt-3">Описание *</label>
+            <div class="col-8 col-md-8 p-inputgroup">
+              <textarea id="description" type="text" class="p-inputtext-sm" formControlName="Description"
+                aria-describedby="description-help" rows="7" pInputText></textarea>
+            </div>
+            <small *ngIf="formModel.get('Description').touched && formModel.get('Description').errors?.required"
+              id="description-help" class="p-invalid offset-sm-4 col-sm-8">Обязательное поле
+            </small>
+          </div>
+        </div>
+        <!-- Description finish -->
+        <div class="p-field col-12 col-md-6 pl-4">
+          <!-- SomeInfo start -->
+            <div class="p-formgrid p-grid row">
+              <label for="some-info" class="col-4 col-md-4 primeng-form-label mt-2">Дополнительная информация</label>
+              <div class="col-8 col-md-8 ">
+                <textarea id="some-info" formControlName="SomeInfo" type="text" class="p-inputtext-sm" rows="2"
+                  pInputText></textarea>
+              </div>
+            </div>
+          <!-- SomeInfo finish -->
+          <!-- Activity start -->
+          <div class="p-formgrid p-grid row">
+            <label for="activity" id="activity-supplier-add" class="col-4 col-md-4 primeng-form-label mt-2 pt-1">Статус активности</label>
+            <div class="col-8 col-md-8 pt-3">
+              <p-inputSwitch [ngModel]="true" id="activity" formControlName="Activity" placement="top"
+                ngbTooltip="Статус активности поставщика на сайте">
+              </p-inputSwitch>
+            </div>
+          </div>
+          <!-- Activity finish -->
+          <!-- Submit button start -->
+          <div class="p-formgrid p-grid row mt-2">
+            <button pButton pRipple type="submit" label="Сохранить" class="p-button-raised"
+              [disabled]="!formModel.valid"></button>
+          </div>
+          <!-- Submit button finish -->
+        </div>
+      </div>
+    </form>
   </div>
-</section>
+</div>
+<!-- Content Body finish -->
+
+
+<!-- ToastMessage start -->
+<p-toast position="top-right" preventOpenDuplicates="true" key="update-supplier-component"></p-toast>
+<!-- ToasMessage finish -->
+
+<!-- Block document start -->
+<p-blockUI [blocked]="blockedDocument">
+  <p-progressSpinner></p-progressSpinner>
+</p-blockUI>
+<!-- Block document finish -->

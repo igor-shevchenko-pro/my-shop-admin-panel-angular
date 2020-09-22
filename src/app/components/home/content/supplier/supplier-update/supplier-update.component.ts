@@ -1,25 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { NotificationService } from 'src/app/core/shared/notification.service';
 import { SupplierService } from 'src/app/services/supplier.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SupplierGetMinApiModel } from 'src/app/core/api-models/supplier';
-import { EntityActivityStatusEnum } from 'src/app/core/api-models/base/enums';
+import { TypeModelResponseEnum, UserLanguageEnum } from 'src/app/core/api-models/base/enums';
+import { MenuItem } from 'primeng/api';
+import { BreadcrumbService } from 'src/app/services/base/bradcrumb.service';
 import { SuccessResponseApiModel } from 'src/app/core/api-models/base/success-response';
+import { ToastService } from 'src/app/services/base/toast.service';
 
 @Component({
   selector: 'app-supplier-update',
   templateUrl: './supplier-update.component.html',
   styleUrls: ['./supplier-update.component.css']
 })
-export class SupplierUpdateComponent implements OnInit {
+export class SupplierUpdateComponent implements OnInit, OnDestroy {
 
-  private _languageId: number = 1;
-  private _supplierId: string;
+  public breadcrumbItems: MenuItem[] = [];
+  public breadcrumbHome: MenuItem;
+  public blockedDocument: boolean = false;
+  private _languageId: UserLanguageEnum = UserLanguageEnum.Russian;
+  private _id: string;
 
-  public supplierFormModel = this._formBuilder.group({
+  public formModel = this._formBuilder.group({
+    Id: [null],
     Title: [null, Validators.required],
-    Description: [null],
+    Website: [null],
     Email: [null, [Validators.required, Validators.email]],
     ExtraEmail: [null, Validators.email],
     Phone: [null, [Validators.required, Validators.pattern("^[0-9]+$")]],
@@ -28,87 +34,100 @@ export class SupplierUpdateComponent implements OnInit {
     ExtraManager: [null],
     Address: [null, Validators.required],
     ExtraAddress: [null],
+    Description: [null, Validators.required],
     SomeInfo: [null],
-    LanguageId: [null],
-    Status: [true],
+    Activity: [null],
+    LanguageId: []
   });
 
 
   constructor(private _formBuilder: FormBuilder,
-              private _notifyService: NotificationService,
+              private _breadcrumbService: BreadcrumbService,
               private _supplierService: SupplierService,
+              private _toastService: ToastService,
               private _actRoute: ActivatedRoute,
               private _router: Router) { }
 
   ngOnInit(): void {
-    this._supplierId = this._actRoute.snapshot.params.id;
-    this.getSupplier();
+    // Breadcrumb start
+    this._breadcrumbService.addBreadcrumbItem('Поставщики', '/suppliers');
+    this._breadcrumbService.addBreadcrumbItem('Редактировать поставщика');
+    this.breadcrumbItems = this._breadcrumbService.breadcrumbItems;
+    this.breadcrumbHome = this._breadcrumbService.breadcrumbHome;
+    // Breadcrumb finish
+
+    this._id = this._actRoute.snapshot.params.id;
+    this.get();
+  }
+
+  ngOnDestroy(): void {
+    this._breadcrumbService.breadcrumbItems = [];
   }
 
 
-  public updateSupplier(): void {
-    this.supplierFormModel.controls['LanguageId'].setValue(this._languageId);
-    // this._supplierService.update(this._supplierId, this.supplierFormModel).subscribe(
-    //   (res: SuccessResponseApiModel) => {
+  public submitForm(): void {
+    this.blockedDocument = true;
+    this.formModel.controls['Id'].setValue(this._id);
+    this.formModel.controls['LanguageId'].setValue(this._languageId);
+    this._supplierService.update(this.formModel).subscribe(
+      (res: SuccessResponseApiModel) => {
         // console.log(res);
-        // if (res.response == "success") {
-          // this._notifyService.showSuccess("Поставщик обновлен успешно", "");\
-      //     const url = '/home/supplier/' + this._supplierId;
-      //     this._router.navigateByUrl(url);
-      //   }
-      // },
-      // errors => {
-        // console.log(errors);
-        // errors.error.errors.forEach(element => {
-        //   switch (element) {
-        //     case 'Duplicate name':
-        //       this._notifyService.showError("Поставщик с таким названием уже существует", "");
-        //       break;
+        if (res.response == "success") {
+          this.blockedDocument = false;
+          // this._toastService.showSuccess("Success", 'Поставщик ' + this.formModel.get('Title').value + ' создан отредактирован', false, 'app-component', 7000);
+          const url = '/home/supplier/' + this._id;
+          this._router.navigateByUrl(url);
+        }
+      },
+      errors => {
+        console.log(errors);
+        this.blockedDocument = false;
+        errors.error.errors.forEach(element => {
+          switch (element) {
+            case 'Entity is not found':
+              this._toastService.showError("Error", "Поставщик не найден", false, 'update-supplier-component', 7000);
+              break;
+            case 'Duplicate name':
+              this._toastService.showError("Error", "Поставщик с таким названием уже существует", false, 'update-supplier-component', 7000);
+              break;
 
-        //     default:
-        //       this._notifyService.showError("Ошибка добавления поставщика", "");
-        //       break;
-        //   }
-        // });
-      // }
-    // );
+            default:
+              this._toastService.showError("Error", "Ошибка редактирования поставщика", false, 'update-supplier-component', 7000);
+              break;
+          }
+        });
+      }
+    );
   }
 
 
-  private getSupplier(): void {
-    // this._supplierService.getById(this._supplierId).subscribe(
-    //   (res: SupplierGetMinApiModel) => {
+  private get(): void {
+    this._supplierService.getById(this._id, TypeModelResponseEnum.GetMinApiModel).subscribe(
+      (res: SupplierGetMinApiModel) => {
         // console.log(res);
-      //   this.supplierFormModel.controls['Title'].setValue(res.title);
-      //   this.supplierFormModel.controls['Description'].setValue(res.description);
-      //   this.supplierFormModel.controls['Email'].setValue(res.email);
-      //   this.supplierFormModel.controls['ExtraEmail'].setValue(res.extra_email);
-      //   this.supplierFormModel.controls['Phone'].setValue(res.phone);
-      //   this.supplierFormModel.controls['ExtraPhone'].setValue(res.extra_phone);
-      //   this.supplierFormModel.controls['Manager'].setValue(res.manager);
-      //   this.supplierFormModel.controls['ExtraManager'].setValue(res.extra_manager);
-      //   this.supplierFormModel.controls['Address'].setValue(res.address);
-      //   this.supplierFormModel.controls['ExtraAddress'].setValue(res.extra_address);
-      //   this.supplierFormModel.controls['SomeInfo'].setValue(res.some_info);
-      //   this.supplierFormModel.controls['Status'].setValue(this.GetActivityStatus(res.activity_status));
-      // },
-      // errors => {
+        if (res == null) {
+          this._router.navigateByUrl('/home/suppliers');
+          return;
+        }
+        this.formModel.controls['Title'].setValue(res.title);
+        this.formModel.controls['Website'].setValue(res.website);
+        this.formModel.controls['Email'].setValue(res.email);
+        this.formModel.controls['ExtraEmail'].setValue(res.extra_email);
+        this.formModel.controls['Phone'].setValue(res.phone);
+        this.formModel.controls['ExtraPhone'].setValue(res.extra_phone);
+        this.formModel.controls['Manager'].setValue(res.manager);
+        this.formModel.controls['ExtraManager'].setValue(res.extra_manager);
+        this.formModel.controls['Address'].setValue(res.address);
+        this.formModel.controls['ExtraAddress'].setValue(res.extra_address);
+        this.formModel.controls['Description'].setValue(res.description);
+        this.formModel.controls['SomeInfo'].setValue(res.some_info);
+        this.formModel.controls['Activity'].setValue(res.activity_status);
+      },
+      errors => {
         // console.log(errors);
-    //     this._router.navigateByUrl('/home/suppliers');
-    //   }
-    // );
-  }
-
-  private GetActivityStatus(status: EntityActivityStatusEnum): boolean {
-    switch (status) {
-      case EntityActivityStatusEnum.Inactive:
-        return true;
-      case EntityActivityStatusEnum.Inactive-2:
-        return false;
-
-      default:
-        return true;
-    }
+        this._router.navigateByUrl('/home/suppliers');
+      }
+    );
   }
 
 }

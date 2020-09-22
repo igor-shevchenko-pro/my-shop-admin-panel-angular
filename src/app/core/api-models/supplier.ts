@@ -4,7 +4,7 @@ import { ProductGetMinApiModel } from './product';
 export abstract class SupplierBaseApiModel extends BaseApiModel<string>
 {
     public title: string;
-    public description: string;
+    public website: string;
     public email: string;
     public extra_email: string;
     public phone: string;
@@ -13,6 +13,7 @@ export abstract class SupplierBaseApiModel extends BaseApiModel<string>
     public extra_manager: string;
     public address: string;
     public extra_address: string;
+    public description: string;
     public some_info: string;
     public language_id: number;
 }

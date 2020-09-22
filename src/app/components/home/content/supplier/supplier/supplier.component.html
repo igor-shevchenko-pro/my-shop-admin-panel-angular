@@ -30,25 +30,25 @@
         </div>
       </div>
       <!-- Title finish -->
-      <!-- Description start -->
+      <!-- Website start -->
       <div class="p-field col-12 col-md-6 pl-4">
         <div class="p-formgrid p-grid row">
-          <label for="description" class="col-4 col-md-4 primeng-form-label mt-3">Описание</label>
+          <label for="website" class="col-4 col-md-4 primeng-form-label mt-3">Веб-сайт</label>
           <div class="col-8 col-md-8 p-inputgroup">
-            <input id="description" type="text" class="p-input-filled p-inputtext-sm focus-none"
-              [(ngModel)]="description" [readOnly]="true" pInputText>
-            <span class="p-inputgroup-addon p-input-filled"><i class="fas fa-comment-dots" placement="left"
-                ngbTooltip="Описание поставщика. Сфера, категории товаров"></i></span>
+            <input id="webSite" type="text" class="p-input-filled p-inputtext-sm focus-none" [(ngModel)]="webSite"
+              [readOnly]="true" pInputText>
+            <span class="p-inputgroup-addon p-input-filled"><i class="fas fa-at" placement="left"
+                ngbTooltip="Веб-сайт поставщика"></i></span>
           </div>
         </div>
       </div>
-      <!-- Description finish -->
+      <!-- Website finish -->
     </div>
     <div class="p-fluid p-formgrid p-grid row mt-3">
       <!-- Address start -->
       <div class="p-field col-12 col-md-6 pr-4">
         <div class="p-formgrid p-grid row">
-          <label for="address" class="col-4 col-md-4 primeng-form-label mt-3">Адрес</label>
+          <label for="address" class="col-4 col-md-4 primeng-form-label mt-3">Юридический адрес</label>
           <div class="col-8 col-md-8 p-inputgroup">
             <input id="address" type="text" class="p-inputtext-sm p-input-filled focus-none" [(ngModel)]="address"
               [readOnly]="true" pInputText>
@@ -89,7 +89,7 @@
       <!-- Extra phone start -->
       <div class="p-field col-12 col-md-6 pl-4">
         <div class="p-formgrid p-grid row">
-          <label for="extra-phone" class="col-4 col-md-4 primeng-form-label mt-3">Дополнительный телефон</label>
+          <label for="extra-phone" class="col-4 col-md-4 primeng-form-label mt-2">Дополнительный телефон</label>
           <div class="col-8 col-md-8 p-inputgroup">
             <input id="extra-phone" type="text" class="p-inputtext-sm p-input-filled focus-none"
               [(ngModel)]="extraPhone" [readOnly]="true" pInputText>
@@ -157,38 +157,51 @@
       <!-- Extra manager finish -->
     </div>
     <div class="p-fluid p-formgrid p-grid row mt-3">
-      <!-- SomeInfo start -->
+      <!-- Description start -->
       <div class="p-field col-12 col-md-6 pr-4">
         <div class="p-formgrid p-grid row">
-          <label for="some-info" class="col-4 col-md-4 primeng-form-label mt-2">Дополнительная информация</label>
-          <div class="col-8 col-md-8 ">
-            <textarea id="some-info" type="text" class="p-inputtext-sm p-input-filled focus-none" rows="4"
-              [(ngModel)]="someInfo" [readOnly]="true" pInputText></textarea>
+          <label for="description" class="col-4 col-md-4 primeng-form-label mt-3">Описание</label>
+          <div class="col-8 col-md-8">
+            <textarea id="description" type="text" class="p-input-filled p-inputtext-sm focus-none"
+              [(ngModel)]="description" rows="5" [readOnly]="true" pInputText>
+            </textarea>
           </div>
         </div>
       </div>
-      <!-- SomeInfo finish -->
+      <!-- Description finish -->
       <div class="p-field col-12 col-md-6 pl-4">
-        <!-- Activity start -->
+        <!-- SomeInfo start -->
         <div class="p-formgrid p-grid row">
-          <label for="activity" class="col-4 col-md-4 primeng-form-label mt-3">Статус активности</label>
-          <div class="col-8 col-md-8 pt-3">
+          <label for="some-info" class="col-4 col-md-4 primeng-form-label mt-2">Дополнительная информация</label>
+          <div class="col-8 col-md-8 ">
+            <textarea id="some-info" type="text" class="p-inputtext-sm p-input-filled focus-none" rows="2"
+              [(ngModel)]="someInfo" [readOnly]="true" pInputText>
+            </textarea>
+          </div>
+        </div>
+        <!-- SomeInfo finish -->
+        <!-- Buttons start -->
+        <div class="p-formgrid p-grid row">
+          <!-- Activity start -->
+          <label for="activity" class="col-4 col-md-4 primeng-form-label mt-4">Статус активности</label>
+          <div class="col-8 col-md-8 pt-4">
             <p-inputSwitch id="activity" [ngModel]="activity" placement="top"
               ngbTooltip="Статус активности поставщика на сайте" readonly="true">
             </p-inputSwitch>
           </div>
+          <!-- Activity finish -->
+          <!-- Option buttons start -->
+          <span id="buttons-supplier-profile">
+            <a [routerLink]="['/home/update_supplier', id]" type="button" pButton pRipple icon="pi pi-pencil"
+              class="p-button-rounded p-button-raised p-button-info mr-2" placement="top" ngbTooltip="Редактировать">
+            </a>
+            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-raised p-button-danger"
+              placement="top" ngbTooltip="Удалить" (click)="delete()">
+            </button>
+          </span>
+          <!-- Option buttons finish -->
         </div>
-        <!-- Activity finish -->
-        <!-- Option buttons start -->
-        <span id="buttons-supplier-profile">
-          <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-raised p-button-info mr-2"
-            placement="top" ngbTooltip="Редактировать">
-          </button>
-          <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-raised p-button-danger"
-            placement="top" ngbTooltip="Удалить" (click)="delete()">
-          </button>
-        </span>
-        <!-- Option buttons finish -->
+        <!-- Buttons finish -->
       </div>
     </div>
   </div>

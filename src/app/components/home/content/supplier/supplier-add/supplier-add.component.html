@@ -34,28 +34,24 @@
           </div>
         </div>
         <!-- Title finish -->
-        <!-- Description start -->
+        <!-- Website start -->
         <div class="p-field col-12 col-md-6 pl-4">
           <div class="p-formgrid p-grid row">
-            <label for="description" class="col-4 col-md-4 primeng-form-label mt-3">Описание *</label>
+            <label for="webSite" class="col-4 col-md-4 primeng-form-label mt-3">Веб-сайт</label>
             <div class="col-8 col-md-8 p-inputgroup">
-              <input id="description" type="text" class="p-inputtext-sm" formControlName="Description"
-                aria-describedby="description-help" pInputText>
+              <input id="webSite" type="text" class="p-inputtext-sm" formControlName="Website" pInputText>
               <span class="p-inputgroup-addon"><i class="fas fa-comment-dots" placement="left"
-                  ngbTooltip="Описание поставщика. Сфера, категории товаров"></i></span>
+                  ngbTooltip="Веб-сайт поставщика"></i></span>
             </div>
-            <small *ngIf="formModel.get('Description').touched && formModel.get('Description').errors?.required"
-              id="description-help" class="p-invalid offset-sm-4 col-sm-8">Обязательное поле
-            </small>
           </div>
         </div>
-        <!-- Description finish -->
+        <!-- Website finish -->
       </div>
       <div class="p-fluid p-formgrid p-grid row mt-3">
         <!-- Address start -->
         <div class="p-field col-12 col-md-6 pr-4">
           <div class="p-formgrid p-grid row">
-            <label for="address" class="col-4 col-md-4 primeng-form-label mt-3">Адрес *</label>
+            <label for="address" class="col-4 col-md-4 primeng-form-label mt-3">Юридический адрес *</label>
             <div class="col-8 col-md-8 p-inputgroup">
               <input id="address" type="text" class="p-inputtext-sm" formControlName="Address"
                 aria-describedby="address-help" pInputText>
@@ -87,7 +83,8 @@
           <div class="p-formgrid p-grid row">
             <label for="phone" class="col-4 col-md-4 primeng-form-label mt-3">Телефон *</label>
             <div class="col-8 col-md-8 p-inputgroup">
-              <input id="phone" type="text" class="p-inputtext-sm" formControlName="Phone" aria-describedby="phone-help" pInputText>
+              <input id="phone" type="text" class="p-inputtext-sm" formControlName="Phone" aria-describedby="phone-help"
+                pInputText>
               <span class="p-inputgroup-addon"><i class="fas fa-phone" placement="left"
                   ngbTooltip="Главный или юридический номер телефона поставщика"></i></span>
             </div>
@@ -185,21 +182,33 @@
         <!-- Extra manager finish -->
       </div>
       <div class="p-fluid p-formgrid p-grid row mt-3">
-        <!-- SomeInfo start -->
+        <!-- Description start -->
         <div class="p-field col-12 col-md-6 pr-4">
           <div class="p-formgrid p-grid row">
-            <label for="some-info" class="col-4 col-md-4 primeng-form-label mt-2">Дополнительная информация</label>
-            <div class="col-8 col-md-8 ">
-              <textarea id="some-info" formControlName="SomeInfo" type="text" class="p-inputtext-sm" rows="4"
-                pInputText></textarea>
+            <label for="description" class="col-4 col-md-4 primeng-form-label mt-3">Описание *</label>
+            <div class="col-8 col-md-8 p-inputgroup">
+              <textarea id="description" type="text" class="p-inputtext-sm" formControlName="Description"
+                aria-describedby="description-help" rows="7" pInputText></textarea>
             </div>
+            <small *ngIf="formModel.get('Description').touched && formModel.get('Description').errors?.required"
+              id="description-help" class="p-invalid offset-sm-4 col-sm-8">Обязательное поле
+            </small>
           </div>
         </div>
-        <!-- SomeInfo finish -->
+        <!-- Description finish -->
         <div class="p-field col-12 col-md-6 pl-4">
+          <!-- SomeInfo start -->
+            <div class="p-formgrid p-grid row">
+              <label for="some-info" class="col-4 col-md-4 primeng-form-label mt-2">Дополнительная информация</label>
+              <div class="col-8 col-md-8 ">
+                <textarea id="some-info" formControlName="SomeInfo" type="text" class="p-inputtext-sm" rows="2"
+                  pInputText></textarea>
+              </div>
+            </div>
+          <!-- SomeInfo finish -->
           <!-- Activity start -->
           <div class="p-formgrid p-grid row">
-            <label for="activity" class="col-4 col-md-4 primeng-form-label mt-3">Статус активности</label>
+            <label for="activity" id="activity-supplier-add" class="col-4 col-md-4 primeng-form-label mt-2 pt-1">Статус активности</label>
             <div class="col-8 col-md-8 pt-3">
               <p-inputSwitch [ngModel]="true" id="activity" formControlName="Activity" placement="top"
                 ngbTooltip="Статус активности поставщика на сайте">
@@ -208,7 +217,7 @@
           </div>
           <!-- Activity finish -->
           <!-- Submit button start -->
-          <div class="p-formgrid p-grid row mt-4">
+          <div class="p-formgrid p-grid row mt-2">
             <button pButton pRipple type="submit" label="Сохранить" class="p-button-raised"
               [disabled]="!formModel.valid"></button>
           </div>

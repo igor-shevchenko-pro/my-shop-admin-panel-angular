@@ -54,7 +54,7 @@ export class SupplierService extends BaseService<SupplierSortingEnum> {
 
     let model = new SupplierAddApiModel();
     model.title = supplierFormGroup.value.Title;
-    model.description = supplierFormGroup.value.Description;
+    model.website = supplierFormGroup.value.Website;
     model.email = supplierFormGroup.value.Email;
     model.extra_email = supplierFormGroup.value.ExtraEmail;
     model.phone = supplierFormGroup.value.Phone;
@@ -63,6 +63,7 @@ export class SupplierService extends BaseService<SupplierSortingEnum> {
     model.extra_manager = supplierFormGroup.value.ExtraManager;
     model.address = supplierFormGroup.value.Address;
     model.extra_address = supplierFormGroup.value.ExtraAddress;
+    model.title = supplierFormGroup.value.Title;
     model.some_info = supplierFormGroup.value.SomeInfo;
     model.activity_status = supplierFormGroup.value.Activity;
     model.language_id = supplierFormGroup.value.LanguageId;
@@ -76,7 +77,7 @@ export class SupplierService extends BaseService<SupplierSortingEnum> {
     let model = new SupplierAddApiModel();
     model.id = supplierFormGroup.value.Id;
     model.title = supplierFormGroup.value.Title;
-    model.description = supplierFormGroup.value.Description;
+    model.website = supplierFormGroup.value.Website;
     model.email = supplierFormGroup.value.Email;
     model.extra_email = supplierFormGroup.value.ExtraEmail;
     model.phone = supplierFormGroup.value.Phone;
@@ -85,6 +86,7 @@ export class SupplierService extends BaseService<SupplierSortingEnum> {
     model.extra_manager = supplierFormGroup.value.ExtraManager;
     model.address = supplierFormGroup.value.Address;
     model.extra_address = supplierFormGroup.value.ExtraAddress;
+    model.description = supplierFormGroup.value.Description;
     model.some_info = supplierFormGroup.value.SomeInfo;
     model.activity_status = supplierFormGroup.value.Activity;
     model.language_id = supplierFormGroup.value.LanguageId;

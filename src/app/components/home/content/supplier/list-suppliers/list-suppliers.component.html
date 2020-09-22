@@ -98,10 +98,9 @@
             </p-inputSwitch>
           </td>
           <td>
-            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-raised p-button-info mr-2"
-              (click)="openSupplierModalDialog('supplierUpdateDialog', supplier)" placement="top"
-              ngbTooltip="Редактировать">
-            </button>
+            <a [routerLink]="['/home/update_supplier', supplier.id]" pButton pRipple icon="pi pi-pencil"
+              class="p-button-rounded p-button-raised p-button-info mr-2" placement="top" ngbTooltip="Редактировать">
+            </a>
             <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-raised p-button-danger"
               (click)="delete(supplier)" placement="top" ngbTooltip="Удалить">
             </button>
@@ -128,39 +127,6 @@
   </div>
 </div>
 <!-- Content Body finish -->
-
-
-
-<!-- Update supplier Modal-dialog start -->
-<p-dialog [(visible)]="supplierUpdateDialogOpen" [style]="{width: '450px'}" header="Редактирование поставщика"
-  [modal]="true" styleClass="p-fluid">
-  <ng-template pTemplate="content">
-    <form [formGroup]="updateSupplierFormModel" autocomplete="off" class="mb-3">
-      <div class="p-field mt-1">
-        <label for="title-supplier-update" class="primeng-form-label">Название</label>
-        <div class="p-inputgroup">
-          <input type="text" class="p-inputtext-sm" id="title-supplier-update"
-            aria-describedby="supplier-update-title-help" pInputText formControlName="Title" />
-          <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
-        </div>
-      </div>
-      <small
-        *ngIf="updateSupplierFormModel.get('Title').touched && updateSupplierFormModel.get('Title').errors?.required"
-        id="supplier-update-title-help" class="p-invalid">Обязательное поле</small>
-      <div class="p-field mt-4">
-        <label for="activity-supplier-update" class="primeng-form-label mr-3">Статус активности</label>
-        <p-inputSwitch id="activity-supplier-update" formControlName="Activity"></p-inputSwitch>
-      </div>
-    </form>
-  </ng-template>
-  <ng-template pTemplate="footer">
-    <button pButton pRipple label="Сохранить" icon="pi pi-check" class="p-button-text p-button mr-1" (click)="update()"
-      [disabled]="!updateSupplierFormModel.valid"></button>
-    <button pButton pRipple label="Отмена" icon="pi pi-times" class="p-button-text p-button mr-0"
-      (click)="closeSupplierModalDialog('supplierUpdateDialog')"></button>
-  </ng-template>
-</p-dialog>
-<!-- Update supplier Modal-dialog finish -->
 
 
 

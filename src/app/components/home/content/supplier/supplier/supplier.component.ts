@@ -21,7 +21,7 @@ export class SupplierComponent implements OnInit, OnDestroy {
 
   public id: string;
   public title: string;
-  public description: string;
+  public webSite: string;
   public email: string;
   public extraEmail: string;
   public phone: string;
@@ -30,6 +30,7 @@ export class SupplierComponent implements OnInit, OnDestroy {
   public extraManager: string;
   public address: string;
   public extraAddress: string;
+  public description: string;
   public someInfo: string;
   public activity: number;
 
@@ -103,7 +104,7 @@ export class SupplierComponent implements OnInit, OnDestroy {
           return;
         }
         this.title = res.title;
-        this.description = res.description;
+        this.webSite = res.website;
         this.email = res.email;
         this.extraEmail = res.extra_email;
         this.phone = res.phone;
@@ -112,6 +113,7 @@ export class SupplierComponent implements OnInit, OnDestroy {
         this.extraManager = res.extra_manager;
         this.address = res.address;
         this.extraAddress = res.extra_address;
+        this.description = res.description;
         this.someInfo = res.some_info;
         this.activity = res.activity_status;
       },

@@ -1,0 +1,9 @@
+#activity {
+    position: relative;
+    top: -.3rem;
+}
+
+label#activity-supplier-add {
+    position: relative;
+    top: -.15rem;
+}

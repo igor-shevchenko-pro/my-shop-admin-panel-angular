@@ -108,39 +108,6 @@ export class ListSuppliersComponent implements OnInit, OnDestroy {
       );
   }
 
-  public update(): void {
-    this.blockedDocument = true;
-    this._supplierService.update(this.updateSupplierFormModel).subscribe(
-      (res: SuccessResponseApiModel) => {
-        // console.log(res);
-        if (res.response == "success") {
-          this.blockedDocument = false;
-          this.supplierUpdateDialogOpen = false;
-          this.updateSupplierFormModel.reset();
-          this.getAll();
-        }
-      },
-      errors => {
-        // console.log(errors);
-        this.blockedDocument = false;
-        errors.error.errors.forEach(element => {
-          switch (element) {
-            case 'Entity is not found':
-              this._toastService.showError("Error", "Поставщик не найден", false, 'supplier-component', 7000);
-              break;
-            case 'Duplicate name':
-              this._toastService.showError("Error", "Поставщик с таким названием уже существует", false, 'supplier-component', 7000);
-              break;
-
-            default:
-              this._toastService.showError("Error", "Ошибка обновления поставщика", false, 'supplier-component', 7000);
-              break;
-          }
-        });
-      }
-    );
-  }
-
   public changeActivityStatus(id: string, event): void {
     let activityStatus: EntityActivityStatusEnum = this.parseActivityStatus(event.checked);
     this._supplierService.changeActivityStatus(id, activityStatus).subscribe(

@@ -22,7 +22,7 @@ export class SupplierAddComponent implements OnInit, OnDestroy {
 
   public formModel = this._formBuilder.group({
     Title: [null, Validators.required],
-    Description: [null, Validators.required],
+    Website: [null],
     Email: [null, [Validators.required, Validators.email]],
     ExtraEmail: [null, Validators.email],
     Phone: [null, [Validators.required, Validators.pattern("^[0-9]+$")]],
@@ -31,6 +31,7 @@ export class SupplierAddComponent implements OnInit, OnDestroy {
     ExtraManager: [null],
     Address: [null, Validators.required],
     ExtraAddress: [null],
+    Description: [null, Validators.required],
     SomeInfo: [null],
     Activity: [null],
     LanguageId: []
