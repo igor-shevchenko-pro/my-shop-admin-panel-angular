@@ -37,9 +37,9 @@
               "node_modules/admin-lte/plugins/daterangepicker/daterangepicker.css",
               "node_modules/admin-lte/plugins/summernote/summernote-bs4.css",
               "node_modules/ngx-toastr/toastr.css",
-              "node_modules/primeng/resources/themes/md-light-indigo/theme.css",
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/primeicons/primeicons.css",
+              "node_modules/primeng/resources/themes/md-light-indigo/theme.css",
               "src/styles.css",
               "node_modules/ngx-ui-switch/ui-switch.component.css"
             ],

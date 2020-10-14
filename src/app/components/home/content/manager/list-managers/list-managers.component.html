@@ -1,26 +1,216 @@
-<!-- Content Header (Page header) start -->
+<!-- Content Header (Breadcrumb) start -->
 <section class="content-header">
   <div class="container-fluid">
     <div class="row mb-2">
-      <div class="col-sm-6">
-        <h1>Менеджеры
-          <button routerLink="/home/add_manager" class="btn btn-outline-primary ml-3 elevation-1">
-            Добавить менеджера
-          </button>
-        </h1>
-      </div>
-      <div class="col-sm-6">
-        <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a routerLink="/home">Главная</a></li>
-          <li class="breadcrumb-item active">Менеджера</li>
-        </ol>
+      <div class="col-12">
+        <p-breadcrumb [model]="breadcrumbItems" [home]="breadcrumbHome"></p-breadcrumb>
       </div>
     </div>
   </div>
 </section>
-<!-- Content Header (Page header) finish -->
+<!-- Content Header (Breadcrumb) finish -->
+
 
 <!-- Main Content start -->
+<div class="content-section implementation">
+  <div class="card">
+    <h5 class="p-m-0">Управление менеджерами</h5>
+    <p-dataView #dv [value]="products" [paginator]="true" [rows]="9" filterBy="name" [sortField]="sortField"
+      [sortOrder]="sortOrder" layout="grid" class="managers">
+      <ng-template pTemplate="header">
+        <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
+          <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By Price"
+            (onChange)="onSortChange($event)" styleClass="p-mb-2 p-mb-md-0"></p-dropdown>
+          <span class="p-input-icon-left p-mb-2 p-mb-md-0">
+            <i class="pi pi-search"></i>
+            <input type="search" pInputText placeholder="Search by Name" (input)="dv.filter($event.target.value)">
+          </span>
+          <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+        </div>
+      </ng-template>
+      <ng-template let-product pTemplate="listItem">
+        <div class="p-col-12">
+          <div class="product-list-item">
+            <img [src]="'assets/product/' + product.image" [alt]="product.name" />
+            <div class="product-list-detail">
+              <div class="product-name">{{product.name}}</div>
+              <div class="product-description">{{product.description}}</div>
+              <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating>
+              <i class="pi pi-tag product-category-icon"></i><span class="product-category">{{product.category}}</span>
+            </div>
+            <div class="product-list-action">
+              <span class="product-price">${{product.price}}</span>
+              <p-button icon="pi pi-shopping-cart" label="Add to Cart" styleClass="p-button-sm"
+                [disabled]="product.inventoryStatus === 'OUTOFSTOCK'"></p-button>
+              <span
+                [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template let-product pTemplate="gridItem">
+        <div class="p-col-12 p-md-4">
+          <div class="product-grid-item card">
+            <div class="product-grid-item-top">
+              <div>
+                <i class="pi pi-tag product-category-icon"></i>
+                <span class="product-category">{{product.category}}</span>
+              </div>
+              <span
+                [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span>
+            </div>
+            <div class="product-grid-item-content">
+              <img [src]="'assets/product/' + product.image" [alt]="product.name" />
+              <div class="product-name">{{product.name}}</div>
+              <div class="product-description">{{product.description}}</div>
+              <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating>
+            </div>
+            <div class="product-grid-item-bottom">
+              <span class="product-price">${{product.price}}</span>
+              <p-button icon="pi pi-shopping-cart" [disabled]="product.inventoryStatus === 'OUTOFSTOCK'"></p-button>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </p-dataView>
+  </div>
+</div>
+<!-- Main Content finish --><br><br>
+
+
+
+<!-- Main Content start -->
+<div class="content-section implementation">
+  <div class="card card-manager-list">
+    <h5 class="p-m-0">Управление менеджерами</h5>
+    <p-dataView #mn [value]="managers" [paginator]="true" [rows]="9" filterBy="created" [sortField]="sortField"
+      [sortOrder]="sortOrder" layout="grid" class="managers">
+      <ng-template pTemplate="header">
+        <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
+          <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Сортировка по email"
+            (onChange)="onSortChange($event)" styleClass="p-mb-2 p-mb-md-0"></p-dropdown>
+          <span class="p-input-icon-left p-mb-2 p-mb-md-0">
+            <i class="pi pi-search"></i>
+            <input type="search" pInputText placeholder="Search by Name" (input)="dv.filter($event.target.value)">
+          </span>
+          <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+        </div>
+      </ng-template>
+
+      <!-- ListItems start -->
+      <ng-template let-manager pTemplate="listItem">
+        <div class="p-col-12">
+          <div class="product-list-item img-hover-zoom">
+            <!-- Image start -->
+            <img [src]="manager.user_profile.file.url" [alt]="manager.user_profile.userName"
+              (click)="redirectToProfile(manager.id)" />
+            <!-- Image finish -->
+            <!-- UserInfo start -->
+            <div class="product-list-detail" (click)="redirectToProfile(manager.id)">
+              <div class="product-name">{{manager.user_profile.first_name}} {{manager.user_profile.second_name}}</div>
+              <div class="product-description">
+                <span class="product-badge status-instock">
+                  {{manager.roles_for_view}}
+                </span>
+              </div>
+              <div class="product-description" id="phone-email-list">
+                <span><i class="fas fa-sm fa-phone mr-1"></i></span>
+                +{{manager.phone}}<br>
+                <span><i class="fas fa-sm fa-envelope mr-1"></i></span>
+                {{manager.email}}<br>
+              </div>
+              <div>
+                <i class="pi pi-tag product-category-icon pb-1 mr-1"></i>
+                <span class="text-smaller">Работает с: {{manager.created | date: 'dd-MM-yyyy'}}</span> 
+              </div>
+            </div>
+            <!-- UserInfo finish -->
+            <!-- Options start -->
+            <div class="product-list-action">
+              <!-- <span class="product-price">${{product.price}}</span> -->
+              <!-- <p-button icon="pi pi-shopping-cart" label="Add to Cart" styleClass="p-button-sm"
+                [disabled]="product.inventoryStatus === 'OUTOFSTOCK'"></p-button> -->
+              <!-- <span [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span> -->
+            </div>
+            <!-- Options finish -->
+          </div>
+        </div>
+      </ng-template>
+      <!-- ListItems finish -->
+
+      <!-- GridItems start -->
+      <ng-template let-manager pTemplate="gridItem">
+        <div class="p-col-12 p-md-4 mb-2">
+          <div class="product-grid-item card img-hover-zoom">
+            <!-- BlockedUser ribbon start -->
+            <div *ngIf="manager.activity_status == 0" class="ribbon-wrapper ribbon-xl"
+              (click)="redirectToProfile(manager.id)">
+              <div class=" ribbon bg-warning text-sm">Заблокирован</div>
+            </div>
+            <!-- BlockedUser ribbon finish -->
+            <!-- Card header start -->
+            <div class="product-grid-item-top" id="profile-card-top" (click)="redirectToProfile(manager.id)"
+              [ngClass]="{inactive: manager.activity_status == 0}">
+              <div>
+                <i class="pi pi-tag product-category-icon mr-1 pb-1"></i>
+                Работает с: <span class="product-category"> {{manager.created | date: 'dd-MM-yyyy'}}</span>
+              </div>
+            </div>
+            <!-- Card header finish -->
+            <!-- Card body start -->
+            <div class="px-3" [ngClass]="{inactive: manager.activity_status == 0}"
+              (click)="redirectToProfile(manager.id)">
+              <div class="content-line"></div>
+            </div>
+            <div class="product-grid-item-content card-body pt-3 pb-2" (click)="redirectToProfile(manager.id)"
+              [ngClass]="{inactive: manager.activity_status == 0}">
+              <img [src]="manager.user_profile.file.url" [alt]="manager.user_profile.userName" />
+              <div class="product-name">{{manager.user_profile.first_name}} {{manager.user_profile.second_name}}</div>
+              <div class="product-description text-medium roles-for-view">
+                <span class="product-badge status-instock">{{manager.roles_for_view}}</span>
+              </div>
+              <div class="product-description mb-0 font-size-smaller mt-1">+{{manager.phone}}</div>
+              <div class="product-description font-size-smaller">{{manager.email}}</div>
+            </div>
+            <!-- Card body finish -->
+            <!-- Card footer start -->
+            <div class="product-grid-item-bottom card-footer bg-color-unset d-inline"
+              [ngClass]="{inactive: manager.activity_status == 0}">
+              <div class="content-line"></div>
+              <div id="footer-content">
+                <!-- Activity swith start -->
+                <span class="mr-2 text-smaller" id="title-activity">Активность:</span>
+                <p-inputSwitch [ngModel]="manager.activity_status" placement="top"
+                  ngbTooltip="Изменить статус активности" id="switcher-activity">
+                </p-inputSwitch>
+                <!-- Activity switch finish -->
+                <!-- Buttons start -->
+                <span class="manager-list-options">
+                  <a type="nutton" [routerLink]="['/home/update_manager', manager.id]" pButton pRipple
+                    icon="pi pi-pencil" class="p-button-rounded p-button-raised p-button-info mr-1" placement="top"
+                    ngbTooltip="Редактировать"></a>
+                  <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-raised p-button-danger"
+                    placement="top" ngbTooltip="Удалить"></button>
+                </span>
+                <!-- Buttons finish -->
+              </div>
+            </div>
+            <!-- Card footer finish -->
+          </div>
+        </div>
+      </ng-template>
+      <!-- GridItems finish -->
+    </p-dataView>
+  </div>
+</div>
+<!-- Main Content finish -->
+
+
+
+
+
+<!-- Main Content start -->
+<br><br><br>
 <section class="content">
   <div class="card card-solid">
 
@@ -32,20 +222,21 @@
       <div class="row d-flex align-items-stretch">
 
         <div *ngFor="let manager of managers" class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
-          <div *ngIf="manager.activity_status == 1" class="ribbon-wrapper ribbon-xl">
+          <div *ngIf="manager.activity_status == 0" class="ribbon-wrapper ribbon-xl">
             <div class="ribbon bg-warning text-sm">Заблокирован</div>
           </div>
           <div class="card bg-light elevation-1">
-            <div class="card-header text-muted border-bottom-0" [ngClass]="{inactive: manager.activity_status == 1}">
+            <div class="card-header text-muted border-bottom-0" [ngClass]="{inactive: manager.activity_status == 0}">
             </div>
-            <div class="card-body pt-0" [ngClass]="{inactive: manager.activity_status == 1}">
+            <div class="card-body pt-0" [ngClass]="{inactive: manager.activity_status == 0}">
               <div class="row">
                 <div class="col-7">
                   <h2 class="lead"><b>{{manager.user_profile.first_name}} {{manager.user_profile.second_name}}</b>
                   </h2>
                   <p class="text-muted text-sm">
                     <b class="mr-1">Работает с: </b> {{manager.created | date: 'dd-MM-yyyy'}}<br />
-                    <!-- <b class="mr-1">Роли: </b> {{manager.rolesForView}} -->
+                    <b class="mr-1">Роли: </b> {{manager.roles_for_view}}
+
                   </p>
                   <ul class="ml-4 mb-0 fa-ul text-muted">
                     <li class="small">
@@ -67,7 +258,7 @@
               <!-- Status start-->
               <label id="active-lable">Статус</label>
               <ui-switch class="ml-2 item-center" size="small" (change)="onChangeStatus(manager.id, $event)"
-               [checked]="getManagerStatus(manager.activity_status)" color="#007bff" defaultBgColor="red"></ui-switch>
+                [checked]="getManagerStatus(manager.activity_status)" color="#007bff" defaultBgColor="red"></ui-switch>
               <!-- Status finish -->
               <!-- Buttons start -->
               <span>
@@ -79,7 +270,8 @@
                   placement="top" ngbTooltip="Редактировать" id="item-right-edit">
                   <i class="fas fa-pencil-alt"></i>
                 </a>
-                <button class="btn btn-sm btn-outline-danger" id="item-right-delete" placement="top" ngbTooltip="Удалить"
+                <button class="btn btn-sm btn-outline-danger" id="item-right-delete" placement="top"
+                  ngbTooltip="Удалить"
                   (click)="openModal(managerDeleteModal, manager.id, manager.user_profile.file_id)">
                   <i class="fas fa-trash"></i>
                 </button>

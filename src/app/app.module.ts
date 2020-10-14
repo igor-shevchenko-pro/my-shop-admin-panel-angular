@@ -30,6 +30,8 @@ import { InputNumberModule } from 'primeng/inputNumber';
 import { RatingModule } from 'primeng/rating';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DataViewModule } from 'primeng/dataview';
+import { DropdownModule } from 'primeng/dropdown';
 
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './components/home/sidebar/sidebar.component';
@@ -137,6 +139,8 @@ import { AuthInterceptor } from './core/auth/auth.interceptor';
     RatingModule,
     InputSwitchModule,
     ConfirmDialogModule,
+    DataViewModule,
+    DropdownModule,
   ],
   providers: [
     MessageService,

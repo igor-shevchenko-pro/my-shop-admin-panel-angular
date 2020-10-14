@@ -10,6 +10,8 @@ export abstract class UserBaseApiModel extends BaseApiModel<string>
     public is_email_confirmed: boolean;
     public is_phone_confirmed: boolean;
     public user_profile_id: string;
+    // Support property
+    public roles_for_view: string;
 }
 
 export class UserGetFullApiModel extends UserBaseApiModel
