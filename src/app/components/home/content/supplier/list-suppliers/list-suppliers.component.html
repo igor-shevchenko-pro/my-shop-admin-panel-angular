@@ -34,7 +34,7 @@
             <span class="p-input-icon-left">
               <i class="pi pi-search"></i>
               <input pInputText type="text" (input)="dtSupplier.filterGlobal($event.target.value, 'contains')"
-                placeholder="Search..." formControlName="query" />
+                placeholder="Search ..." formControlName="query" />
               <button pButton pRipple type="text" icon="pi pi-times" alt="clear"
                 class="p-button-rounded p-button-sm p-button-danger p-button-text clear-search-btn"
                 (click)="dtSupplier.filterGlobal(null, '')" (click)="searchInputClear()" [disabled]="!query">
@@ -64,13 +64,13 @@
           <th style="width: 4%">
             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
           </th>
-          <th style="width: 26%" pSortableColumn="title">
+          <th style="width: 24%" pSortableColumn="title">
             Название <p-sortIcon field="title"></p-sortIcon>
           </th>
           <th style="width: 26%" pSortableColumn="address">
             Адрес <p-sortIcon field="address"></p-sortIcon>
           </th>
-          <th style="width: 13%" pSortableColumn="phone">
+          <th style="width: 15%" pSortableColumn="phone">
             Телефон <p-sortIcon field="phone"></p-sortIcon>
           </th>
           <th style="width: 13%" pSortableColumn="activity_status">
@@ -82,7 +82,7 @@
       <!-- Header finish -->
       <!-- Body start -->
       <ng-template pTemplate="body" let-supplier>
-        <tr>
+        <tr [ngClass]="{inactive: supplier.activity_status == 0}">
           <td>
             <p-tableCheckbox [value]="supplier"></p-tableCheckbox>
           </td>
@@ -91,10 +91,10 @@
           </td>
           <td (click)="redirectToProfile(supplier.id)" class="hover">{{supplier.address}}</td>
           <td (click)="redirectToProfile(supplier.id)" class="hover">{{supplier.phone}}</td>
-          <td>
+          <td id="activity-col">
             <p-inputSwitch [ngModel]="getActivityStatus(supplier.activity_status)"
               (onChange)="changeActivityStatus(supplier.id, $event)" placement="top"
-              ngbTooltip="Изменить статус активности">
+              ngbTooltip="Изменить статус активности" class="pr-3">
             </p-inputSwitch>
           </td>
           <td>

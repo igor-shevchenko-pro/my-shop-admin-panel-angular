@@ -9,3 +9,11 @@
     top: -.28em!important;
     position: inherit;
 }
+
+#spinner-avatar {
+    position: absolute;
+}
+
+#spinner-img-wrapper {
+    width: 2.6rem !important;
+}

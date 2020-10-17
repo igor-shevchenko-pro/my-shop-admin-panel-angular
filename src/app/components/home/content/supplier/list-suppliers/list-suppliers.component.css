@@ -1,3 +1,11 @@
 #supplier-info-btn{
   margin: 0 .4em 0 .4em;
 }
+
+.inactive {
+  background-color: rgb(253, 246, 252) !important;
+}
+
+#activity-col{
+  text-align: center !important;
+}

@@ -32,6 +32,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DataViewModule } from 'primeng/dataview';
 import { DropdownModule } from 'primeng/dropdown';
+import { SidebarModule } from 'primeng/sidebar';
 
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './components/home/sidebar/sidebar.component';
@@ -141,6 +142,7 @@ import { AuthInterceptor } from './core/auth/auth.interceptor';
     ConfirmDialogModule,
     DataViewModule,
     DropdownModule,
+    SidebarModule,
   ],
   providers: [
     MessageService,

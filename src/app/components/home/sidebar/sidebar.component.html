@@ -16,8 +16,11 @@
           <!-- User panel start -->
           <li *ngIf="userFullName" class="nav-item has-treeview mt-1">
             <a class="nav-link hover d-flex">
-              <div class="image">
-                <img src="{{userPhotoUrl}}" id="icon-sidebar-min" class="img-circle elevation-2" alt="User Image">
+              <div class="image" id="spinner-img-wrapper">
+                <p-progressSpinner id="spinner-avatar" [style]="{width: '2.5rem', height: '2.2rem'}" *ngIf="!isUsersAvatarLoaded">
+                </p-progressSpinner>
+                <img src="{{userPhotoUrl}}" id="icon-sidebar-min" class="img-circle elevation-2" alt="User Image"
+                  (load)="setUsersAvatarLoaded()">
               </div>
               <p class="d-block info">
                 {{userFullName}}
@@ -190,14 +193,11 @@
                 formControlName="OldPassword" pInputText>
               <label for="old-password">Старый пароль</label>
             </span>
-            <small
-              *ngIf="formModel.get('OldPassword').touched && formModel.get('OldPassword').errors?.required"
+            <small *ngIf="formModel.get('OldPassword').touched && formModel.get('OldPassword').errors?.required"
               id="old-password-help" class="p-invalid">Обязательное поле</small>
-            <small
-              *ngIf="formModel.get('OldPassword').touched && formModel.get('OldPassword').errors?.minlength"
+            <small *ngIf="formModel.get('OldPassword').touched && formModel.get('OldPassword').errors?.minlength"
               id="old-password-help" class="p-invalid">Минимальная длинна пароля 4 символа</small>
-            <small
-              *ngIf="formModel.get('OldPassword').touched && formModel.get('OldPassword').errors?.maxlength"
+            <small *ngIf="formModel.get('OldPassword').touched && formModel.get('OldPassword').errors?.maxlength"
               id="old-password-help" class="p-invalid">Максимальная длинна пароля 20 символа</small>
           </div>
           <!-- Password finish -->
@@ -209,14 +209,11 @@
                 class="p-inputtext-sm" formControlName="NewPassword">
               <label for="new-password">Новый пароль</label>
             </span>
-            <small
-              *ngIf="formModel.get('NewPassword').touched && formModel.get('NewPassword').errors?.required"
+            <small *ngIf="formModel.get('NewPassword').touched && formModel.get('NewPassword').errors?.required"
               id="new-password-help" class="p-invalid">Обязательное поле</small>
-            <small
-              *ngIf="formModel.get('NewPassword').touched && formModel.get('NewPassword').errors?.minlength"
+            <small *ngIf="formModel.get('NewPassword').touched && formModel.get('NewPassword').errors?.minlength"
               id="new-password-help" class="p-invalid">Минимальная длинна пароля 4 символа</small>
-            <small
-              *ngIf="formModel.get('NewPassword').touched && formModel.get('NewPassword').errors?.maxlength"
+            <small *ngIf="formModel.get('NewPassword').touched && formModel.get('NewPassword').errors?.maxlength"
               id="new-password-help" class="p-invalid">Максимальная длинна пароля 20 символа</small>
           </div>
           <!-- NewPassword finish -->
@@ -237,12 +234,12 @@
 
 
   <!-- SUPPORT SECTION start -->
-    <!-- Block document start -->
-    <p-blockUI [blocked]="blockedDocument">
-      <p-progressSpinner></p-progressSpinner>
-    </p-blockUI>
-    <!-- Block document finish -->
-    <!-- ToastMessage start -->
-    <p-toast position="top-right" preventOpenDuplicates="true" key="password-reset-sidebar"></p-toast>
-    <!-- ToasMessage finish -->
+  <!-- Block document start -->
+  <p-blockUI [blocked]="blockedDocument">
+    <p-progressSpinner></p-progressSpinner>
+  </p-blockUI>
+  <!-- Block document finish -->
+  <!-- ToastMessage start -->
+  <p-toast position="top-right" preventOpenDuplicates="true" key="password-reset-sidebar"></p-toast>
+  <!-- ToasMessage finish -->
   <!-- SUPPORT SECTION finish -->

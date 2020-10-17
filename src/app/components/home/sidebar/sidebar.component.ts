@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import * as $ from 'jquery';
 import * as AdminLte from 'admin-lte';
 import { AccountService } from 'src/app/services/account.service';
@@ -11,7 +11,7 @@ import { SuccessResponseApiModel } from 'src/app/core/api-models/base/success-re
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnDestroy {
 
   @Input() public userFullName: string;
   @Input() public userPhotoUrl: string;
@@ -19,6 +19,7 @@ export class SidebarComponent implements OnInit {
   public blockedDocument: boolean = false;
   public displayModalChangePassword: boolean;
   public accountService: AccountService;
+  public isUsersAvatarLoaded: boolean = false;
 
   public formModel = this._formBuilder.group({
     OldPassword: [null, [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
@@ -39,6 +40,10 @@ export class SidebarComponent implements OnInit {
       AdminLte.Layout._jQueryInterface.call($('body'));
       AdminLte.PushMenu._jQueryInterface.call($('[data-widget="pushmenu"]'));
     });
+  }
+
+  ngOnDestroy(): void {
+    this.isUsersAvatarLoaded = false;
   }
 
 
@@ -79,6 +84,10 @@ export class SidebarComponent implements OnInit {
       }
     );
 
+  }
+
+  public setUsersAvatarLoaded(): void{
+    this.isUsersAvatarLoaded = true;
   }
 
 }

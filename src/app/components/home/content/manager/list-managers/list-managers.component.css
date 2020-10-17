@@ -73,13 +73,13 @@ span.manager-list-options .p-button.p-button-icon-only.p-button-rounded {
 }
 
 .content-line {
-    border: 1px solid #e4e4e4;
-    border-width: 0 0 1px 0;
-    width: 100%;
+  border: 1px solid #e4e4e4;
+  border-width: 0 0 1px 0;
+  width: 100%;
 }
 
 #footer-content {
-    margin: .6rem 0 .6rem 0;
+  margin: .6rem 0 .6rem 0;
 }
 
 #title-activity {
@@ -95,12 +95,15 @@ span.manager-list-options .p-button.p-button-icon-only.p-button-rounded {
 .img-hover-zoom {
   overflow: hidden !important;
 }
+
 .img-hover-zoom img {
-  transition: 0.3s all ease-in-out !important; 
+  transition: 0.3s all ease-in-out !important;
 }
+
 .img-hover-zoom:hover img {
   transform: scale(1.05);
 }
+
 /* Zoom img finish */
 
 .product-grid-item img {
@@ -108,12 +111,12 @@ span.manager-list-options .p-button.p-button-icon-only.p-button-rounded {
 }
 
 .product-list-item img {
-  width: 12.7% !important;
+  /* width: 12.7% !important; */
   margin: .35rem 2rem .35rem 0 !important;
-  box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23), 0 6px 6px rgba(0,0,0,.16);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23), 0 6px 6px rgba(0, 0, 0, .16);
 }
 
-.product-list-item:hover{
+.product-list-item:hover {
   cursor: pointer;
   background: rgba(63, 81, 181, 0.041);
 }
@@ -125,4 +128,65 @@ span.manager-list-options .p-button.p-button-icon-only.p-button-rounded {
 
 .product-description#phone-email-list {
   margin: 0 0 .4rem;
+}
+
+.product-price #title-activity {
+  top: -.23rem !important;
+}
+
+a.options-btn-list {
+  padding: .3rem .7rem;
+}
+
+button.options-btn-list {
+  padding: .3rem .7rem;
+}
+
+.list-item-wrapper {
+  position: relative !important;
+}
+
+.ribbon-wrapper.ribbon-xl.ribbon-photo {
+  top: .2rem !important;
+  right: 1.8rem !important;
+  transition: 0.3s all ease-in-out !important;
+}
+
+.img-hover-zoom:hover .ribbon-wrapper.ribbon-xl.ribbon-photo {
+  transform: scale(1.05);
+}
+
+.spinner-img-wrapper {
+  position: relative;
+  height: 10rem;
+}
+
+.grid-img-spinner {
+  position: absolute;
+  top: 1rem;
+  left: 6rem;
+}
+
+#img-wrapper{
+  max-height: 8.5rem !important;
+  overflow: hidden !important;
+}
+
+#img-wrapper-list{
+  max-height: 10.3rem !important;
+  overflow: hidden !important;
+}
+
+#user-filter-select {
+  position: absolute;
+  left: 5.5rem;
+}
+
+#user-search-input{
+  position: absolute;
+  left: 17.25rem;
+}
+
+#search-input{
+  height: 2.6rem!important;
 }

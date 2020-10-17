@@ -57,14 +57,15 @@
   top: 1.1rem !important;
 }
 
+.min-width-0 {
+  min-width: 0 !important;
+}
+
 #img-circle-width {
   width: 2.5em;
   position: relative;
   top: -.5em;
-}
-
-.min-width-0 {
-  min-width: 0 !important;
+  left: -1rem;
 }
 
 .hover {
@@ -79,6 +80,10 @@ div.content-wrapper {
   padding-bottom: 1rem !important;
 }
 
+
+.card-manager-list .p-dataview .p-dataview-header {
+  padding: 1rem 0 !important;
+}
 
 /* custom upload file icon */
 label.custom-file-label::after {
@@ -244,7 +249,13 @@ div.ng-trigger.ng-trigger-animation.ng-tns-c121-0.p-overlaypanel.p-component.ng-
 }
 
 .p-overlaypanel {
-  top: .45rem !important;
+  top: .46rem !important;
+  position: absolute !important;
+  right: 0!important;
+}
+
+#user-profile-overlay .p-sidebar{
+  padding: 1rem 0 !important;
 }
 
 .p-overlaypanel:after,

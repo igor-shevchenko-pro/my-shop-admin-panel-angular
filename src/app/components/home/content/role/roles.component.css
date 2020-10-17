@@ -1,3 +1,8 @@
+.inactive_role {
+  background-color: rgb(253, 246, 252) !important;
+  /* opacity: .5; */
+}
+
 img.table-avatar {
   border-radius: 50%;
   display: inline-block;
@@ -19,8 +24,9 @@ img.table-avatar {
 }
 
 .inactive {
-  border: 1px solid red;
-  opacity: .2;
+  border: 3px solid red;
+  background-color: rgb(253, 246, 252) !important;
+  opacity: .4;
 }
 
 .role-font-size {
@@ -31,7 +37,7 @@ img.table-avatar {
   overflow: hidden;
   width: 3.4rem;
   height: 3.4rem;
-  margin-left: 2px;
+  margin-left: 3px;
 }
 
 #img-user-overflow:hover {
@@ -50,4 +56,20 @@ img.table-avatar {
 #activity-role-add {
   position: relative;
   bottom: -4px;
+}
+
+#activity-role {
+  text-align: center!important;
+}
+
+.spinner-img-wrapper {
+  display: inline-block;
+  position: relative;
+  min-width: 3.4rem;
+}
+
+#role-avatar-spiner {
+  position: absolute;
+  top: .5rem;
+  left: .4rem;
 }

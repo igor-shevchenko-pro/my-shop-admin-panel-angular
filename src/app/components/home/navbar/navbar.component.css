@@ -10,3 +10,11 @@ li.list-group-item#settings-user-info-overlay {
     width: 80%;
     margin: 2% 10% 0 10%;
 }
+
+#spinner-avatar {
+    position: absolute;
+}
+
+#spinner-img-wrapper {
+    width: 2.6rem !important;
+}

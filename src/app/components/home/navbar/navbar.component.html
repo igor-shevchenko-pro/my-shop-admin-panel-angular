@@ -126,10 +126,13 @@
     </li>
     <!-- Button control-sidebar finish -->
     <!-- UserProfile overlay start -->
-    <li *ngIf="userFullName && userRoles" class="nav-item dropdown">
-      <a class="nav-link" (click)="overlayUserInfoSection.toggle($event)">
+    <li *ngIf="userFullName && userRoles" class="nav-item dropdown" id="spinner-img-wrapper">
+      <p-progressSpinner id="spinner-avatar" [style]="{width: '2.5rem', height: '2.2rem'}" *ngIf="!isUsersAvatarLoaded">
+      </p-progressSpinner>
+      <a class="nav-link" >
         <div class="image d-flex hover">
-          <img src="{{userPhotoUrl}}" id="img-circle-width" class="img-circle elevation-2" alt="User Image">
+          <img src="{{userPhotoUrl}}" id="img-circle-width" class="img-circle elevation-2" alt="User Image"
+            (load)="setUsersAvatarLoaded()" (click)="visibleUserSidebar = true">
         </div>
       </a>
     </li>
@@ -141,8 +144,7 @@
 
 
 <!-- OverlayPanel UserInfo start -->
-<p-overlayPanel id="overlayUserInfoSection" #overlayUserInfoSection [showTransitionOptions]="'100ms'"
-  [hideTransitionOptions]="'200ms'" [dismissable]="true" [showCloseIcon]="false" [style]="{width: '250px'}">
+<p-sidebar [(visible)]="visibleUserSidebar" position="right" [baseZIndex]="10000" id="user-profile-overlay">
   <ng-template pTemplate>
     <!-- Logo, Title, Roles section start -->
     <div class="text-center">
@@ -155,21 +157,21 @@
     <!-- Logo, Title, Roles section finish -->
     <!-- List elements start -->
     <ul class="list-group list-group-unbordered mb-2 bg-light">
-      <a [routerLink]="['/home/manager', userId]">
+      <a [routerLink]="['/home/manager', userId]" (click)="visibleUserSidebar = false">
         <li class="list-group-item pl-4 overlay-item-hover" pRipple>
-          <i class="pi pi-id-card nav-icon align-text-bottom mr-2"></i>
+          <i class="pi pi-id-card nav-icon align-text-bottom ml-2 mr-2"></i>
           <span class="align-middle text-sm">Профиль</span>
         </li>
       </a>
-      <a [routerLink]="['/home/update_manager', userId]">
+      <a [routerLink]="['/home/update_manager', userId]" (click)="visibleUserSidebar = false">
         <li class="list-group-item pl-4 overlay-item-hover" pRipple id="settings-user-info-overlay">
-          <i class="pi pi-cog nav-icon align-text-bottom mr-2"></i>
+          <i class="pi pi-cog nav-icon align-text-bottom ml-2 mr-2"></i>
           <span class="align-middle text-sm">Настройки</span>
         </li>
       </a>
-      <a type="button" (click)="showModalDialogChangePassword()">
+      <a type="button" (click)="showModalDialogChangePassword()" (click)="visibleUserSidebar = false">
         <li class="list-group-item pl-4 overlay-item-hover" pRipple>
-          <i class="pi pi-lock nav-icon align-text-bottom mr-2"></i>
+          <i class="pi pi-lock nav-icon align-text-bottom ml-2 mr-2"></i>
           <span class="align-middle text-sm">Сменить пароль</span>
         </li>
       </a>
@@ -181,7 +183,7 @@
     </button>
     <!-- Exit button finish -->
   </ng-template>
-</p-overlayPanel>
+</p-sidebar>
 <!-- OverlayPanel UserInfo finish -->
 
 
@@ -200,14 +202,11 @@
               formControlName="OldPassword" pInputText>
             <label for="old-password">Старый пароль</label>
           </span>
-          <small
-            *ngIf="formModel.get('OldPassword').touched && formModel.get('OldPassword').errors?.required"
+          <small *ngIf="formModel.get('OldPassword').touched && formModel.get('OldPassword').errors?.required"
             id="old-password-help" class="p-invalid">Обязательное поле</small>
-          <small
-            *ngIf="formModel.get('OldPassword').touched && formModel.get('OldPassword').errors?.minlength"
+          <small *ngIf="formModel.get('OldPassword').touched && formModel.get('OldPassword').errors?.minlength"
             id="old-password-help" class="p-invalid">Минимальная длинна пароля 4 символа</small>
-          <small
-            *ngIf="formModel.get('OldPassword').touched && formModel.get('OldPassword').errors?.maxlength"
+          <small *ngIf="formModel.get('OldPassword').touched && formModel.get('OldPassword').errors?.maxlength"
             id="old-password-help" class="p-invalid">Максимальная длинна пароля 20 символа</small>
         </div>
         <!-- Password finish -->
@@ -219,14 +218,11 @@
               class="p-inputtext-sm" formControlName="NewPassword">
             <label for="new-password">Новый пароль</label>
           </span>
-          <small
-            *ngIf="formModel.get('NewPassword').touched && formModel.get('NewPassword').errors?.required"
+          <small *ngIf="formModel.get('NewPassword').touched && formModel.get('NewPassword').errors?.required"
             id="new-password-help" class="p-invalid">Обязательное поле</small>
-          <small
-            *ngIf="formModel.get('NewPassword').touched && formModel.get('NewPassword').errors?.minlength"
+          <small *ngIf="formModel.get('NewPassword').touched && formModel.get('NewPassword').errors?.minlength"
             id="new-password-help" class="p-invalid">Минимальная длинна пароля 4 символа</small>
-          <small
-            *ngIf="formModel.get('NewPassword').touched && formModel.get('NewPassword').errors?.maxlength"
+          <small *ngIf="formModel.get('NewPassword').touched && formModel.get('NewPassword').errors?.maxlength"
             id="new-password-help" class="p-invalid">Максимальная длинна пароля 20 символа</small>
         </div>
         <!-- NewPassword finish -->
@@ -247,12 +243,12 @@
 
 
 <!-- SUPPORT SECTION start -->
-  <!-- Block document start -->
-  <p-blockUI [blocked]="blockedDocument">
-    <p-progressSpinner></p-progressSpinner>
-  </p-blockUI>
-  <!-- Block document finish -->
-  <!-- ToastMessage start -->
-  <p-toast position="top-right" preventOpenDuplicates="true" key="password-reset-navbar"></p-toast>
-  <!-- ToasMessage finish -->
+<!-- Block document start -->
+<p-blockUI [blocked]="blockedDocument">
+  <p-progressSpinner></p-progressSpinner>
+</p-blockUI>
+<!-- Block document finish -->
+<!-- ToastMessage start -->
+<p-toast position="top-right" preventOpenDuplicates="true" key="password-reset-navbar"></p-toast>
+<!-- ToasMessage finish -->
 <!-- SUPPORT SECTION finish -->

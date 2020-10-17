@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { AccountService } from 'src/app/services/account.service';
 import { Validators, FormBuilder } from '@angular/forms';
 import { ToastService } from 'src/app/services/base/toast.service';
@@ -10,7 +10,7 @@ import { SuccessResponseApiModel } from 'src/app/core/api-models/base/success-re
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnDestroy {
 
   @Input() public userFullName: string;
   @Input() public userRoles: string;
@@ -20,6 +20,8 @@ export class NavbarComponent {
   public routerLinkToMainSite: string = baseWebSiteUrl;
   public displayModalChangePassword: boolean;
   public accountService: AccountService;
+  public isUsersAvatarLoaded: boolean = false;
+  public visibleUserSidebar: boolean;
 
   public formModel = this._formBuilder.group({
     OldPassword: [null, [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
@@ -31,6 +33,10 @@ export class NavbarComponent {
               private _formBuilder: FormBuilder,
               private _toastService: ToastService) {
     this.accountService = _accountService;
+  }
+
+  ngOnDestroy(): void {
+    this.isUsersAvatarLoaded = false;
   }
 
 
@@ -71,6 +77,10 @@ export class NavbarComponent {
       }
     );
     
+  }
+
+  public setUsersAvatarLoaded(): void{
+    this.isUsersAvatarLoaded = true;
   }
 
 }

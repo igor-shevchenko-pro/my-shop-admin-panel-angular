@@ -31,6 +31,7 @@ export class RolesComponent implements OnInit, OnDestroy {
   private _count: number = 0;
   private _sortField: string;
   private _sortOrder: number;
+  private _userIdsWhenLoadedAvatar: string[] = [];
 
   // Needs for correct displaying first page after changing sortedField or sortOrder
   private _sortFieldVisited: string;
@@ -69,6 +70,7 @@ export class RolesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this._breadcrumbService.breadcrumbItems = [];
+    this._userIdsWhenLoadedAvatar = [];
   }
 
 
@@ -344,5 +346,20 @@ export class RolesComponent implements OnInit, OnDestroy {
     }
   }
   // *** ModalDialog support methods finish
+
+
+  // *** Spinner image load support methods start
+  public setUserIdWhenAvatarLoaded(userId: string): void{
+    this._userIdsWhenLoadedAvatar.push(userId);
+  }
+
+  public isAvatarLoaded(userId: string): boolean{
+    let loadedResult: boolean = false;
+    this._userIdsWhenLoadedAvatar.forEach(element => {
+      if(element == userId) loadedResult = true;
+    });
+    return loadedResult;
+  }
+  // *** Spinner image load support methods finish
 
 }

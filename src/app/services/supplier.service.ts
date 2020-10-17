@@ -63,7 +63,7 @@ export class SupplierService extends BaseService<SupplierSortingEnum> {
     model.extra_manager = supplierFormGroup.value.ExtraManager;
     model.address = supplierFormGroup.value.Address;
     model.extra_address = supplierFormGroup.value.ExtraAddress;
-    model.title = supplierFormGroup.value.Title;
+    model.description = supplierFormGroup.value.Description;
     model.some_info = supplierFormGroup.value.SomeInfo;
     model.activity_status = supplierFormGroup.value.Activity;
     model.language_id = supplierFormGroup.value.LanguageId;
