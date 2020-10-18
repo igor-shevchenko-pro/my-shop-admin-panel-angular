@@ -36,8 +36,7 @@ img.table-avatar {
 #img-user-overflow {
   overflow: hidden;
   width: 3.4rem;
-  height: 3.4rem;
-  margin-left: 3px;
+  /* height: 3.4rem; */
 }
 
 #img-user-overflow:hover {
@@ -72,4 +71,11 @@ img.table-avatar {
   position: absolute;
   top: .5rem;
   left: .4rem;
+}
+
+.img-wrapper{
+  max-height: 3.4rem !important;
+  width: 3.4rem !important;
+  overflow: hidden !important;
+  margin-left: 3px;
 }

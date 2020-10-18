@@ -37,13 +37,16 @@ export class UserService extends BaseService<UserSortingEnum> {
     return this._httpClient.get<IBaseApiModel<string>>(url);
   }
 
-  public getManagers(start: number, count: number, sortings: Array<UserSortingEnum>,
-    modelResponseType: TypeModelResponseEnum, query: string = null)
-    : Observable<PaginationResponseApiModel<IBaseApiModel<string>, UserSortingEnum>> {
+  public getManagers(start: number, count: number, modelResponseType: TypeModelResponseEnum,
+    sortField: string, sortOrder: number, query: string = null): Observable<PaginationResponseApiModel<UserGetFullApiModel, UserSortingEnum>> {
+
+    // build sortings
+    let sortings = this.buildSortings(sortField, sortOrder);
+
     let model = this.buildSortedEntitiesRequestModel(start, count, sortings, modelResponseType, query);
     return this._httpClient.post<PaginationResponseApiModel<IBaseApiModel<string>, UserSortingEnum>>(this._getManagers, model);
   }
-  
+
 
   public getById(id: string, modelResponseType: TypeModelResponseEnum): Observable<IBaseApiModel<string>> {
     let url = `${this._getById}/${id}?modelresponsetype=${modelResponseType}`;
@@ -77,7 +80,7 @@ export class UserService extends BaseService<UserSortingEnum> {
     userModel.roles = userRoles;
     userModel.user_profile = userProfileModel;
     if (userFormGroup.value.Status == true) userModel.activity_status = EntityActivityStatusEnum.Inactive;
-    if (userFormGroup.value.Status == false) userModel.activity_status = EntityActivityStatusEnum.Inactive-2;
+    if (userFormGroup.value.Status == false) userModel.activity_status = EntityActivityStatusEnum.Inactive - 2;
 
     return this._httpClient.post<SuccessResponseApiModel>(this._add, userModel);
   }
@@ -119,7 +122,7 @@ export class UserService extends BaseService<UserSortingEnum> {
     userModel.roles = userRoles;
     userModel.user_profile = userProfileModel;
     if (userFormGroup.value.Status == true) userModel.activity_status = EntityActivityStatusEnum.Inactive;
-    if (userFormGroup.value.Status == false) userModel.activity_status = EntityActivityStatusEnum.Inactive-2;
+    if (userFormGroup.value.Status == false) userModel.activity_status = EntityActivityStatusEnum.Inactive - 2;
 
     let url = `${this._update}/${id}`;
     return this._httpClient.put<SuccessResponseApiModel>(url, userModel);
@@ -128,6 +131,42 @@ export class UserService extends BaseService<UserSortingEnum> {
   public setDefaultPhoto(id: string): Observable<SuccessResponseApiModel> {
     let url = `${this._setDefaultPhoto}/${id}`;
     return this._httpClient.put<SuccessResponseApiModel>(url, id);
+  }
+
+
+  //+
+  private buildSortings(sortField: string, sortOrder: number): Array<UserSortingEnum> {
+
+    let sortings: Array<RoleSortingEnum> = null;
+
+    if (sortField === 'created' && sortOrder === 1) {
+      sortings = [RoleSortingEnum.ByCreateAsc];
+    }
+    else if (sortField === 'created' && sortOrder === -1) {
+      sortings = [RoleSortingEnum.ByCreateDesc];
+    }
+    else if (sortField === 'updated' && sortOrder === 1) {
+      sortings = [RoleSortingEnum.ByUpdateAsc];
+    }
+    else if (sortField === 'updated' && sortOrder === -1) {
+      sortings = [RoleSortingEnum.ByUpdateDesc];
+    }
+    else if (sortField === 'activity_status' && sortOrder === -1) {
+      sortings = [RoleSortingEnum.ByActivityStatusAsc];
+    }
+    else if (sortField === 'activity_status' && sortOrder === 1) {
+      sortings = [RoleSortingEnum.ByActivityStatusDesc];
+    }
+    else if (sortField === 'title' && sortOrder === 1) {
+      sortings = [RoleSortingEnum.ByTitleAsc];
+    }
+    else if (sortField === 'title' && sortOrder === -1) {
+      sortings = [RoleSortingEnum.ByTitleDesc];
+    } else {
+      sortings = [RoleSortingEnum.ByCreateDesc];
+    }
+
+    return sortings;
   }
 
 }

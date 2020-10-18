@@ -190,3 +190,7 @@ button.options-btn-list {
 #search-input{
   height: 2.6rem!important;
 }
+
+.total-section{
+  font-weight: 500;
+}

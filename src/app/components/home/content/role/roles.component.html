@@ -86,12 +86,14 @@
           </td>
           <td>
             <div class="spinner-img-wrapper" *ngFor="let user of role.users">
-              <p-progressSpinner [style]="{width: '3rem', height: '2.5rem'}" *ngIf="isAvatarLoaded(user.id) == false" 
-              id="role-avatar-spiner"></p-progressSpinner>
-              <img src="{{user.user_profile.file.url}}" (load)="setUserIdWhenAvatarLoaded(user.id)" 
-              [ngClass]="{inactive: user.activity_status == 0}" alt="User image" placement="top"
-                ngbTooltip="{{user.user_profile.first_name}} {{user.user_profile.second_name}}"
-                [routerLink]="['/home/manager', user.id]" class="elevation-2" id="img-user-overflow">
+              <p-progressSpinner [style]="{width: '3rem', height: '2.5rem'}" *ngIf="isAvatarLoaded(user.id) == false"
+                id="role-avatar-spiner"></p-progressSpinner>
+              <div class="img-wrapper" [ngClass]="{'elevation-2': isAvatarLoaded(user.id) == true}">
+                <img src="{{user.user_profile.file.url}}" (load)="setUserIdWhenAvatarLoaded(user.id)" alt="User image"
+                  [ngClass]="{inactive: user.activity_status == 0 && isAvatarLoaded(user.id) == true}" placement="top"
+                  ngbTooltip="{{user.user_profile.first_name}} {{user.user_profile.second_name}}"
+                  [routerLink]="['/home/manager', user.id]" id="img-user-overflow">
+              </div>
             </div>
           </td>
           <td id="activity-role">

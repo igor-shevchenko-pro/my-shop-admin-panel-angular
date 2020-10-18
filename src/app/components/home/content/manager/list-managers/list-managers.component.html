@@ -15,8 +15,10 @@
 <div class="content-section implementation">
   <div class="card card-manager-list">
     <h5 class="p-m-0">Управление менеджерами</h5>
-    <p-dataView #mn [value]="managers" [paginator]="true" [rows]="9" filterBy="created" [sortField]="sortField"
-      [sortOrder]="sortOrder" layout="grid" class="managers">
+    <p-dataView #mn [value]="managers" [rows]="6" [paginator]="true" filterBy="created" [sortField]="sortField"
+      [sortOrder]="sortOrder" layout="grid" class="managers" [lazy]="true" [totalRecords]="totalRecords"
+      [loading]="lazyLoading" currentPageReportTemplate="Показаны с {first} по {last} из {totalRecords} записей"
+      [showCurrentPageReport]="true" [rowsPerPageOptions]="[6,12]" [(first)]="start" (onLazyLoad)="getManagers($event)">
       <ng-template pTemplate="header">
         <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
           <a pButton type="button" pRipple label="New" icon="pi pi-plus"
@@ -27,70 +29,12 @@
             (onChange)="onSortChange($event)" styleClass="p-mb-2 p-mb-md-0" id="user-filter-select"></p-dropdown>
           <span class="p-input-icon-left p-mb-2 p-mb-md-0" id="user-search-input">
             <i class="pi pi-search"></i>
-            <input type="search" id="search-input" pInputText placeholder="Search ..." (input)="dv.filter($event.target.value)">
+            <input type="search" id="search-input" pInputText placeholder="Search ..."
+              (input)="mn.filter($event.target.value)">
           </span>
           <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
         </div>
       </ng-template>
-
-      <!-- ListItems start -->
-      <ng-template let-manager pTemplate="listItem">
-        <div class="p-col-12">
-          <div class="product-list-item img-hover-zoom" [ngClass]="{inactive: manager.activity_status == 0}">
-            <div class="list-item-wrapper">
-              <!-- BlockedUser ribbon start -->
-              <div *ngIf="manager.activity_status == 0" class="ribbon-wrapper ribbon-xl ribbon-photo"
-                (click)="redirectToProfile(manager.id)">
-                <div class="ribbon bg-warning text-sm">Заблокирован</div>
-              </div>
-              <!-- BlockedUser ribbon finish -->
-              <!-- Image start -->
-              <div id="img-wrapper-list">
-                <img [src]="manager.user_profile.file.url" [alt]="manager.user_profile.userName"
-                  (click)="redirectToProfile(manager.id)" />
-              </div>
-              <!-- Image finish -->
-            </div>
-            <!-- UserInfo start -->
-            <div class="product-list-detail" (click)="redirectToProfile(manager.id)">
-              <div class="product-name">{{manager.user_profile.first_name}} {{manager.user_profile.second_name}}</div>
-              <div class="product-description">
-                <span class="product-badge status-instock">
-                  {{manager.roles_for_view}}
-                </span>
-              </div>
-              <div class="product-description" id="phone-email-list">
-                <span><i class="fas fa-sm fa-phone mr-1"></i></span>
-                +{{manager.phone}}<br>
-                <span><i class="fas fa-sm fa-envelope mr-1"></i></span>
-                {{manager.email}}<br>
-              </div>
-              <div>
-                <i class="pi pi-tag product-category-icon pb-1 mr-1"></i>
-                <span class="text-smaller">Работает с: {{manager.created | date: 'dd-MM-yyyy'}}</span>
-              </div>
-            </div>
-            <!-- UserInfo finish -->
-            <!-- Options start -->
-            <div class="product-list-action">
-              <span class="product-price w-100">
-                <!-- Activity swith start -->
-                <span class="mr-2 text-smaller font-weight-normal" id="title-activity">Активность:</span>
-                <p-inputSwitch [ngModel]="manager.activity_status" placement="top"
-                  ngbTooltip="Изменить статус активности">
-                </p-inputSwitch>
-                <!-- Activity switch finish -->
-              </span>
-              <a type="button" [routerLink]="['/home/update_manager', manager.id]" pButton pRipple icon="pi pi-pencil"
-                label="Редактировать" class="p-button-raised p-button-info p-button-sm options-btn-list"></a>
-              <button pButton pRipple icon="pi pi-trash" label="Удалить"
-                class="p-button-raised p-button-danger p-button-sm options-btn-list" (click)="delete(manager)"></button>
-            </div>
-            <!-- Options finish -->
-          </div>
-        </div>
-      </ng-template>
-      <!-- ListItems finish -->
 
       <!-- GridItems start -->
       <ng-template let-manager pTemplate="gridItem">
@@ -161,7 +105,74 @@
         </div>
       </ng-template>
       <!-- GridItems finish -->
+
+      <!-- ListItems start -->
+      <ng-template let-manager pTemplate="listItem">
+        <div class="p-col-12">
+          <div class="product-list-item img-hover-zoom" [ngClass]="{inactive: manager.activity_status == 0}">
+            <div class="list-item-wrapper">
+              <!-- BlockedUser ribbon start -->
+              <div *ngIf="manager.activity_status == 0" class="ribbon-wrapper ribbon-xl ribbon-photo"
+                (click)="redirectToProfile(manager.id)">
+                <div class="ribbon bg-warning text-sm">Заблокирован</div>
+              </div>
+              <!-- BlockedUser ribbon finish -->
+              <!-- Image start -->
+              <div id="img-wrapper-list">
+                <img [src]="manager.user_profile.file.url" [alt]="manager.user_profile.userName"
+                  (click)="redirectToProfile(manager.id)" />
+              </div>
+              <!-- Image finish -->
+            </div>
+            <!-- UserInfo start -->
+            <div class="product-list-detail" (click)="redirectToProfile(manager.id)">
+              <div class="product-name">{{manager.user_profile.first_name}} {{manager.user_profile.second_name}}</div>
+              <div class="product-description">
+                <span class="product-badge status-instock">
+                  {{manager.roles_for_view}}
+                </span>
+              </div>
+              <div class="product-description" id="phone-email-list">
+                <span><i class="fas fa-sm fa-phone mr-1"></i></span>
+                +{{manager.phone}}<br>
+                <span><i class="fas fa-sm fa-envelope mr-1"></i></span>
+                {{manager.email}}<br>
+              </div>
+              <div>
+                <i class="pi pi-tag product-category-icon pb-1 mr-1"></i>
+                <span class="text-smaller">Работает с: {{manager.created | date: 'dd-MM-yyyy'}}</span>
+              </div>
+            </div>
+            <!-- UserInfo finish -->
+            <!-- Options start -->
+            <div class="product-list-action">
+              <span class="product-price w-100">
+                <!-- Activity swith start -->
+                <span class="mr-2 text-smaller font-weight-normal" id="title-activity">Активность:</span>
+                <p-inputSwitch [ngModel]="manager.activity_status" placement="top"
+                  ngbTooltip="Изменить статус активности">
+                </p-inputSwitch>
+                <!-- Activity switch finish -->
+              </span>
+              <a type="button" [routerLink]="['/home/update_manager', manager.id]" pButton pRipple icon="pi pi-pencil"
+                label="Редактировать" class="p-button-raised p-button-info p-button-sm options-btn-list"></a>
+              <button pButton pRipple icon="pi pi-trash" label="Удалить"
+                class="p-button-raised p-button-danger p-button-sm options-btn-list" (click)="delete(manager)"></button>
+            </div>
+            <!-- Options finish -->
+          </div>
+        </div>
+      </ng-template>
+      <!-- ListItems finish -->
+
     </p-dataView>
+    
+    <!-- Total section start -->
+    <div class="total-section my-1">
+      Всего менеджеров {{totalRecords}}
+    </div>
+    <hr class="mt-0">
+    <!-- Total section finish -->
   </div>
 </div>
 <!-- Main Content finish -->
@@ -194,7 +205,7 @@
 
 
 <!-- Main Content start -->
-<div class="content-section implementation">
+<!-- <div class="content-section implementation">
   <div class="card">
     <h5 class="p-m-0">Управление менеджерами</h5>
     <p-dataView #dv [value]="products" [paginator]="true" [rows]="9" filterBy="name" [sortField]="sortField"
@@ -256,5 +267,5 @@
       </ng-template>
     </p-dataView>
   </div>
-</div>
-<!-- Main Content finish --><br><br>
+</div> -->
+<!-- Main Content finish -->

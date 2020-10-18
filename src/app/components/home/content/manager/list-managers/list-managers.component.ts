@@ -6,11 +6,10 @@ import { EntityActivityStatusEnum, TypeModelResponseEnum, UserSortingEnum } from
 import { UserGetFullApiModel } from 'src/app/core/api-models/user-account/user';
 import { SuccessResponseApiModel } from 'src/app/core/api-models/base/success-response';
 import { PaginationResponseApiModel } from 'src/app/core/api-models/base/pagination-response';
-import { ConfirmationService, MenuItem, SelectItem } from 'primeng/api';
+import { ConfirmationService, LazyLoadEvent, MenuItem, SelectItem } from 'primeng/api';
 import { BreadcrumbService } from 'src/app/services/base/bradcrumb.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { IBaseApiModel } from 'src/app/core/interfaces/base/ibase';
 import { ToastService } from 'src/app/services/base/toast.service';
 
 @Component({
@@ -23,6 +22,13 @@ export class ListManagersComponent implements OnInit, OnDestroy {
   public breadcrumbItems: MenuItem[] = [];
   public breadcrumbHome: MenuItem;
   public blockedDocument: boolean = false;
+  public lazyLoading: boolean;
+  public totalRecords: number;
+  public start: number = 0;
+  public query: string;
+  private _count: number = 0;
+  private _sortField: string;
+  private _sortOrder: number;
   private _userIdsWhenLoadedAvatar: string[] = [];
 
   products: Product[];
@@ -33,12 +39,6 @@ export class ListManagersComponent implements OnInit, OnDestroy {
 
   public managers: Array<UserGetFullApiModel>;
   public userRoles: string;
-  private _userId: string;
-  private _fileId: string;
-  private _start: number = 0;
-  private _count: number = 100;
-  private _sortings: Array<UserSortingEnum> = [UserSortingEnum.ByCreateDesc];
-
 
   status: string[] = ['OUTOFSTOCK', 'INSTOCK', 'LOWSTOCK'];
 
@@ -85,14 +85,14 @@ export class ListManagersComponent implements OnInit, OnDestroy {
 
 
   constructor(private _userService: UserService,
-    private http: HttpClient,
-    private _modalService: NgbModal,
-    private _router: Router,
-    private _breadcrumbService: BreadcrumbService,
-    private _toastService: ToastService,
-    private _confirmationService: ConfirmationService,
-    private _fileService: FileService) {
-    this.managers = new Array<UserGetFullApiModel>();
+              private http: HttpClient,
+              private _modalService: NgbModal,
+              private _router: Router,
+              private _breadcrumbService: BreadcrumbService,
+              private _toastService: ToastService,
+              private _confirmationService: ConfirmationService,
+              private _fileService: FileService) {
+              this.managers = new Array<UserGetFullApiModel>();
   }
 
   ngOnInit(): void {
@@ -116,12 +116,18 @@ export class ListManagersComponent implements OnInit, OnDestroy {
   }
 
 
-  public getManagers(): void {
+  public getManagers(event: LazyLoadEvent = null): void {
+
+    this.lazyLoading = true;
     let tempRoles: Array<string> = new Array<string>();
-    this._userService.getManagers(this._start, this._count, this._sortings, TypeModelResponseEnum.GetFullApiModel).subscribe(
+
+    this._userService.getManagers(this.start, this._count, TypeModelResponseEnum.GetFullApiModel,
+      this._sortField, this._sortOrder, this.query).subscribe(
       (res: PaginationResponseApiModel<UserGetFullApiModel, UserSortingEnum>) => {
         // console.log(res);
         if (res.models.length > 0) {
+          this.lazyLoading = false;
+          this.totalRecords = res.total;
           res.models.forEach(element => {
             element.roles.forEach(item => {
               tempRoles.push(item.title);
@@ -129,6 +135,8 @@ export class ListManagersComponent implements OnInit, OnDestroy {
             element.roles_for_view = tempRoles.join(' / ');
             tempRoles = new Array<string>();
           });
+        } else {
+          this.totalRecords = 0;
         }
         this.managers = res.models;
       },

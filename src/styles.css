@@ -80,6 +80,9 @@ div.content-wrapper {
   padding-bottom: 1rem !important;
 }
 
+div.card-manager-list div.p-paginator-bottom.p-paginator.p-component.ng-star-inserted {
+  justify-content: flex-end !important;
+}
 
 .card-manager-list .p-dataview .p-dataview-header {
   padding: 1rem 0 !important;
