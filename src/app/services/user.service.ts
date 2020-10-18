@@ -42,9 +42,10 @@ export class UserService extends BaseService<UserSortingEnum> {
 
     // build sortings
     let sortings = this.buildSortings(sortField, sortOrder);
-
+    // build result-model
     let model = this.buildSortedEntitiesRequestModel(start, count, sortings, modelResponseType, query);
-    return this._httpClient.post<PaginationResponseApiModel<IBaseApiModel<string>, UserSortingEnum>>(this._getManagers, model);
+
+    return this._httpClient.post<PaginationResponseApiModel<UserGetFullApiModel, UserSortingEnum>>(this._getManagers, model);
   }
 
 
@@ -137,33 +138,51 @@ export class UserService extends BaseService<UserSortingEnum> {
   //+
   private buildSortings(sortField: string, sortOrder: number): Array<UserSortingEnum> {
 
-    let sortings: Array<RoleSortingEnum> = null;
+    let sortings: Array<UserSortingEnum> = null;
 
     if (sortField === 'created' && sortOrder === 1) {
-      sortings = [RoleSortingEnum.ByCreateAsc];
+      sortings = [UserSortingEnum.ByCreateAsc];
     }
     else if (sortField === 'created' && sortOrder === -1) {
-      sortings = [RoleSortingEnum.ByCreateDesc];
-    }
-    else if (sortField === 'updated' && sortOrder === 1) {
-      sortings = [RoleSortingEnum.ByUpdateAsc];
-    }
-    else if (sortField === 'updated' && sortOrder === -1) {
-      sortings = [RoleSortingEnum.ByUpdateDesc];
+      sortings = [UserSortingEnum.ByCreateDesc];
     }
     else if (sortField === 'activity_status' && sortOrder === -1) {
-      sortings = [RoleSortingEnum.ByActivityStatusAsc];
+      sortings = [UserSortingEnum.ByActivityStatusAsc];
     }
     else if (sortField === 'activity_status' && sortOrder === 1) {
-      sortings = [RoleSortingEnum.ByActivityStatusDesc];
+      sortings = [UserSortingEnum.ByActivityStatusDesc];
     }
-    else if (sortField === 'title' && sortOrder === 1) {
-      sortings = [RoleSortingEnum.ByTitleAsc];
+    else if (sortField === 'user_name' && sortOrder === 1) {
+      sortings = [UserSortingEnum.ByUserNameAsc];
     }
-    else if (sortField === 'title' && sortOrder === -1) {
-      sortings = [RoleSortingEnum.ByTitleDesc];
+    else if (sortField === 'user_name' && sortOrder === -1) {
+      sortings = [UserSortingEnum.ByUserNameDesc];
+    }
+    else if (sortField === 'email' && sortOrder === 1) {
+      sortings = [UserSortingEnum.ByEmailAsc];
+    }
+    else if (sortField === 'email' && sortOrder === -1) {
+      sortings = [UserSortingEnum.ByEmailDesc];
+    }
+    else if (sortField === 'phone' && sortOrder === 1) {
+      sortings = [UserSortingEnum.ByPhoneAsc];
+    }
+    else if (sortField === 'phone' && sortOrder === -1) {
+      sortings = [UserSortingEnum.ByPhoneDesc];
+    }
+    else if (sortField === 'first_name' && sortOrder === 1) {
+      sortings = [UserSortingEnum.ByFirstNameAsc];
+    }
+    else if (sortField === 'first_name' && sortOrder === -1) {
+      sortings = [UserSortingEnum.ByFirstNameDesc];
+    }
+    else if (sortField === 'second_name' && sortOrder === 1) {
+      sortings = [UserSortingEnum.BySecondNameAsc];
+    }
+    else if (sortField === 'second_name' && sortOrder === -1) {
+      sortings = [UserSortingEnum.BySecondNameDesc];
     } else {
-      sortings = [RoleSortingEnum.ByCreateDesc];
+      sortings = [UserSortingEnum.ByCreateDesc];
     }
 
     return sortings;

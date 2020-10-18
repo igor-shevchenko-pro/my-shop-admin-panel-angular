@@ -14,26 +14,38 @@
 <!-- Main Content start -->
 <div class="content-section implementation">
   <div class="card card-manager-list">
-    <h5 class="p-m-0">Управление менеджерами</h5>
-    <p-dataView #mn [value]="managers" [rows]="6" [paginator]="true" filterBy="created" [sortField]="sortField"
+    <p-dataView #mn [value]="managers" [rows]="3" [paginator]="true" filterBy="created" [sortField]="sortField"
       [sortOrder]="sortOrder" layout="grid" class="managers" [lazy]="true" [totalRecords]="totalRecords"
       [loading]="lazyLoading" currentPageReportTemplate="Показаны с {first} по {last} из {totalRecords} записей"
       [showCurrentPageReport]="true" [rowsPerPageOptions]="[6,12]" [(first)]="start" (onLazyLoad)="getManagers($event)">
       <ng-template pTemplate="header">
         <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
+          <!-- Refresh sorting btn start -->
+          <button pButton pRipple icon="pi pi-refresh" class="p-button-raised" placement="top"
+            ngbTooltip="Сброс сортировок" (click)="searchInputClear()">
+          </button>
+          <!-- Refresh sorting btn finish -->
+          <!-- Create manager button start -->
           <a pButton type="button" pRipple label="New" icon="pi pi-plus"
             class="p-button-success p-button-sm p-button-raised mr-2" routerLink="/home/add_manager" placement="top"
-            ngbTooltip="Создать менеджера">
+            ngbTooltip="Создать менеджера" id="create-manager-btn">
           </a>
+          <!-- Create manager button finish -->
+          <!-- Dropdown Sorting start -->
           <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Сортировка ..."
-            (onChange)="onSortChange($event)" styleClass="p-mb-2 p-mb-md-0" id="user-filter-select"></p-dropdown>
+            (onChange)="onSortChange($event)" styleClass="p-mb-2 p-mb-md-0" id="user-filter-select">
+          </p-dropdown>
+          <!-- Dropdown Sorting finish -->
+          <!-- Search input start -->
           <span class="p-input-icon-left p-mb-2 p-mb-md-0" id="user-search-input">
             <i class="pi pi-search"></i>
             <input type="search" id="search-input" pInputText placeholder="Search ..."
               (input)="mn.filter($event.target.value)">
           </span>
+          <!-- Search input finish -->
           <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
         </div>
+        <h5 id="manager-main-title">Управление менеджерами</h5>
       </ng-template>
 
       <!-- GridItems start -->
@@ -166,7 +178,7 @@
       <!-- ListItems finish -->
 
     </p-dataView>
-    
+
     <!-- Total section start -->
     <div class="total-section my-1">
       Всего менеджеров {{totalRecords}}

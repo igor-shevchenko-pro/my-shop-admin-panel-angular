@@ -26,22 +26,26 @@ export class ListManagersComponent implements OnInit, OnDestroy {
   public totalRecords: number;
   public start: number = 0;
   public query: string;
+  public sortPlaceholder: string = "";
   private _count: number = 0;
   private _sortField: string;
   private _sortOrder: number;
   private _userIdsWhenLoadedAvatar: string[] = [];
 
+  // Needs for correct displaying first page after changing sortedField or sortOrder
+  private _sortFieldVisited: string;
+  private _sortOrderVisited: number;
+
   products: Product[];
   sortOrder: number;
   sortField: string;
-  sortOptions: SelectItem[];
+  public sortOptions: SelectItem[];
   sortKey: string;
 
   public managers: Array<UserGetFullApiModel>;
   public userRoles: string;
 
   status: string[] = ['OUTOFSTOCK', 'INSTOCK', 'LOWSTOCK'];
-
   productNames: string[] = [
     "Bamboo Watch",
     "Black Watch",
@@ -104,10 +108,18 @@ export class ListManagersComponent implements OnInit, OnDestroy {
     this.getManagers();
 
     this.getProducts().then(data => this.products = data);
+    // Dropdown sortings start
     this.sortOptions = [
-      { label: 'Price High to Low', value: '!price' },
-      { label: 'Price Low to High', value: 'price' }
+      { label: 'Дата начала работы 🔼', value: 'created' },
+      { label: 'Дата начала работы 🔽', value: '!created' },
+      { label: 'Статус активности 🔼', value: 'activity_status' },
+      { label: 'Статус активности 🔽', value: '!activity_status' },
+      { label: 'По имени 🔼', value: 'first_name' },
+      { label: 'По имени 🔽', value: '!first_name' },
+      { label: 'По фамилии 🔼', value: 'second_name' },
+      { label: 'По фамилии 🔽', value: '!second_name' },
     ];
+    // Dropdown sortings finish
   }
 
   ngOnDestroy(): void {
@@ -116,34 +128,41 @@ export class ListManagersComponent implements OnInit, OnDestroy {
   }
 
 
-  public getManagers(event: LazyLoadEvent = null): void {
+  public getManagers(event: LazyLoadEvent = null, sortField: string = null, sortOrder: number = null): void {
+
+    // console.log(event);
 
     this.lazyLoading = true;
+    this.paginationSupportHandler(event);
+    if(sortField != null && sortOrder != null){
+      this._sortField = sortField;
+      this._sortOrder = sortOrder;
+    }
     let tempRoles: Array<string> = new Array<string>();
 
     this._userService.getManagers(this.start, this._count, TypeModelResponseEnum.GetFullApiModel,
       this._sortField, this._sortOrder, this.query).subscribe(
-      (res: PaginationResponseApiModel<UserGetFullApiModel, UserSortingEnum>) => {
-        // console.log(res);
-        if (res.models.length > 0) {
-          this.lazyLoading = false;
-          this.totalRecords = res.total;
-          res.models.forEach(element => {
-            element.roles.forEach(item => {
-              tempRoles.push(item.title);
+        (res: PaginationResponseApiModel<UserGetFullApiModel, UserSortingEnum>) => {
+          // console.log(res);
+          if (res.models.length > 0) {
+            this.lazyLoading = false;
+            this.totalRecords = res.total;
+            res.models.forEach(element => {
+              element.roles.forEach(item => {
+                tempRoles.push(item.title);
+              });
+              element.roles_for_view = tempRoles.join(' / ');
+              tempRoles = new Array<string>();
             });
-            element.roles_for_view = tempRoles.join(' / ');
-            tempRoles = new Array<string>();
-          });
-        } else {
-          this.totalRecords = 0;
+          } else {
+            this.totalRecords = 0;
+          }
+          this.managers = res.models;
+        },
+        errors => {
+          // console.log(errors);
         }
-        this.managers = res.models;
-      },
-      errors => {
-        // console.log(errors);
-      }
-    );
+      );
   }
 
   public delete(manager: UserGetFullApiModel): void {
@@ -192,8 +211,8 @@ export class ListManagersComponent implements OnInit, OnDestroy {
   }
 
   public openModal(content, userId = null, fileId = null) {
-    this._userId = userId;
-    this._fileId = fileId;
+    // this._userId = userId;
+    // this._fileId = fileId;
     this._modalService.open(content);
   }
 
@@ -245,21 +264,54 @@ export class ListManagersComponent implements OnInit, OnDestroy {
     this._router.navigateByUrl(url);
   }
 
+  // Sorting handler 
+  public onSortChange(event): void {
 
-  onSortChange(event) {
     let value = event.value;
+    let sortField: string;
+    let sortOrder: number;
+    
+    if(value == "created"){
+      sortField = "created";
+      sortOrder = 1;
+    } 
+    else if(value == "!created"){
+      sortField = "created";
+      sortOrder = -1;
+    } 
+    else if(value == "activity_status"){
+      sortField = "activity_status";
+      sortOrder = 1;
+    } 
+    else if(value == "!activity_status"){
+      sortField = "activity_status";
+      sortOrder = -1;
+    } 
+    else if(value == "first_name"){
+      sortField = "first_name";
+      sortOrder = 1;
+    } 
+    else if(value == "!first_name"){
+      sortField = "first_name";
+      sortOrder = -1;
+    } 
+    else if(value == "second_name"){
+      sortField = "second_name";
+      sortOrder = 1;
+    } 
+    else if(value == "!second_name"){
+      sortField = "second_name";
+      sortOrder = -1;
+    } else {
+      sortField = "created";
+      sortOrder = -1;
+    }
 
-    if (value.indexOf('!') === 0) {
-      this.sortOrder = -1;
-      this.sortField = value.substring(1, value.length);
-    }
-    else {
-      this.sortOrder = 1;
-      this.sortField = value;
-    }
+    this.getManagers(null, sortField, sortOrder);
   }
 
 
+  // *** Spinner image load support methods start
   public setUserIdWhenAvatarLoaded(userId: string): void {
     this._userIdsWhenLoadedAvatar.push(userId);
   }
@@ -271,6 +323,42 @@ export class ListManagersComponent implements OnInit, OnDestroy {
     });
     return loadedResult;
   }
+  // *** Spinner image load support methods finish
+
+
+  // *** Pagination support methods start
+  private paginationSupportHandler(event: LazyLoadEvent = null): void {
+    // *** Pagination Settings start
+    // Needs for correct display first page after changing sortedField or sortOrder
+    if (event != null) {
+      this._count = event?.rows;
+      this.query = event?.globalFilter;
+      this.start = event?.first;
+      if ((event?.sortField != undefined || event?.sortField != null) &&
+        (this._sortFieldVisited != event?.sortField || this._sortOrderVisited != event?.sortOrder)) {
+        this._sortFieldVisited = event?.sortField;
+        this._sortOrderVisited = event?.sortOrder;
+        this.start = 0;
+      }
+    }
+
+    if (event == null) {
+      this._sortField = this._sortFieldVisited;
+      this._sortOrder = this._sortOrderVisited;
+    } else {
+      this._sortField = event?.sortField;
+      this._sortOrder = event?.sortOrder;
+    }
+    // *** Pagination Settings finish
+  }
+
+  public searchInputClear(): void {
+    // this.searchFilterFormModel.setValue({ query: null });
+    // this.query = null;
+    // this._sortFieldVisited = null;
+    // this._sortOrderVisited = null;
+  }
+  // *** Pagination support methods finish
 
 }
 

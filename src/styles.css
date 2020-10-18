@@ -85,7 +85,13 @@ div.card-manager-list div.p-paginator-bottom.p-paginator.p-component.ng-star-ins
 }
 
 .card-manager-list .p-dataview .p-dataview-header {
-  padding: 1rem 0 !important;
+  padding: 0 1rem !important;
+  margin-top: .5rem;
+}
+
+#user-filter-select div.ng-tns-c134-8.p-mb-2.p-mb-md-0.p-dropdown.p-component{
+  width: 16.4rem !important;
+  height: 2.45rem;
 }
 
 /* custom upload file icon */
@@ -923,3 +929,21 @@ p-dataView.managers div.product-grid-item.card{
 
 
 /* NEW VERSION WITH PRIMENG - start*/
+p-dropdown#user-filter-select div.p-dropdown{
+  width: 16.4rem !important;
+}
+
+#create-manager-btn span.p-button-label{
+  font-size: initial !important;
+}
+
+div.card-manager-list .p-button.p-button-icon-only {
+  width: 2.25rem;
+  padding: 0.571rem;
+  height: 2.35rem;
+}
+
+#user-filter-select div.p-dropdown{
+  width: 16.4rem !important;
+  height: 2.45rem !important;
+}

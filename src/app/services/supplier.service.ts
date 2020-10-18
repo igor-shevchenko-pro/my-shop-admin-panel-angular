@@ -147,12 +147,6 @@ export class SupplierService extends BaseService<SupplierSortingEnum> {
     else if (sortField === 'title' && sortOrder === -1) {
       sortings = [SupplierSortingEnum.ByTitleDesc];
     } 
-    else if (sortField === 'description' && sortOrder === 1) {
-      sortings = [SupplierSortingEnum.ByDescriptionAsc];
-    }
-    else if (sortField === 'description' && sortOrder === -1) {
-      sortings = [SupplierSortingEnum.ByDescriptionDesc];
-    }
     else if (sortField === 'email' && sortOrder === 1) {
       sortings = [SupplierSortingEnum.ByEmailAsc];
     }
@@ -200,12 +194,6 @@ export class SupplierService extends BaseService<SupplierSortingEnum> {
     }
     else if (sortField === 'extra_address' && sortOrder === -1) {
       sortings = [SupplierSortingEnum.ByExtraAddressDesc];
-    }
-    else if (sortField === 'some_info' && sortOrder === 1) {
-      sortings = [SupplierSortingEnum.BySomeInfoAsc];
-    }
-    else if (sortField === 'some_info' && sortOrder === -1) {
-      sortings = [SupplierSortingEnum.BySomeInfoDesc];
     } else {
       sortings = [SupplierSortingEnum.ByCreateDesc];
     }
